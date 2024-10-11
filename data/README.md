@@ -21,3 +21,4 @@ using the following format.
 - `critical_support`: What support was most critical to you/your household in first year following birth?
 - `ideal_support`: In a best case scenario, list all types of care and support you would need or want in the first year postpartum
 - `comments`: Is there anything else you want to share about your postpartum experience?
+- `emails`: Survey participants were given the option to include their email if they were interested in answering follow up questions or wanted the results from the original research project.
