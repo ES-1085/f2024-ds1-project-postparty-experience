@@ -7,16 +7,16 @@ using the following format.
 
 ## name of data file
 
-- `timestamp`: data and time survey was taken
+- `timestamp`: Date and time survey was taken
 - `state`: Which US state or country did you give birth in? 
 - `age`: What was your age when you gave birth?
 - `birth_location`: Where did you give birth?
-- `care_provider_info`: When you were pregnant, did your care provider give you information about postpartum care services?
-- `other_sources`: Did you learn about postpartum care services from any other sources?
+- `informed_by_care_provider`: When you were pregnant, did your care provider give you information about postpartum care services?
+- `other_info_sources`: Did you learn about postpartum care services from any other sources?
 - `support_type`: What types of support did you have access to postpartum?
 - `provider`: Who provided this support for you?
-- `support_type_insurance`: What postpartum care services did your insurance cover?
-- `cost_factor`: What support was most critical to you/your household in first year following birth?
+- `covered_services`: What postpartum care services did your insurance cover?
+- `cost_factor`: Was cost a factor in how much support you received?
 - `if_insurance`: If insurance covered postpartum care services, would you take advantage of it?
 - `critical_support`: What support was most critical to you/your household in first year following birth?
 - `ideal_support`: In a best case scenario, list all types of care and support you would need or want in the first year postpartum
