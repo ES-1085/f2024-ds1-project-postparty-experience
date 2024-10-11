@@ -11,7 +11,9 @@ library(broom)
 
 ## 1. Introduction
 
-Data was collected to observe the state of postpartum care in the U.S. via Google sheets.
+The postpartum experience survey was created by Willow Gibson for a research project assigned in an undergraduate course titled "History of Midwifery and Women's Healthcare in the US" at College of the Atlantic in 2022. The survey was used to collect data about the postpartum experiences of anyone who gave birth between 2013 and 2023. The purpose of collecting this information was to observe the state of postpartum care in the US, in addition to learning what gaps in care exist. 
+
+Data was collected to through a Google form survey that was circulated via email and briefly on social media. 
 
 Refer to the Markdown Quick Reference: Help -> Markdown Quick Reference. 
 
