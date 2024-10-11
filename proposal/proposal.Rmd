@@ -22,8 +22,6 @@ Variables:
 
 ```{r}
 # Code goes here
-
-Postpartum_Experience_Survey <- read_excel("../data/Postparum_Experience_Survey")
 ```
 
 ## 3. Data analysis plan
