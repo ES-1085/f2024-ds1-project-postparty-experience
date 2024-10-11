@@ -1,6 +1,6 @@
 ---
-title: "Project proposal"
-author: "Team name"
+title: "Postpartum Experience"
+author: "Postparty Experience"
 output: html_document
 ---
 
@@ -11,11 +11,14 @@ library(broom)
 
 ## 1. Introduction
 
-Text goes here. Refer to the Markdown Quick Reference: Help -> Markdown Quick Reference. 
+Data was collected to observe the state of postpartum care in the U.S. via Google sheets.
+
+Refer to the Markdown Quick Reference: Help -> Markdown Quick Reference. 
 
 ## 2. Data
 
-Text goes here.
+Variables:
+
 
 ```{r}
 # Code goes here
@@ -36,4 +39,11 @@ Text goes here.
 ## 4. Data Ethics Review
 
 The data ethics review section will be introduced in a separate class and is not part of the original proposal deadline.
+
+NOTES:
+Want to see how the quality of postpartum care varies by state
+Is there correlation between age and quality of postpartum care
+how do we define "quality" of postpartum care" 
+What states have postpartum care insurance cover options?
+What supports did respondents say were most critical to their household within the first year?
 
