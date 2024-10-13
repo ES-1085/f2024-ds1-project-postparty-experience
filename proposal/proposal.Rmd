@@ -17,16 +17,16 @@ Data was collected to through a Google form survey that was circulated via email
 
 For this project, we want to look more deeply at several of the relationships between variables in this dataset. Some of the questions we hope to explore are:
 
-Does quality of postpartum care vary from state to state?
+1.Does quality of postpartum care vary from state to state?
 
-Is there a correlation between age and quality of postpartum care received/offered?
+2.Is there a correlation between age and quality of postpartum care received/offered?
 
-If we categorize postpartum care into "good", "better", and "best" categories, what quality of postpartum care is the average birther receiving?
+3.If we categorize postpartum care into "good", "better", and "best" categories, what quality of postpartum care is the average birther receiving?
    (good defined as X, better defined as X, best defined as X) 
 
-What states require postpartum care to be covered by insurance? Does that requirement for coverage extend to Medicare recipients only,or does it extend to private insurance companies?
+4.What states require postpartum care to be covered by insurance? Does that requirement for coverage extend to Medicare recipients only,or does it extend to private insurance companies?
 
-What types of postpartum support did respondents say were most critical to their household within the first year following birth? Are these types of care typically covered by insurance or are families paying for these services out of pocket?
+5.What types of postpartum support did respondents say were most critical to their household within the first year following birth? Are these types of care typically covered by insurance or are families paying for these services out of pocket?
 
 Refer to the Markdown Quick Reference: Help -> Markdown Quick Reference. 
 
@@ -54,7 +54,22 @@ we want inline coding here to add in dimensions
 
 ## 3. Data analysis plan
 
-Text goes here.
+Variables we will be visualizing to answer our questions:
+1. `state`, "quality" variable good, better, best, will be fleshed out later
+2. `age`, "quality" variable 
+3. `timestamp` , "quality"
+4. potential outside data needed
+5. `critical_support` , `timestamp` , `covered_services` , `cost_factor`
+
+other data needed:
+other states postpartum care insurance laws
+
+types of graphs we may want to use:
+histogram
+scatter plot
+density plot
+wordcloud
+map
 
 
 ```{r}
@@ -72,4 +87,5 @@ Is there correlation between age and quality of postpartum care
 how do we define "quality" of postpartum care" 
 What states have postpartum care insurance cover options?
 What supports did respondents say were most critical to their household within the first year?
+Exclusion of international entries for clarity
 
