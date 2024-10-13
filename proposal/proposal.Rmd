@@ -9,7 +9,7 @@ library(tidyverse)
 library(broom)
 ```
 
-## 1. Introduction
+### 1. Introduction
 
 The postpartum experience survey was created by Willow Gibson for a research project assigned in an undergraduate course titled "History of Midwifery and Women's Healthcare in the US" at College of the Atlantic in 2022. The survey was used to collect data about the postpartum experiences of anyone who gave birth between 2013 and 2023. The purpose of collecting this information was to observe the state of postpartum care in the US with aim of learning what gaps in care exist. 
 
@@ -33,7 +33,7 @@ Refer to the Markdown Quick Reference: Help -> Markdown Quick Reference.
 ## 2. Data
 
 Variables:
-
+we want inline coding here to add in dimensions
 
 ```{r rename-variables}
 # Postpartum_Experience_Survey_Responses_raw_data <- Postpartum_Experience_Survey_Responses_raw_data %>% 

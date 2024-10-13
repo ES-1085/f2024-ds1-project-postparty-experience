@@ -9,10 +9,9 @@
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
-<meta name="author" content="Postparty Experience" />
 
 
-<title>Project proposal</title>
+<title>README</title>
 
 <script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
 // be compatible with the behavior of Pandoc < 2.8).
@@ -349,76 +348,52 @@ display: none;
 
 
 
-<h1 class="title toc-ignore">Project proposal</h1>
-<h4 class="author">Postparty Experience</h4>
 
 </div>
 
 
-<pre class="r"><code>library(tidyverse)
-library(broom)</code></pre>
-<div id="introduction" class="section level3">
-<h3>1. Introduction</h3>
-<p>The postpartum experience survey was created by Willow Gibson for a
-research project assigned in an undergraduate course titled “History of
-Midwifery and Women’s Healthcare in the US” at College of the Atlantic
-in 2022. The survey was used to collect data about the postpartum
-experiences of anyone who gave birth between 2013 and 2023. The purpose
-of collecting this information was to observe the state of postpartum
-care in the US with aim of learning what gaps in care exist.</p>
-<p>Data was collected to through a Google form survey that was
-circulated via email and briefly on social media. This data set contains
-788 cases and 15 variables. One variable (<code>emails</code>) in the
-data set is not being included in our analysis as it refers only to the
-email addresses of survey takers that wished to learn more following
-analysis of the data.</p>
-<p>For this project, we want to look more deeply at several of the
-relationships between variables in this dataset. Some of the questions
-we hope to explore are:</p>
-<p>Does quality of postpartum care vary from state to state?</p>
-<p>Is there a correlation between age and quality of postpartum care
-received/offered?</p>
-<p>If we categorize postpartum care into “good”, “better”, and “best”
-categories, what quality of postpartum care is the average birther
-receiving? (good defined as X, better defined as X, best defined as
-X)</p>
-<p>What states require postpartum care to be covered by insurance? Does
-that requirement for coverage extend to Medicare recipients only,or does
-it extend to private insurance companies?</p>
-<p>What types of postpartum support did respondents say were most
-critical to their household within the first year following birth? Are
-these types of care typically covered by insurance or are families
-paying for these services out of pocket?</p>
-<p>Refer to the Markdown Quick Reference: Help -&gt; Markdown Quick
-Reference.</p>
+<div id="data" class="section level1">
+<h1>data</h1>
+<p>Place data file(s) in this folder.</p>
+<p>Then, include codebooks (variables, and their descriptions) for your
+data file(s) using the following format.</p>
+<p>there are
+<code>r dim(Postpartum_Experience_Survey_Responses_raw_data)</code> rows
+in the dataset.</p>
+<div id="name-of-data-file" class="section level2">
+<h2>name of data file</h2>
+<ul>
+<li><code>timestamp</code>: Date and time survey was taken</li>
+<li><code>state</code>: Which US state or country did you give birth
+in?</li>
+<li><code>age</code>: What was your age when you gave birth?</li>
+<li><code>birth_location</code>: Where did you give birth?</li>
+<li><code>informed_by_care_provider</code>: When you were pregnant, did
+your care provider give you information about postpartum care
+services?</li>
+<li><code>other_info_sources</code>: Did you learn about postpartum care
+services from any other sources?</li>
+<li><code>support_type</code>: What types of support did you have access
+to postpartum?</li>
+<li><code>provider</code>: Who provided this support for you?</li>
+<li><code>covered_services</code>: What postpartum care services did
+your insurance cover?</li>
+<li><code>cost_factor</code>: Was cost a factor in how much support you
+received?</li>
+<li><code>if_insurance</code>: If insurance covered postpartum care
+services, would you take advantage of it?</li>
+<li><code>critical_support</code>: What support was most critical to
+you/your household in first year following birth?</li>
+<li><code>ideal_support</code>: In a best case scenario, list all types
+of care and support you would need or want in the first year
+postpartum</li>
+<li><code>comments</code>: Is there anything else you want to share
+about your postpartum experience?</li>
+<li><code>emails</code>: Survey participants were given the option to
+include their email if they were interested in answering follow up
+questions or wanted the results from the original research project.</li>
+</ul>
 </div>
-<div id="data" class="section level2">
-<h2>2. Data</h2>
-<p>Variables:</p>
-<pre class="r"><code># Postpartum_Experience_Survey_Responses_raw_data &lt;- Postpartum_Experience_Survey_Responses_raw_data %&gt;% 
- # rename(Timestamp = timestamp,
-# &quot;Which US state or country did you give birth in?&quot; =  state,
-#
-#
-#
-#
-#
-# )</code></pre>
-</div>
-<div id="data-analysis-plan" class="section level2">
-<h2>3. Data analysis plan</h2>
-<p>Text goes here.</p>
-<pre class="r"><code># Code goes here</code></pre>
-</div>
-<div id="data-ethics-review" class="section level2">
-<h2>4. Data Ethics Review</h2>
-<p>The data ethics review section will be introduced in a separate class
-and is not part of the original proposal deadline.</p>
-<p>NOTES: Want to see how the quality of postpartum care varies by state
-Is there correlation between age and quality of postpartum care how do
-we define “quality” of postpartum care” What states have postpartum care
-insurance cover options? What supports did respondents say were most
-critical to their household within the first year?</p>
 </div>
 
 
