@@ -32,6 +32,11 @@ Refer to the Markdown Quick Reference: Help -> Markdown Quick Reference.
 
 ## 2. Data
 
+```{r dimensions}
+dim(Postpartum_Experience_Survey_Responses_raw_data)
+```
+
+
 Variables:
 we want inline coding here to add in dimensions
 
