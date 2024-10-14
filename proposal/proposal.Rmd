@@ -7,6 +7,9 @@ output: html_document
 ```{r load-packages, message = FALSE}
 library(tidyverse)
 library(broom)
+library(readxl)
+Postpartum_Experience_Survey_Responses_raw_data <- read_excel("../data/Postpartum Experience Survey (Responses) - raw data.xlsx")
+#View(Postpartum_Experience_Survey_Responses_raw_data)
 ```
 
 
@@ -80,18 +83,29 @@ Variables we will be visualizing to answer our questions:
 5. `critical_support` , `timestamp` , `ins_covered_services` , `cost_factor`
 
 Other data needed:
+
 - other states postpartum care insurance laws
+
 - what factors are most important in postpartum care according to other sources
+
 - distribution of quality of postpartum care across states according to other sources 
+
 - E.g. Guarnizo, Tomás. “Doula Services in Medicaid: State Progress in 2022.” Center For Children and Families, Georgetown University Health Policy Institute, 2 June 2022, https://ccf.georgetown.edu/2022/06/02/doula-services-in-medicaid-state-progress-in-2022.
 
 
+
 Types of graphs we may want to use:
+
 Histograms - to compare experiences depending on birth_location 
+
 Bubble plot - to juxtapose critical_support and ins_covered_services
+
 Density plots - to compare how experiences vary with age
+
 wordclouds - to visualize the repetitions within our qualitative data
+
 Maps - to compare results between US states
+
 Waffle plot - comparing ideal_support with critical_support
 
 ```{r}

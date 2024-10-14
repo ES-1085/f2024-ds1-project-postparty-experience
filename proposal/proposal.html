@@ -356,7 +356,10 @@ display: none;
 
 
 <pre class="r"><code>library(tidyverse)
-library(broom)</code></pre>
+library(broom)
+library(readxl)
+Postpartum_Experience_Survey_Responses_raw_data &lt;- read_excel(&quot;../data/Postpartum Experience Survey (Responses) - raw data.xlsx&quot;)
+#View(Postpartum_Experience_Survey_Responses_raw_data)</code></pre>
 <div id="introduction" class="section level3">
 <h3>1. Introduction</h3>
 <p>The postpartum experience survey was created by Willow Gibson for a
@@ -397,6 +400,7 @@ does it extend to private insurance companies?</p></li>
 critical to their household within the first year following birth? Are
 these types of care typically covered by insurance or are families
 paying for these services out of pocket?</p></li>
+<li><p>Critical care vs ideal care - what are the differences?</p></li>
 </ol>
 <p>Refer to the Markdown Quick Reference: Help -&gt; Markdown Quick
 Reference.</p>
@@ -404,40 +408,61 @@ Reference.</p>
 <div id="data" class="section level2">
 <h2>2. Data</h2>
 <pre class="r"><code># dim(Postpartum_Experience_Survey_Responses_raw_data)</code></pre>
-<p>Variables: we want inline coding here to add in dimensions</p>
-<pre class="r"><code># Postpartum_Experience_Survey_Responses_raw_data &lt;- Postpartum_Experience_Survey_Responses_raw_data %&gt;% 
- # rename(Timestamp = timestamp,
-# &quot;Which US state or country did you give birth in?&quot; =  state,
-#
-#
-#
-#
-#
-# )</code></pre>
+<p>Variables: Columns: 15</p>
+<pre class="r"><code>Postpartum_Experience_renamed_variables &lt;- as_tibble(Postpartum_Experience_Survey_Responses_raw_data) %&gt;% 
+  rename( 
+         `respondant` = `Timestamp`,
+         `state` = `Which US state or country did you give birth in?`,
+          `age` = `What was your age when you gave birth?`, 
+      `birth_location` = `Where did you give birth?`,
+        `informed_by` = `When you were pregnant, did your care provider give you information about postpartum care services?`,
+    `other_info_sources` = `Did you learn about postpartum care services from any other sources?`, 
+      `support_type`= `What types of support did you have access to postpartum?`,
+         `provider` = `Who provided this support for you?`,
+    `ins_covered_services` = `What postpartum care services did your insurance cover?`,
+    `cost_factor` = `Was cost a factor in how much support you received?`,
+        `if_insurance` = `If insurance covered postpartum care services, would you take advantage of it?`,
+    `critical_support` = `What support was most critical to you/your household in first year following birth?`,
+    `ideal_support` = `In a best case scenario, list all types of care and support you would need or want in the first year postpartum.`,
+    `comments` = `Is there anything else you want to share about your postpartum experience?`,
+    `emails` = `If you are open to follow up questions or want the results from this research project, please enter your email below.`)</code></pre>
+<pre class="r"><code>Postpartum_renamed_variables_US &lt;- Postpartum_Experience_renamed_variables %&gt;%
+  filter(state != &quot;Uk&quot;) %&gt;%
+  filter(state != &quot;Norway&quot;) %&gt;%
+  filter(state != &quot;Puerto Rico&quot;)</code></pre>
 </div>
 <div id="data-analysis-plan" class="section level2">
 <h2>3. Data analysis plan</h2>
 <p>Variables we will be visualizing to answer our questions: 1.
 <code>state</code>, “quality” variable good, better, best, will be
 fleshed out later 2. <code>age</code>, “quality” variable 3.
-<code>timestamp</code> , “quality” 4. potential outside data needed 5.
-<code>critical_support</code> , <code>timestamp</code> ,
-<code>ins_covered_services</code> , <code>cost_factor</code></p>
-<p>other data needed: other states postpartum care insurance laws</p>
-<p>types of graphs we may want to use: histogram scatter plot density
-plot wordcloud map</p>
+<code>respondant`` , &quot;quality&quot; 4. potential outside data needed 5.</code>critical_support<code>,</code>timestamp<code>,</code>ins_covered_services<code>,</code>cost_factor`</p>
+<p>Other data needed:</p>
+<ul>
+<li><p>other states postpartum care insurance laws</p></li>
+<li><p>what factors are most important in postpartum care according to
+other sources</p></li>
+<li><p>distribution of quality of postpartum care across states
+according to other sources</p></li>
+<li><p>E.g. Guarnizo, Tomás. “Doula Services in Medicaid: State Progress
+in 2022.” Center For Children and Families, Georgetown University Health
+Policy Institute, 2 June 2022, <a href="https://ccf.georgetown.edu/2022/06/02/doula-services-in-medicaid-state-progress-in-2022" class="uri">https://ccf.georgetown.edu/2022/06/02/doula-services-in-medicaid-state-progress-in-2022</a>.</p></li>
+</ul>
+<p>Types of graphs we may want to use:</p>
+<p>Histograms - to compare experiences depending on birth_location</p>
+<p>Bubble plot - to juxtapose critical_support and
+ins_covered_services</p>
+<p>Density plots - to compare how experiences vary with age</p>
+<p>wordclouds - to visualize the repetitions within our qualitative
+data</p>
+<p>Maps - to compare results between US states</p>
+<p>Waffle plot - comparing ideal_support with critical_support</p>
 <pre class="r"><code># Code goes here</code></pre>
 </div>
 <div id="data-ethics-review" class="section level2">
 <h2>4. Data Ethics Review</h2>
 <p>The data ethics review section will be introduced in a separate class
 and is not part of the original proposal deadline.</p>
-<p>NOTES: Want to see how the quality of postpartum care varies by state
-Is there correlation between age and quality of postpartum care how do
-we define “quality” of postpartum care” What states have postpartum care
-insurance cover options? What supports did respondents say were most
-critical to their household within the first year? Exclusion of
-international entries for clarity</p>
 </div>
 
 
