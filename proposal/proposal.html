@@ -367,34 +367,44 @@ experiences of anyone who gave birth between 2013 and 2023. The purpose
 of collecting this information was to observe the state of postpartum
 care in the US with aim of learning what gaps in care exist.</p>
 <p>Data was collected to through a Google form survey that was
-circulated via email and briefly on social media. This data set contains
-788 cases and 15 variables. One variable (<code>emails</code>) in the
-data set is not being included in our analysis as it refers only to the
-email addresses of survey takers that wished to learn more following
-analysis of the data.</p>
+circulated via email and briefly on social media. This dataset contains
+788 cases and 15 variables. One variable (<code>emails</code>) is not
+being included in our analysis as it refers only to the email addresses
+of survey takers that wished to learn more following analysis of the
+data.</p>
+<p>We expect to add one or two additional variables to our dataset
+through the process of mutating the types of postpartum care care into
+quality categories: good, better, and best. These are defined as …(good
+defined as X, better defined as X, best defined as X). While we
+recognize that these definitions are somewhat subjective, we referenced
+… to help us quantify what types of support are most fundamental to long
+term health vs what types of care are more optional.</p>
 <p>For this project, we want to look more deeply at several of the
 relationships between variables in this dataset. Some of the questions
 we hope to explore are:</p>
-<p>Does quality of postpartum care vary from state to state?</p>
-<p>Is there a correlation between age and quality of postpartum care
-received/offered?</p>
-<p>If we categorize postpartum care into “good”, “better”, and “best”
-categories, what quality of postpartum care is the average birther
-receiving? (good defined as X, better defined as X, best defined as
-X)</p>
-<p>What states require postpartum care to be covered by insurance? Does
-that requirement for coverage extend to Medicare recipients only,or does
-it extend to private insurance companies?</p>
-<p>What types of postpartum support did respondents say were most
+<ol style="list-style-type: decimal">
+<li><p>Does quality of postpartum care vary from state to
+state?</p></li>
+<li><p>Is there a correlation between age and quality of postpartum care
+received/offered?</p></li>
+<li><p>If we categorize postpartum care into “good”, “better”, and
+“best” categories, what quality of postpartum care is the average
+birther receiving?</p></li>
+<li><p>What states require postpartum care to be covered by insurance?
+Does that requirement for coverage extend to Medicare recipients only,or
+does it extend to private insurance companies?</p></li>
+<li><p>What types of postpartum support did respondents say were most
 critical to their household within the first year following birth? Are
 these types of care typically covered by insurance or are families
-paying for these services out of pocket?</p>
+paying for these services out of pocket?</p></li>
+</ol>
 <p>Refer to the Markdown Quick Reference: Help -&gt; Markdown Quick
 Reference.</p>
 </div>
 <div id="data" class="section level2">
 <h2>2. Data</h2>
-<p>Variables:</p>
+<pre class="r"><code># dim(Postpartum_Experience_Survey_Responses_raw_data)</code></pre>
+<p>Variables: we want inline coding here to add in dimensions</p>
 <pre class="r"><code># Postpartum_Experience_Survey_Responses_raw_data &lt;- Postpartum_Experience_Survey_Responses_raw_data %&gt;% 
  # rename(Timestamp = timestamp,
 # &quot;Which US state or country did you give birth in?&quot; =  state,
@@ -407,7 +417,15 @@ Reference.</p>
 </div>
 <div id="data-analysis-plan" class="section level2">
 <h2>3. Data analysis plan</h2>
-<p>Text goes here.</p>
+<p>Variables we will be visualizing to answer our questions: 1.
+<code>state</code>, “quality” variable good, better, best, will be
+fleshed out later 2. <code>age</code>, “quality” variable 3.
+<code>timestamp</code> , “quality” 4. potential outside data needed 5.
+<code>critical_support</code> , <code>timestamp</code> ,
+<code>ins_covered_services</code> , <code>cost_factor</code></p>
+<p>other data needed: other states postpartum care insurance laws</p>
+<p>types of graphs we may want to use: histogram scatter plot density
+plot wordcloud map</p>
 <pre class="r"><code># Code goes here</code></pre>
 </div>
 <div id="data-ethics-review" class="section level2">
@@ -418,7 +436,8 @@ and is not part of the original proposal deadline.</p>
 Is there correlation between age and quality of postpartum care how do
 we define “quality” of postpartum care” What states have postpartum care
 insurance cover options? What supports did respondents say were most
-critical to their household within the first year?</p>
+critical to their household within the first year? Exclusion of
+international entries for clarity</p>
 </div>
 
 
