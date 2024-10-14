@@ -41,7 +41,7 @@ Refer to the Markdown Quick Reference: Help -> Markdown Quick Reference.
 
 
 Variables:
-we want inline coding here to add in dimensions
+Columns: 15
 
 ```{r rename-variables}
 Postpartum_Experience_renamed_variables <- as_tibble(Postpartum_Experience_Survey_Responses_raw_data) %>% 
