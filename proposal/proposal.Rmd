@@ -29,6 +29,8 @@ For this project, we want to look more deeply at several of the relationships be
 
 5. What types of postpartum support did respondents say were most critical to their household within the first year following birth? Are these types of care typically covered by insurance or are families paying for these services out of pocket?
 
+6. Critical care vs ideal care - what are the differences?
+
 Refer to the Markdown Quick Reference: Help -> Markdown Quick Reference. 
 
 ## 2. Data
