@@ -75,20 +75,24 @@ Postpartum_renamed_variables_US <- Postpartum_Experience_renamed_variables %>%
 Variables we will be visualizing to answer our questions:
 1. `state`, "quality" variable good, better, best, will be fleshed out later
 2. `age`, "quality" variable 
-3. `timestamp` , "quality"
+3. `respondant`` , "quality"
 4. potential outside data needed
 5. `critical_support` , `timestamp` , `ins_covered_services` , `cost_factor`
 
-other data needed:
-other states postpartum care insurance laws
+Other data needed:
+- other states postpartum care insurance laws
+- what factors are most important in postpartum care according to other sources
+- distribution of quality of postpartum care across states according to other sources 
+- E.g. Guarnizo, Tomás. “Doula Services in Medicaid: State Progress in 2022.” Center For Children and Families, Georgetown University Health Policy Institute, 2 June 2022, https://ccf.georgetown.edu/2022/06/02/doula-services-in-medicaid-state-progress-in-2022.
 
-types of graphs we may want to use:
-histogram
-scatter plot
-density plot
-wordcloud
-map
 
+Types of graphs we may want to use:
+Histograms - to compare experiences depending on birth_location 
+Bubble plot - to juxtapose critical_support and ins_covered_services
+Density plots - to compare how experiences vary with age
+wordclouds - to visualize the repetitions within our qualitative data
+Maps - to compare results between US states
+Waffle plot - comparing ideal_support with critical_support
 
 ```{r}
 # Code goes here
@@ -99,6 +103,7 @@ map
 
 The data ethics review section will be introduced in a separate class and is not part of the original proposal deadline.
 
+<<<<<<< HEAD
 NOTES:
 Want to see how the quality of postpartum care varies by state
 Is there correlation between age and quality of postpartum care
@@ -106,3 +111,6 @@ how do we define "quality" of postpartum care"
 What states have postpartum care insurance cover options?
 What supports did respondents say were most critical to their household within the first year?
 Exclusion of international entries for clarity
+=======
+
+>>>>>>> 7274bbbfbae49b1e96e8fc27f4680faf33d44782
