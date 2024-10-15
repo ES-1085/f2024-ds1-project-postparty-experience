@@ -118,6 +118,38 @@ Postpartum_renamed_variables_US |>
 # Code goes here
 ```
 
+```{r histogram}
+# Example data: Replace this with your actual data
+tikyrabargraph <- Postpartum_renamed_variables_US
+
+# Create the histogram
+histogram <- ggplot(data = data.frame(value = tikyrabargraph), aes(x = value)) +
+  geom_histogram(binwidth = 0.5, fill = "blue", color = "black", alpha = 0.7) +
+  labs(title = "Histogram of Your Data",
+       x = "Value",
+       y = "Frequency") +
+  theme_minimal()
+
+#realized we probably need to figure out the good/better/best portions for the real one, id want x to be state and y to be the variable we make for the quality of care ranking
+
+```
+
+```{r map attempt}
+
+library(maps)
+library(mapproj)
+library(tidyverse)
+
+states <- map_data("state")
+statessurveyed <- `states`
+
+
+
+
+
+```
+```
+
 
 ## 4. Data Ethics Review
 

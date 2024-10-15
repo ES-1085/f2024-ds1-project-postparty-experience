@@ -497,6 +497,99 @@ data</p></li>
 ## 10 Don’t remember                             1
 ## # ℹ 35 more rows</code></pre>
 <pre class="r"><code># Code goes here</code></pre>
+<pre class="r"><code># Example data: Replace this with your actual data
+tikyrabargraph &lt;- Postpartum_renamed_variables_US
+
+# Create the histogram
+histogram &lt;- ggplot(data = data.frame(value = tikyrabargraph), aes(x = value)) +
+  geom_histogram(binwidth = 0.5, fill = &quot;blue&quot;, color = &quot;black&quot;, alpha = 0.7) +
+  labs(title = &quot;Histogram of Your Data&quot;,
+       x = &quot;Value&quot;,
+       y = &quot;Frequency&quot;) +
+  theme_minimal()
+
+#realized we probably need to figure out the good/better/best portions for the real one, id want x to be state and y to be the variable we make for the quality of care ranking</code></pre>
+<pre class="r"><code>library(plotly)</code></pre>
+<pre><code>## 
+## Attaching package: &#39;plotly&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:ggplot2&#39;:
+## 
+##     last_plot</code></pre>
+<pre><code>## The following object is masked from &#39;package:stats&#39;:
+## 
+##     filter</code></pre>
+<pre><code>## The following object is masked from &#39;package:graphics&#39;:
+## 
+##     layout</code></pre>
+<pre class="r"><code>library(rjson)
+
+data &lt;- fromJSON(file=&quot;https://raw.githubusercontent.com/plotly/datasets/master/geojson-counties-fips.json&quot;)
+data$features[[1]]</code></pre>
+<pre><code>## $type
+## [1] &quot;Feature&quot;
+## 
+## $properties
+## $properties$GEO_ID
+## [1] &quot;0500000US01001&quot;
+## 
+## $properties$STATE
+## [1] &quot;01&quot;
+## 
+## $properties$COUNTY
+## [1] &quot;001&quot;
+## 
+## $properties$NAME
+## [1] &quot;Autauga&quot;
+## 
+## $properties$LSAD
+## [1] &quot;County&quot;
+## 
+## $properties$CENSUSAREA
+## [1] 594.436
+## 
+## 
+## $geometry
+## $geometry$type
+## [1] &quot;Polygon&quot;
+## 
+## $geometry$coordinates
+## $geometry$coordinates[[1]]
+## $geometry$coordinates[[1]][[1]]
+## [1] -86.49677  32.34444
+## 
+## $geometry$coordinates[[1]][[2]]
+## [1] -86.71790  32.40281
+## 
+## $geometry$coordinates[[1]][[3]]
+## [1] -86.81491  32.34080
+## 
+## $geometry$coordinates[[1]][[4]]
+## [1] -86.89058  32.50297
+## 
+## $geometry$coordinates[[1]][[5]]
+## [1] -86.91760  32.66417
+## 
+## $geometry$coordinates[[1]][[6]]
+## [1] -86.71339  32.66173
+## 
+## $geometry$coordinates[[1]][[7]]
+## [1] -86.71422  32.70569
+## 
+## $geometry$coordinates[[1]][[8]]
+## [1] -86.41312  32.70739
+## 
+## $geometry$coordinates[[1]][[9]]
+## [1] -86.41117  32.40994
+## 
+## $geometry$coordinates[[1]][[10]]
+## [1] -86.49677  32.34444
+## 
+## 
+## 
+## 
+## $id
+## [1] &quot;01001&quot;</code></pre>
+<p>```</p>
 </div>
 <div id="data-ethics-review" class="section level2">
 <h2>4. Data Ethics Review</h2>
