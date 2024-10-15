@@ -92,7 +92,6 @@ Other data needed:
 
 - Possible data source: Guarnizo, Tomás. “Doula Services in Medicaid: State Progress in 2022.” Center For Children and Families, Georgetown University Health Policy Institute, 2 June 2022, https://ccf.georgetown.edu/2022/06/02/doula-services-in-medicaid-state-progress-in-2022.
 
-
 Types of graphs we may want to use:
 
  - Histograms - to compare experiences depending on `birth_location` 
@@ -107,11 +106,12 @@ Types of graphs we may want to use:
 
  - Waffle plot - comparing `ideal_support` with `critical_support`
 
-
 Preliminary exploratory data analysis:
 
-```{r }
-
+```{r informed-by-count}
+Postpartum_renamed_variables_US |>
+  count(informed_by) |>
+  arrange(desc(n))
 ```
 
 ```{r}

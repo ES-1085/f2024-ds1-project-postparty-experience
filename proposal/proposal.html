@@ -479,6 +479,23 @@ data</p></li>
 <code>critical_support</code></p></li>
 </ul>
 <p>Preliminary exploratory data analysis:</p>
+<pre class="r"><code>Postpartum_renamed_variables_US |&gt;
+  count(informed_by) |&gt;
+  arrange(desc(n))</code></pre>
+<pre><code>## # A tibble: 45 × 2
+##    informed_by                                n
+##    &lt;chr&gt;                                  &lt;int&gt;
+##  1 No                                       448
+##  2 Yes                                      292
+##  3 Some information                           2
+##  4 Apart from the follow up at 6 weeks no     1
+##  5 As defined by?                             1
+##  6 Baby 1/2 MDs-no, baby 3 midwife, yes       1
+##  7 Breastfeeding groups                       1
+##  8 CO- no. IA- yes.                           1
+##  9 Don’t recall but I don’t think so          1
+## 10 Don’t remember                             1
+## # ℹ 35 more rows</code></pre>
 <pre class="r"><code># Code goes here</code></pre>
 </div>
 <div id="data-ethics-review" class="section level2">
