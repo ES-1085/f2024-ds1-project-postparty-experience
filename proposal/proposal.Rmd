@@ -123,14 +123,3 @@ Postpartum_renamed_variables_US |>
 
 The data ethics review section will be introduced in a separate class and is not part of the original proposal deadline.
 
-<<<<<<< HEAD
-NOTES:
-Want to see how the quality of postpartum care varies by state
-Is there correlation between age and quality of postpartum care
-how do we define "quality" of postpartum care" 
-What states have postpartum care insurance cover options?
-What supports did respondents say were most critical to their household within the first year?
-Exclusion of international entries for clarity
-=======
-
->>>>>>> 7274bbbfbae49b1e96e8fc27f4680faf33d44782
