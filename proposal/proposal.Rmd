@@ -141,9 +141,11 @@ library(mapproj)
 library(tidyverse)
 
 states <- map_data("state")
+states <- rename(states, state = region)
 statessurveyed <- `states`
 
-
+Postpartum_renamed_variables_US <- Postpartum_renamed_variables_US %>% 
+  mutate(state = tolower(Postpartum_renamed_variables_US$state))
 
 
 
