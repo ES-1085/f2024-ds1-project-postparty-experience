@@ -19,7 +19,7 @@ The postpartum experience survey was created by Willow Gibson for a research pro
 
 Data was collected to through a Google form survey that was circulated via email and briefly on social media. This dataset contains 788 cases and 15 variables. One variable (`emails`) is not being included in our analysis as it refers only to the email addresses of survey takers that wished to learn more following analysis of the data.
 
-We expect to add one or two additional variables to our dataset through the process of mutating the types of postpartum care care into quality categories: good, better, and best. Definitions for these categories will be determined as we work to analyze our data. While we recognize that these definitions may be subjective in nature, we will be using published references to help us quantify what types of support are most fundamental to long term health vs what types of care are more optional.
+We expect to add one or two additional variables to our dataset through the process of mutating the types of postpartum care into quality categories: good, better, and best. Definitions for these categories will be determined as we work to analyze our data. While we recognize that these definitions may be subjective in nature, we will be using published references to help us quantify what types of support are most fundamental to long term health vs what types of care are more optional.
 
 For this project, we want to look more deeply at several of the relationships between variables in this dataset. Some of the questions we hope to explore are:
 
