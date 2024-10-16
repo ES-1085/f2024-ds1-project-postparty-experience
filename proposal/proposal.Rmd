@@ -44,6 +44,7 @@ dim(Postpartum_Experience_Survey_Responses_raw_data)
 ```
 Variables: 15
 
+
 ```{r rename-variables}
 Postpartum_Experience_renamed_variables <- as_tibble(Postpartum_Experience_Survey_Responses_raw_data) %>% 
   rename( 
@@ -106,6 +107,7 @@ Types of graphs we may want to use:
 
  - Waffle plot - comparing `ideal_support` with `critical_support`
 
+
 Preliminary exploratory data analysis:
 
 ```{r informed-by-count}
@@ -114,9 +116,6 @@ Postpartum_renamed_variables_US |>
   arrange(desc(n))
 ```
 
-```{r}
-# Code goes here
-```
 
 ```{r histogram}
 # Example data: Replace this with your actual data
@@ -135,22 +134,28 @@ histogram <- ggplot(data = data.frame(value = tikyrabargraph), aes(x = value)) +
 ```
 
 ```{r map attempt}
+#library(maps)
+#library(mapproj)
+#library(tidyverse)
 
-library(maps)
-library(mapproj)
-library(tidyverse)
+#states <- map_data("state")
+#states <- rename(states, state = region)
+#statessurveyed <- `states`
 
-states <- map_data("state")
-states <- rename(states, state = region)
-statessurveyed <- `states`
-
-Postpartum_renamed_variables_US <- Postpartum_renamed_variables_US %>% 
-  mutate(state = tolower(Postpartum_renamed_variables_US$state))
-
-
+#Postpartum_renamed_variables_US <- #Postpartum_renamed_variables_US %>% 
+#  mutate(state = tolower(Postpartum_renamed_variables_US$state))
 
 ```
+
+
+```{r distribution-of-ages}
+#emmy_ages <- Postpartum_renamed_variables_US %>%
+#filter(state == "California") %>%
+#ggplot(emmy_ages, aes(x = seq_along(age), y = age, na.rm = #TRUE))+
+#  geom_hex()
+
 ```
+
 
 
 ## 4. Data Ethics Review
