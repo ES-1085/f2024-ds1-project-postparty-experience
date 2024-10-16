@@ -19,7 +19,7 @@ The postpartum experience survey was created by Willow Gibson for a research pro
 
 Data was collected to through a Google form survey that was circulated via email and briefly on social media. This dataset contains 788 cases and 15 variables. One variable (`emails`) is not being included in our analysis as it refers only to the email addresses of survey takers that wished to learn more following analysis of the data.
 
-We expect to add one or two additional variables to our dataset through the process of mutating the types of postpartum care care into quality categories: good, better, and best. These are defined as ...(good defined as X, better defined as X, best defined as X). While we recognize that these definitions are somewhat subjective, we referenced ... to help us quantify what types of support are most fundamental to long term health vs what types of care are more optional.
+We expect to add one or two additional variables to our dataset through the process of mutating the types of postpartum care care into quality categories: good, better, and best. Definitions for these categories will be determined as we work to analyze our data. While we recognize that these definitions may be subjective in nature, we will be using published references to help us quantify what types of support are most fundamental to long term health vs what types of care are more optional.
 
 For this project, we want to look more deeply at several of the relationships between variables in this dataset. Some of the questions we hope to explore are:
 
@@ -29,7 +29,7 @@ For this project, we want to look more deeply at several of the relationships be
 
 3. If we categorize postpartum care into "good", "better", and "best" categories, what quality of postpartum care is the average birther receiving?
 
-4. What states require postpartum care to be covered by insurance? Does that requirement for coverage extend to Medicare recipients only,or does it extend to private insurance companies?
+4. What states require postpartum care to be covered by insurance? Does that requirement for coverage extend to Medicare recipients only, or does it extend to private insurance companies?
 
 5. What types of postpartum support did respondents say were most critical to their household within the first year following birth? Are these types of care typically covered by insurance or are families paying for these services out of pocket?
 
@@ -38,18 +38,16 @@ For this project, we want to look more deeply at several of the relationships be
 Refer to the Markdown Quick Reference: Help -> Markdown Quick Reference. 
 
 ## 2. Data
+
 ```{r dimensions}
-# dim(Postpartum_Experience_Survey_Responses_raw_data)
+dim(Postpartum_Experience_Survey_Responses_raw_data)
 ```
-
-
-Variables:
-Columns: 15
+Variables: 15
 
 ```{r rename-variables}
 Postpartum_Experience_renamed_variables <- as_tibble(Postpartum_Experience_Survey_Responses_raw_data) %>% 
   rename( 
-         `respondant` = `Timestamp`,
+         `respondent` = `Timestamp`,
          `state` = `Which US state or country did you give birth in?`,
           `age` = `What was your age when you gave birth?`, 
       `birth_location` = `Where did you give birth?`,
@@ -75,41 +73,83 @@ Postpartum_renamed_variables_US <- Postpartum_Experience_renamed_variables %>%
 
 ## 3. Data analysis plan
 
-Variables we will be visualizing to answer our questions:
-1. `state`, "quality" variable good, better, best, will be fleshed out later
-2. `age`, "quality" variable 
-3. `respondant`` , "quality"
-4. potential outside data needed
-5. `critical_support` , `timestamp` , `ins_covered_services` , `cost_factor`
+The variables we will be visualizing to explore the research questions include (the numbers reference the questions listed in the introduction):
+
+1. `state` and `quality` The `quality` variable will be created through defining the good, better, and best categories of care.
+2. `age` and `quality` 
+3. `respondent` and `quality`
+4. `ins_covered_services` plus data from additional source(s)
+5. `critical_support` , `timestamp` , `ins_covered_services` , and `cost_factor` We may also want to create a new variable called `out_of_pocket` to quantify what services were being paid for outside of insurance coverage.
+6. `critical_care` and `ideal_care`
 
 Other data needed:
 
-- other states postpartum care insurance laws
+- State by state postpartum insurance coverage requirements
 
-- what factors are most important in postpartum care according to other sources
+- What factors are most important in postpartum care according to other sources (i.e. what services are equated with the best long term health outcomes)
 
-- distribution of quality of postpartum care across states according to other sources 
+- Distribution of quality of postpartum care across states
 
-- E.g. Guarnizo, Tomás. “Doula Services in Medicaid: State Progress in 2022.” Center For Children and Families, Georgetown University Health Policy Institute, 2 June 2022, https://ccf.georgetown.edu/2022/06/02/doula-services-in-medicaid-state-progress-in-2022.
-
-
+- Possible data source: Guarnizo, Tomás. “Doula Services in Medicaid: State Progress in 2022.” Center For Children and Families, Georgetown University Health Policy Institute, 2 June 2022, https://ccf.georgetown.edu/2022/06/02/doula-services-in-medicaid-state-progress-in-2022.
 
 Types of graphs we may want to use:
 
-Histograms - to compare experiences depending on birth_location 
+ - Histograms - to compare experiences depending on `birth_location` 
 
-Bubble plot - to juxtapose critical_support and ins_covered_services
+ - Bubble plot - to juxtapose `critical_support` and `ins_covered_services`
 
-Density plots - to compare how experiences vary with age
+ - Density plots - to compare how experiences vary with age
 
-wordclouds - to visualize the repetitions within our qualitative data
+ - Wordclouds - to visualize the repetitions within our qualitative data
 
-Maps - to compare results between US states
+ - Maps - to compare results between US states
 
-Waffle plot - comparing ideal_support with critical_support
+ - Waffle plot - comparing `ideal_support` with `critical_support`
+
+Preliminary exploratory data analysis:
+
+```{r informed-by-count}
+Postpartum_renamed_variables_US |>
+  count(informed_by) |>
+  arrange(desc(n))
+```
 
 ```{r}
 # Code goes here
+```
+
+```{r histogram}
+# Example data: Replace this with your actual data
+tikyrabargraph <- Postpartum_renamed_variables_US
+
+# Create the histogram
+histogram <- ggplot(data = data.frame(value = tikyrabargraph), aes(x = value)) +
+  geom_histogram(binwidth = 0.5, fill = "blue", color = "black", alpha = 0.7) +
+  labs(title = "Histogram of Your Data",
+       x = "Value",
+       y = "Frequency") +
+  theme_minimal()
+
+#realized we probably need to figure out the good/better/best portions for the real one, id want x to be state and y to be the variable we make for the quality of care ranking
+
+```
+
+```{r map attempt}
+
+library(maps)
+library(mapproj)
+library(tidyverse)
+
+states <- map_data("state")
+states <- rename(states, state = region)
+statessurveyed <- `states`
+
+Postpartum_renamed_variables_US <- Postpartum_renamed_variables_US %>% 
+  mutate(state = tolower(Postpartum_renamed_variables_US$state))
+
+
+
+```
 ```
 
 
@@ -117,14 +157,3 @@ Waffle plot - comparing ideal_support with critical_support
 
 The data ethics review section will be introduced in a separate class and is not part of the original proposal deadline.
 
-<<<<<<< HEAD
-NOTES:
-Want to see how the quality of postpartum care varies by state
-Is there correlation between age and quality of postpartum care
-how do we define "quality" of postpartum care" 
-What states have postpartum care insurance cover options?
-What supports did respondents say were most critical to their household within the first year?
-Exclusion of international entries for clarity
-=======
-
->>>>>>> 7274bbbfbae49b1e96e8fc27f4680faf33d44782

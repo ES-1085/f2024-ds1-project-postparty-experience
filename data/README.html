@@ -357,42 +357,83 @@ display: none;
 <p>Place data file(s) in this folder.</p>
 <p>Then, include codebooks (variables, and their descriptions) for your
 data file(s) using the following format.</p>
-<p>there are
-<code>r dim(Postpartum_Experience_Survey_Responses_raw_data)</code> rows
-in the dataset.</p>
-<div id="name-of-data-file" class="section level2">
-<h2>name of data file</h2>
+<div id="postpartum_renamed_variables_us" class="section level2">
+<h2>Postpartum_renamed_variables_US</h2>
 <ul>
-<li><code>timestamp</code>: Date and time survey was taken</li>
-<li><code>state</code>: Which US state or country did you give birth
-in?</li>
-<li><code>age</code>: What was your age when you gave birth?</li>
-<li><code>birth_location</code>: Where did you give birth?</li>
-<li><code>informed_by_care_provider</code>: When you were pregnant, did
-your care provider give you information about postpartum care
-services?</li>
+<li><code>respondent</code>: Refers to a single survey respondent,
+including the date and time survey was taken.</li>
+<li><code>state</code>: Which US state or country did you give birth in?
+(open-ended answer)</li>
+<li><code>age</code>: What was your age when you gave birth? (open-ended
+answer)</li>
+<li><code>birth_location</code>: Where did you give birth? (multi-answer
+multiple choice)</li>
+<li><code>informed_by</code>: When you were pregnant, did your care
+provider give you information about postpartum care services?
+(single-answer multiple choice)</li>
 <li><code>other_info_sources</code>: Did you learn about postpartum care
-services from any other sources?</li>
-<li><code>support_type</code>: What types of support did you have access
-to postpartum?</li>
-<li><code>provider</code>: Who provided this support for you?</li>
-<li><code>covered_services</code>: What postpartum care services did
-your insurance cover?</li>
+services from any other sources? (multi-answer multiple choice)</li>
+<li><code>support_type</code>: The question asked was “What types of
+support did you have access to postpartum?” (multi-answer multiple
+choice)</li>
+<li><code>provider</code>: Who provided this support for you?
+(multi-answer multiple choice)</li>
+<li><code>ins_covered_services</code>: What postpartum care services did
+your insurance cover? (open-ended answer)</li>
 <li><code>cost_factor</code>: Was cost a factor in how much support you
-received?</li>
+received? (single-answer multiple choice)</li>
 <li><code>if_insurance</code>: If insurance covered postpartum care
-services, would you take advantage of it?</li>
+services, would you take advantage of it? (single-answer multiple
+choice)</li>
 <li><code>critical_support</code>: What support was most critical to
-you/your household in first year following birth?</li>
+you/your household in first year following birth? (open-ended
+answer)</li>
 <li><code>ideal_support</code>: In a best case scenario, list all types
-of care and support you would need or want in the first year
-postpartum</li>
+of care and support you would need or want in the first year postpartum.
+(open-ended answer)</li>
 <li><code>comments</code>: Is there anything else you want to share
-about your postpartum experience?</li>
+about your postpartum experience? (open-ended answer)</li>
 <li><code>emails</code>: Survey participants were given the option to
 include their email if they were interested in answering follow up
 questions or wanted the results from the original research project.</li>
 </ul>
+<p>Rows: 784 Columns: 15</p>
+<p>[1] “respondant” “state” “age” “birth_location”<br />
+[5] “informed_by” “other_info_sources” “support_type” “provider”<br />
+[9] “ins_covered_services” “cost_factor” “if_insurance”
+“critical_support”<br />
+[13] “ideal_support” “comments” “emails”</p>
+<p>Glimpse():</p>
+<p>$ respondant <dttm> 2023-02-05 23:57:39, 2023-02-06 09:57:13,
+2023-02-06 11:54:12, 2023-02-06 21:04:…</p>
+<p>$ state <chr> “California”, “Pennsylvania”, “Michigan”,
+“Massachusetts”, “DC”, “Maryland”, “Sou…</p>
+<p>$ age <chr> “30.0”, “26.0”, “21.0”, “36 and 38”, “36.0”, “40 (also
+gave birth at 35, outside …</p>
+<p>$ birth_location <chr> “At home”, “Hospital, Was supposed to go to
+birth center”, “At home”, “Hospital”,…</p>
+<p>$ informed_by <chr> “Yes”, “No”, “No”, “Yes”, “No”, “Yes”, “No”,
+“No”, “Yes”, “No”, “Yes”, “Yes”, “Ye…</p>
+<p>$ other_info_sources <chr> “Birth education programs, Family members
+or friends, Social media, Books”, “Soci…</p>
+<p>$ support_type <chr> “Lactation support, Emotional support, In-home
+help with tasks like laundry, cook…</p>
+<p>$ provider <chr> “Midwife, Bodyworker, chiropractor, etc., Your
+partner/spouse, Family members, Cl…</p>
+<p>$ ins_covered_services <chr> “The same as while I was pregnant;
+chiro, normal visits”, “Follow up appointments…</p>
+<p>$ cost_factor <chr> “No”, “Yes”, “I received care from friends and
+family, had I not had that I would…</p>
+<p>$ if_insurance <chr> “Yes”, “Yes”, “If I was in a position where I
+needed it, yes!”, “Only if needed”,…</p>
+<p>$ critical_support <chr> “Help with little things so I can nap while
+baby naps”, “Help with meals and hous…</p>
+<p>$ ideal_support <chr> “Chiro, massage, a portion of hours per week of
+nanny coverage, gym, etc”, “Chiro…</p>
+<p>$ comments <chr> “Gradually things became easier, we are at 11.5 m
+and I’m feeling better at it al…</p>
+<p>$ emails <chr> NA, NA, NA, NA, NA, “<a href="mailto:rvaurio@gmail.com" class="email">rvaurio@gmail.com</a>”,
+NA, NA, “<a href="mailto:Thecolongirl@gmail.com" class="email">Thecolongirl@gmail.com</a>”, NA, “j…</p>
 </div>
 </div>
 

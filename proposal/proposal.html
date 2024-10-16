@@ -377,11 +377,12 @@ of survey takers that wished to learn more following analysis of the
 data.</p>
 <p>We expect to add one or two additional variables to our dataset
 through the process of mutating the types of postpartum care care into
-quality categories: good, better, and best. These are defined as …(good
-defined as X, better defined as X, best defined as X). While we
-recognize that these definitions are somewhat subjective, we referenced
-… to help us quantify what types of support are most fundamental to long
-term health vs what types of care are more optional.</p>
+quality categories: good, better, and best. Definitions for these
+categories will be determined as we work to analyze our data. While we
+recognize that these definitions may be subjective in nature, we will be
+using published references to help us quantify what types of support are
+most fundamental to long term health vs what types of care are more
+optional.</p>
 <p>For this project, we want to look more deeply at several of the
 relationships between variables in this dataset. Some of the questions
 we hope to explore are:</p>
@@ -394,8 +395,8 @@ received/offered?</p></li>
 “best” categories, what quality of postpartum care is the average
 birther receiving?</p></li>
 <li><p>What states require postpartum care to be covered by insurance?
-Does that requirement for coverage extend to Medicare recipients only,or
-does it extend to private insurance companies?</p></li>
+Does that requirement for coverage extend to Medicare recipients only,
+or does it extend to private insurance companies?</p></li>
 <li><p>What types of postpartum support did respondents say were most
 critical to their household within the first year following birth? Are
 these types of care typically covered by insurance or are families
@@ -407,11 +408,12 @@ Reference.</p>
 </div>
 <div id="data" class="section level2">
 <h2>2. Data</h2>
-<pre class="r"><code># dim(Postpartum_Experience_Survey_Responses_raw_data)</code></pre>
-<p>Variables: Columns: 15</p>
+<pre class="r"><code>dim(Postpartum_Experience_Survey_Responses_raw_data)</code></pre>
+<pre><code>## [1] 788  15</code></pre>
+<p>Variables: 15</p>
 <pre class="r"><code>Postpartum_Experience_renamed_variables &lt;- as_tibble(Postpartum_Experience_Survey_Responses_raw_data) %&gt;% 
   rename( 
-         `respondant` = `Timestamp`,
+         `respondent` = `Timestamp`,
          `state` = `Which US state or country did you give birth in?`,
           `age` = `What was your age when you gave birth?`, 
       `birth_location` = `Where did you give birth?`,
@@ -433,31 +435,161 @@ Reference.</p>
 </div>
 <div id="data-analysis-plan" class="section level2">
 <h2>3. Data analysis plan</h2>
-<p>Variables we will be visualizing to answer our questions: 1.
-<code>state</code>, “quality” variable good, better, best, will be
-fleshed out later 2. <code>age</code>, “quality” variable 3.
-<code>respondant`` , &quot;quality&quot; 4. potential outside data needed 5.</code>critical_support<code>,</code>timestamp<code>,</code>ins_covered_services<code>,</code>cost_factor`</p>
+<p>The variables we will be visualizing to explore the research
+questions include (the numbers reference the questions listed in the
+introduction):</p>
+<ol style="list-style-type: decimal">
+<li><code>state</code> and <code>quality</code> The <code>quality</code>
+variable will be created through defining the good, better, and best
+categories of care.</li>
+<li><code>age</code> and <code>quality</code></li>
+<li><code>respondent</code> and <code>quality</code></li>
+<li><code>ins_covered_services</code> plus data from additional
+source(s)</li>
+<li><code>critical_support</code> , <code>timestamp</code> ,
+<code>ins_covered_services</code> , and <code>cost_factor</code> We may
+also want to create a new variable called <code>out_of_pocket</code> to
+quantify what services were being paid for outside of insurance
+coverage.</li>
+<li><code>critical_care</code> and <code>ideal_care</code></li>
+</ol>
 <p>Other data needed:</p>
 <ul>
-<li><p>other states postpartum care insurance laws</p></li>
-<li><p>what factors are most important in postpartum care according to
-other sources</p></li>
-<li><p>distribution of quality of postpartum care across states
-according to other sources</p></li>
-<li><p>E.g. Guarnizo, Tomás. “Doula Services in Medicaid: State Progress
-in 2022.” Center For Children and Families, Georgetown University Health
-Policy Institute, 2 June 2022, <a href="https://ccf.georgetown.edu/2022/06/02/doula-services-in-medicaid-state-progress-in-2022" class="uri">https://ccf.georgetown.edu/2022/06/02/doula-services-in-medicaid-state-progress-in-2022</a>.</p></li>
+<li><p>State by state postpartum insurance coverage
+requirements</p></li>
+<li><p>What factors are most important in postpartum care according to
+other sources (i.e. what services are equated with the best long term
+health outcomes)</p></li>
+<li><p>Distribution of quality of postpartum care across states</p></li>
+<li><p>Possible data source: Guarnizo, Tomás. “Doula Services in
+Medicaid: State Progress in 2022.” Center For Children and Families,
+Georgetown University Health Policy Institute, 2 June 2022, <a href="https://ccf.georgetown.edu/2022/06/02/doula-services-in-medicaid-state-progress-in-2022" class="uri">https://ccf.georgetown.edu/2022/06/02/doula-services-in-medicaid-state-progress-in-2022</a>.</p></li>
 </ul>
 <p>Types of graphs we may want to use:</p>
-<p>Histograms - to compare experiences depending on birth_location</p>
-<p>Bubble plot - to juxtapose critical_support and
-ins_covered_services</p>
-<p>Density plots - to compare how experiences vary with age</p>
-<p>wordclouds - to visualize the repetitions within our qualitative
-data</p>
-<p>Maps - to compare results between US states</p>
-<p>Waffle plot - comparing ideal_support with critical_support</p>
+<ul>
+<li><p>Histograms - to compare experiences depending on
+<code>birth_location</code></p></li>
+<li><p>Bubble plot - to juxtapose <code>critical_support</code> and
+<code>ins_covered_services</code></p></li>
+<li><p>Density plots - to compare how experiences vary with age</p></li>
+<li><p>Wordclouds - to visualize the repetitions within our qualitative
+data</p></li>
+<li><p>Maps - to compare results between US states</p></li>
+<li><p>Waffle plot - comparing <code>ideal_support</code> with
+<code>critical_support</code></p></li>
+</ul>
+<p>Preliminary exploratory data analysis:</p>
+<pre class="r"><code>Postpartum_renamed_variables_US |&gt;
+  count(informed_by) |&gt;
+  arrange(desc(n))</code></pre>
+<pre><code>## # A tibble: 45 × 2
+##    informed_by                                n
+##    &lt;chr&gt;                                  &lt;int&gt;
+##  1 No                                       448
+##  2 Yes                                      292
+##  3 Some information                           2
+##  4 Apart from the follow up at 6 weeks no     1
+##  5 As defined by?                             1
+##  6 Baby 1/2 MDs-no, baby 3 midwife, yes       1
+##  7 Breastfeeding groups                       1
+##  8 CO- no. IA- yes.                           1
+##  9 Don’t recall but I don’t think so          1
+## 10 Don’t remember                             1
+## # ℹ 35 more rows</code></pre>
 <pre class="r"><code># Code goes here</code></pre>
+<pre class="r"><code># Example data: Replace this with your actual data
+tikyrabargraph &lt;- Postpartum_renamed_variables_US
+
+# Create the histogram
+histogram &lt;- ggplot(data = data.frame(value = tikyrabargraph), aes(x = value)) +
+  geom_histogram(binwidth = 0.5, fill = &quot;blue&quot;, color = &quot;black&quot;, alpha = 0.7) +
+  labs(title = &quot;Histogram of Your Data&quot;,
+       x = &quot;Value&quot;,
+       y = &quot;Frequency&quot;) +
+  theme_minimal()
+
+#realized we probably need to figure out the good/better/best portions for the real one, id want x to be state and y to be the variable we make for the quality of care ranking</code></pre>
+<pre class="r"><code>library(plotly)</code></pre>
+<pre><code>## 
+## Attaching package: &#39;plotly&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:ggplot2&#39;:
+## 
+##     last_plot</code></pre>
+<pre><code>## The following object is masked from &#39;package:stats&#39;:
+## 
+##     filter</code></pre>
+<pre><code>## The following object is masked from &#39;package:graphics&#39;:
+## 
+##     layout</code></pre>
+<pre class="r"><code>library(rjson)
+
+data &lt;- fromJSON(file=&quot;https://raw.githubusercontent.com/plotly/datasets/master/geojson-counties-fips.json&quot;)
+data$features[[1]]</code></pre>
+<pre><code>## $type
+## [1] &quot;Feature&quot;
+## 
+## $properties
+## $properties$GEO_ID
+## [1] &quot;0500000US01001&quot;
+## 
+## $properties$STATE
+## [1] &quot;01&quot;
+## 
+## $properties$COUNTY
+## [1] &quot;001&quot;
+## 
+## $properties$NAME
+## [1] &quot;Autauga&quot;
+## 
+## $properties$LSAD
+## [1] &quot;County&quot;
+## 
+## $properties$CENSUSAREA
+## [1] 594.436
+## 
+## 
+## $geometry
+## $geometry$type
+## [1] &quot;Polygon&quot;
+## 
+## $geometry$coordinates
+## $geometry$coordinates[[1]]
+## $geometry$coordinates[[1]][[1]]
+## [1] -86.49677  32.34444
+## 
+## $geometry$coordinates[[1]][[2]]
+## [1] -86.71790  32.40281
+## 
+## $geometry$coordinates[[1]][[3]]
+## [1] -86.81491  32.34080
+## 
+## $geometry$coordinates[[1]][[4]]
+## [1] -86.89058  32.50297
+## 
+## $geometry$coordinates[[1]][[5]]
+## [1] -86.91760  32.66417
+## 
+## $geometry$coordinates[[1]][[6]]
+## [1] -86.71339  32.66173
+## 
+## $geometry$coordinates[[1]][[7]]
+## [1] -86.71422  32.70569
+## 
+## $geometry$coordinates[[1]][[8]]
+## [1] -86.41312  32.70739
+## 
+## $geometry$coordinates[[1]][[9]]
+## [1] -86.41117  32.40994
+## 
+## $geometry$coordinates[[1]][[10]]
+## [1] -86.49677  32.34444
+## 
+## 
+## 
+## 
+## $id
+## [1] &quot;01001&quot;</code></pre>
+<p>```</p>
 </div>
 <div id="data-ethics-review" class="section level2">
 <h2>4. Data Ethics Review</h2>
