@@ -1,7 +1,7 @@
 ---
 title: "Project proposal"
 author: "Postparty Experience - Willow, Tikyra, & Emmy"
-output: html_document
+output: github_document
 ---
 
 ```{r load-packages, message = FALSE}
@@ -16,6 +16,7 @@ Postpartum_Experience_Survey_Responses_raw_data <- read_excel("../data/Postpartu
 ### 1. Introduction
 
 The postpartum experience survey was created by Willow Gibson for a research project assigned in an undergraduate course titled "History of Midwifery and Women's Healthcare in the US" at College of the Atlantic in 2022. The survey was used to collect data about the postpartum experiences of anyone who gave birth between 2013 and 2023. The purpose of collecting this information was to observe the state of postpartum care in the US with aim of learning what gaps in care exist. 
+
 
 Data was collected to through a Google form survey that was circulated via email and briefly on social media. This dataset contains 788 cases and 15 variables. One variable (`emails`) is not being included in our analysis as it refers only to the email addresses of survey takers that wished to learn more following analysis of the data.
 
@@ -112,9 +113,11 @@ Preliminary exploratory data analysis:
 Postpartum_renamed_variables_US |>
   count(informed_by) |>
   arrange(desc(n))
+
 ```
 
 Histogram Draft:
+
 ```{r histogram-draft}
 # Example data: Replace this with your actual data
 tikyrabargraph <- Postpartum_renamed_variables_US
