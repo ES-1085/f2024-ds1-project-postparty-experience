@@ -1,9 +1,6 @@
 # data
 
-Place data file(s) in this folder.
-
-Then, include codebooks (variables, and their descriptions) for your data file(s)
-using the following format.
+Data file(s) placed in this folder.
 
 
 ## Postpartum_renamed_variables_US
