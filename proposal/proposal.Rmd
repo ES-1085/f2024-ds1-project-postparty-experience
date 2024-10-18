@@ -164,16 +164,12 @@ which(Postpartum_renamed_variables_US$age > 100)
 #`which` for identifying rows of a dataset.
 ```
 
-<<<<<<< HEAD
-
-=======
 ```{r some-ages-california-distribution}
 Postpartum_renamed_variables_US %>%
   filter(state == "California") %>%
   ggplot(aes(x = age)) +
   geom_histogram() +
   xlim(0,50) #Additional outliers and NAs ignored for the sake of the visualization (still present in data frame)
->>>>>>> bfbb69cad3e3b0a7b39574c13ac906dcec0c755f
 ```
 
 String example
