@@ -270,23 +270,6 @@ Postpartum_renamed_variables_US |>
     ## 10 Don’t remember                             1
     ## # ℹ 35 more rows
 
-Histogram Draft:
-
-``` r
-# Example data: Replace this with your actual data
-tikyrabargraph <- Postpartum_renamed_variables_US
-
-# Create the histogram
-histogram <- ggplot(data = data.frame(value = tikyrabargraph), aes(x = value)) +
-  geom_histogram(binwidth = 0.5, fill = "blue", color = "black", alpha = 0.7) +
-  labs(title = "Histogram of Your Data",
-       x = "Value",
-       y = "Frequency") +
-  theme_minimal()
-
-#We probably need to figure out the good/better/best portions for the real one: x = state, y = quality of care ranking
-```
-
 Map Draft
 
 ``` r
@@ -299,7 +282,11 @@ Map Draft
 #statessurveyed <- `states`
 
 #Postpartum_renamed_variables_US <- #Postpartum_renamed_variables_US %>% 
-#  mutate(state = tolower(Postpartum_renamed_variables_US$state))
+# mutate(state = tolower(Postpartum_renamed_variables_US$state))
+
+#We will need to finish creating the good/better/best categories for the `quality` variable to determine portions of quality of care before this map can be completed.
+
+#Use lecture material from week 6 - leaflet
 ```
 
 ## 4. Data Ethics Review
