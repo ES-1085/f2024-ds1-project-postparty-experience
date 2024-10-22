@@ -34,18 +34,20 @@ that these definitions may be subjective in nature, we will be using
 published references to help us quantify what types of support are most
 fundamental to long term health vs what types of care are more optional.
 
-For this project, we want to look more deeply at several of the
-relationships between variables in this dataset. Some of the questions
-we hope to explore are:
+For this project, our reserach question concerns the state of postpartum
+care in the US. We want to look more deeply at several of the
+relationships between variables in this dataset to evaluate some key
+aspects of the postpartum experience. Some of the questions we hope to
+explore are:
 
-1.  Does quality of postpartum care vary from state to state?
-
-2.  Is there a correlation between age and quality of postpartum care
-    received/offered?
-
-3.  If we categorize postpartum care into “good”, “better”, and “best”
+1.  If we categorize postpartum care into “good”, “better”, and “best”
     categories, what quality of postpartum care is the average birther
     receiving?
+
+2.  Does quality of postpartum care vary from state to state?
+
+3.  Is there a correlation between age and quality of postpartum care
+    received/offered?
 
 4.  What states require postpartum care to be covered by insurance? Does
     that requirement for coverage extend to Medicare recipients only, or
@@ -151,7 +153,13 @@ Other data needed:
 
 Types of graphs we may want to use:
 
+- Pie chart - to show the distribution of quality of care within the
+  data.
+
 - Histograms - to compare experiences depending on `birth_location`
+
+- More histograms - to show how different age groups experienced their
+  care, filling with color for quality of care.
 
 - Bubble plot - to juxtapose `critical_support` and
   `ins_covered_services`
@@ -164,60 +172,7 @@ Types of graphs we may want to use:
 
 - Waffle plot - comparing `ideal_support` with `critical_support`
 
-Preliminary exploratory data analysis:
-
-``` r
-Postpartum_renamed_variables_US |>
-  count(informed_by) |>
-  arrange(desc(n))
-```
-
-    ## # A tibble: 45 × 2
-    ##    informed_by                                n
-    ##    <chr>                                  <int>
-    ##  1 No                                       448
-    ##  2 Yes                                      292
-    ##  3 Some information                           2
-    ##  4 Apart from the follow up at 6 weeks no     1
-    ##  5 As defined by?                             1
-    ##  6 Baby 1/2 MDs-no, baby 3 midwife, yes       1
-    ##  7 Breastfeeding groups                       1
-    ##  8 CO- no. IA- yes.                           1
-    ##  9 Don’t recall but I don’t think so          1
-    ## 10 Don’t remember                             1
-    ## # ℹ 35 more rows
-
-Histogram Draft:
-
-``` r
-# Example data: Replace this with your actual data
-tikyrabargraph <- Postpartum_renamed_variables_US
-
-# Create the histogram
-histogram <- ggplot(data = data.frame(value = tikyrabargraph), aes(x = value)) +
-  geom_histogram(binwidth = 0.5, fill = "blue", color = "black", alpha = 0.7) +
-  labs(title = "Histogram of Your Data",
-       x = "Value",
-       y = "Frequency") +
-  theme_minimal()
-
-#We probably need to figure out the good/better/best portions for the real one: x = state, y = quality of care ranking
-```
-
-Map Draft
-
-``` r
-#library(maps)
-#library(mapproj)
-#library(tidyverse)
-
-#states <- map_data("state")
-#states <- rename(states, state = region)
-#statessurveyed <- `states`
-
-#Postpartum_renamed_variables_US <- #Postpartum_renamed_variables_US %>% 
-#  mutate(state = tolower(Postpartum_renamed_variables_US$state))
-```
+## Preliminary exploratory data analysis and cleaning strategies:
 
 Visualization of filtered age distribution in California
 
@@ -290,6 +245,61 @@ Postpartum_renamed_variables_US |>
 
 ``` r
 #In order to correct specific mistakes/misspellings etc across the data frame.
+```
+
+Example of table:
+
+``` r
+Postpartum_renamed_variables_US |>
+  count(informed_by) |>
+  arrange(desc(n))
+```
+
+    ## # A tibble: 45 × 2
+    ##    informed_by                                n
+    ##    <chr>                                  <int>
+    ##  1 No                                       448
+    ##  2 Yes                                      292
+    ##  3 Some information                           2
+    ##  4 Apart from the follow up at 6 weeks no     1
+    ##  5 As defined by?                             1
+    ##  6 Baby 1/2 MDs-no, baby 3 midwife, yes       1
+    ##  7 Breastfeeding groups                       1
+    ##  8 CO- no. IA- yes.                           1
+    ##  9 Don’t recall but I don’t think so          1
+    ## 10 Don’t remember                             1
+    ## # ℹ 35 more rows
+
+Histogram Draft:
+
+``` r
+# Example data: Replace this with your actual data
+tikyrabargraph <- Postpartum_renamed_variables_US
+
+# Create the histogram
+histogram <- ggplot(data = data.frame(value = tikyrabargraph), aes(x = value)) +
+  geom_histogram(binwidth = 0.5, fill = "blue", color = "black", alpha = 0.7) +
+  labs(title = "Histogram of Your Data",
+       x = "Value",
+       y = "Frequency") +
+  theme_minimal()
+
+#We probably need to figure out the good/better/best portions for the real one: x = state, y = quality of care ranking
+```
+
+Map Draft
+
+``` r
+#library(maps)
+#library(mapproj)
+#library(tidyverse)
+
+#states <- map_data("state")
+#states <- rename(states, state = region)
+#statessurveyed <- `states`
+
+#Postpartum_renamed_variables_US <- #Postpartum_renamed_variables_US %>% 
+#  mutate(state = tolower(Postpartum_renamed_variables_US$state))
 ```
 
 ## 4. Data Ethics Review

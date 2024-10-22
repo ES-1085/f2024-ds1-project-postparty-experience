@@ -98,7 +98,11 @@ Other data needed:
 
 Types of graphs we may want to use:
 
+ - Pie chart - to show the distribution of quality of care within the data.
+ 
  - Histograms - to compare experiences depending on `birth_location` 
+ 
+ - More histograms - to show how different age groups experienced their care, filling with color for quality of care.
 
  - Bubble plot - to juxtapose `critical_support` and `ins_covered_services`
 
@@ -109,9 +113,44 @@ Types of graphs we may want to use:
  - Maps - to compare results between US states
 
  - Waffle plot - comparing `ideal_support` with `critical_support`
+ 
 
 
-Preliminary exploratory data analysis:
+## Preliminary exploratory data analysis and cleaning strategies:
+
+Visualization of filtered age distribution in California 
+
+```{r stringr}
+library(stringr)
+```
+
+```{r age-numeric-NAs}
+Postpartum_renamed_variables_US <- Postpartum_renamed_variables_US |>
+  mutate(age = as.numeric(age))
+```
+
+```{r finding-other-NA-numerics}
+which(Postpartum_renamed_variables_US$age > 100)
+
+#`which` for identifying rows of a dataset.
+```
+
+```{r some-ages-california-distribution}
+Postpartum_renamed_variables_US %>%
+  filter(state == "California") %>%
+  ggplot(aes(x = age)) +
+  geom_histogram() +
+  xlim(0,50) #Additional outliers and NAs ignored for the sake of the visualization (still present in data frame)
+```
+
+String example
+```{r example-clean-up}
+Postpartum_renamed_variables_US |>
+  mutate(state = str_replace(state, "DC", "District of Columbia")) 
+#In order to correct specific mistakes/misspellings etc across the data frame.
+```
+
+Example of table:
 
 ```{r informed-by-count}
 Postpartum_renamed_variables_US |>
@@ -152,38 +191,6 @@ Map Draft
 #Postpartum_renamed_variables_US <- #Postpartum_renamed_variables_US %>% 
 #  mutate(state = tolower(Postpartum_renamed_variables_US$state))
 
-```
-
-Visualization of filtered age distribution in California 
-
-```{r stringr}
-library(stringr)
-```
-
-```{r age-numeric-NAs}
-Postpartum_renamed_variables_US <- Postpartum_renamed_variables_US |>
-  mutate(age = as.numeric(age))
-```
-
-```{r finding-other-NA-numerics}
-which(Postpartum_renamed_variables_US$age > 100)
-
-#`which` for identifying rows of a dataset.
-```
-
-```{r some-ages-california-distribution}
-Postpartum_renamed_variables_US %>%
-  filter(state == "California") %>%
-  ggplot(aes(x = age)) +
-  geom_histogram() +
-  xlim(0,50) #Additional outliers and NAs ignored for the sake of the visualization (still present in data frame)
-```
-
-String example
-```{r example-clean-up}
-Postpartum_renamed_variables_US |>
-  mutate(state = str_replace(state, "DC", "District of Columbia")) 
-#In order to correct specific mistakes/misspellings etc across the data frame.
 ```
 
 
