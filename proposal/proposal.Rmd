@@ -70,6 +70,10 @@ dim(Postpartum_renamed_variables_US)
 ```
 Variables: 15
 
+```{r glimpse}
+glimpse(Postpartum_renamed_variables_US)
+```
+
 
 ### 3. Data analysis plan
 
