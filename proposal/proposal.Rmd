@@ -22,13 +22,13 @@ Data was collected to through a Google form survey that was circulated via email
 
 We expect to add one or two additional variables to our dataset through the process of mutating the types of postpartum care into quality categories: good, better, and best. Definitions for these categories will be determined as we work to analyze our data. While we recognize that these definitions may be subjective in nature, we will be using published references to help us quantify what types of support are most fundamental to long term health vs what types of care are more optional.
 
-For this project, we want to look more deeply at several of the relationships between variables in this dataset. Some of the questions we hope to explore are:
+For this project, our reserach question concerns the state of postpartum care in the US. We want to look more deeply at several of the relationships between variables in this dataset to evaluate some key aspects of the postpartum experience. Some of the questions we hope to explore are:
 
-1. Does quality of postpartum care vary from state to state?
+1. If we categorize postpartum care into "good", "better", and "best" categories, what quality of postpartum care is the average birther receiving?
 
-2. Is there a correlation between age and quality of postpartum care received/offered?
+2. Does quality of postpartum care vary from state to state?
 
-3. If we categorize postpartum care into "good", "better", and "best" categories, what quality of postpartum care is the average birther receiving?
+3. Is there a correlation between age and quality of postpartum care received/offered?
 
 4. What states require postpartum care to be covered by insurance? Does that requirement for coverage extend to Medicare recipients only, or does it extend to private insurance companies?
 
