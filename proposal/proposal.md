@@ -125,10 +125,10 @@ The variables we will be visualizing to explore the research questions
 include (the numbers reference the questions listed in the
 introduction):
 
-1.  `state` and `quality`. The `quality` variable will be created
+1.  `respondent` and `quality`. The `quality` variable will be created
     through defining the good, better, and best categories of care.
 2.  `age` and `quality`.
-3.  `respondent` and `quality`.
+3.  `state` and `quality`.
 4.  `ins_covered_services` plus data from additional source(s)
 5.  `critical_support` , `timestamp` , `ins_covered_services` , and
     `cost_factor` We may also want to create a new variable called
