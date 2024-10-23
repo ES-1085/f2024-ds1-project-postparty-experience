@@ -125,22 +125,22 @@ library(stringr)
 ```
 
 ```{r age-numeric-NAs}
-Postpartum_renamed_variables_US <- Postpartum_renamed_variables_US |>
-  mutate(age = as.numeric(age))
+#Postpartum_renamed_variables_US <- #Postpartum_renamed_variables_US |>
+#  mutate(age = as.numeric(age))
 ```
 
 ```{r finding-other-NA-numerics}
-which(Postpartum_renamed_variables_US$age > 100)
+#which(Postpartum_renamed_variables_US$age > 100)
 
 #`which` for identifying rows of a dataset.
 ```
 
 ```{r some-ages-california-distribution}
-Postpartum_renamed_variables_US %>%
-  filter(state == "California") %>%
-  ggplot(aes(x = age)) +
-  geom_histogram() +
-  xlim(0,50) #Additional outliers and NAs ignored for the sake of the visualization (still present in data frame)
+#Postpartum_renamed_variables_US %>%
+#  filter(state == "California") %>%
+#  ggplot(aes(x = age)) +
+#  geom_histogram() +
+#  xlim(0,50) #Additional outliers and NAs ignored for the sake of the visualization (still present in data frame)
 ```
 
 String example

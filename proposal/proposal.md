@@ -181,42 +181,23 @@ library(stringr)
 ```
 
 ``` r
-Postpartum_renamed_variables_US <- Postpartum_renamed_variables_US |>
-  mutate(age = as.numeric(age))
+#Postpartum_renamed_variables_US <- #Postpartum_renamed_variables_US |>
+#  mutate(age = as.numeric(age))
 ```
 
-    ## Warning: There was 1 warning in `mutate()`.
-    ## ℹ In argument: `age = as.numeric(age)`.
-    ## Caused by warning:
-    ## ! NAs introduced by coercion
-
 ``` r
-which(Postpartum_renamed_variables_US$age > 100)
-```
+#which(Postpartum_renamed_variables_US$age > 100)
 
-    ## [1]  86 142 222
-
-``` r
 #`which` for identifying rows of a dataset.
 ```
 
 ``` r
-Postpartum_renamed_variables_US %>%
-  filter(state == "California") %>%
-  ggplot(aes(x = age)) +
-  geom_histogram() +
-  xlim(0,50) #Additional outliers and NAs ignored for the sake of the visualization (still present in data frame)
+#Postpartum_renamed_variables_US %>%
+#  filter(state == "California") %>%
+#  ggplot(aes(x = age)) +
+#  geom_histogram() +
+#  xlim(0,50) #Additional outliers and NAs ignored for the sake of the visualization (still present in data frame)
 ```
-
-    ## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
-
-    ## Warning: Removed 32 rows containing non-finite outside the scale range
-    ## (`stat_bin()`).
-
-    ## Warning: Removed 2 rows containing missing values or values outside the scale range
-    ## (`geom_bar()`).
-
-![](proposal_files/figure-gfm/some-ages-california-distribution-1.png)<!-- -->
 
 String example
 
@@ -226,18 +207,18 @@ Postpartum_renamed_variables_US |>
 ```
 
     ## # A tibble: 784 × 15
-    ##    respondent          state   age birth_location informed_by other_info_sources
-    ##    <dttm>              <chr> <dbl> <chr>          <chr>       <chr>             
-    ##  1 2023-02-05 23:57:39 Cali…    30 At home        Yes         Birth education p…
-    ##  2 2023-02-06 09:57:13 Penn…    26 Hospital, Was… No          Social media      
-    ##  3 2023-02-06 11:54:12 Mich…    21 At home        No          Social media      
-    ##  4 2023-02-06 21:04:15 Mass…    NA Hospital       Yes         Birth education p…
-    ##  5 2023-02-06 21:19:43 Dist…    36 Hospital       No          Birth education p…
-    ##  6 2023-02-06 21:20:00 Mary…    NA Hospital       Yes         Family members or…
-    ##  7 2023-02-06 21:20:05 Sout…    NA Hospital       No          Birth education p…
-    ##  8 2023-02-06 21:27:11 Maine    28 At home        No          Books             
-    ##  9 2023-02-06 21:34:54 Arka…    42 Hospital       Yes         Family members or…
-    ## 10 2023-02-06 21:41:49 Mass…    33 Hospital       No          Family members or…
+    ##    respondent          state age   birth_location informed_by other_info_sources
+    ##    <dttm>              <chr> <chr> <chr>          <chr>       <chr>             
+    ##  1 2023-02-05 23:57:39 Cali… 30.0  At home        Yes         Birth education p…
+    ##  2 2023-02-06 09:57:13 Penn… 26.0  Hospital, Was… No          Social media      
+    ##  3 2023-02-06 11:54:12 Mich… 21.0  At home        No          Social media      
+    ##  4 2023-02-06 21:04:15 Mass… 36 a… Hospital       Yes         Birth education p…
+    ##  5 2023-02-06 21:19:43 Dist… 36.0  Hospital       No          Birth education p…
+    ##  6 2023-02-06 21:20:00 Mary… 40 (… Hospital       Yes         Family members or…
+    ##  7 2023-02-06 21:20:05 Sout… 34/37 Hospital       No          Birth education p…
+    ##  8 2023-02-06 21:27:11 Maine 28.0  At home        No          Books             
+    ##  9 2023-02-06 21:34:54 Arka… 42.0  Hospital       Yes         Family members or…
+    ## 10 2023-02-06 21:41:49 Mass… 33.0  Hospital       No          Family members or…
     ## # ℹ 774 more rows
     ## # ℹ 9 more variables: support_type <chr>, provider <chr>,
     ## #   ins_covered_services <chr>, cost_factor <chr>, if_insurance <chr>,
