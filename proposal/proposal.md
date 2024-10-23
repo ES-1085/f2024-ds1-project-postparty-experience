@@ -130,7 +130,7 @@ introduction):
 2.  `age` and `quality`.
 3.  `state` and `quality`.
 4.  `ins_covered_services` plus data from additional source(s)
-5.  `critical_support` , `timestamp` , `ins_covered_services` , and
+5.  `critical_support` , `respondent` , `ins_covered_services` , and
     `cost_factor` We may also want to create a new variable called
     `out_of_pocket` to quantify what services were being paid for
     outside of insurance coverage.
