@@ -5,7 +5,7 @@ Data file(s) placed in this folder.
 
 ## Postpartum_renamed_variables_US
 
-
+-'age_of_first_birth`: age the parent was at time of first birth.
 - `respondent`: Refers to a single survey respondent, including the date and time survey was taken.
 - `state`: Which US state or country did you give birth in? (open-ended answer)
 - `age`: What was your age when you gave birth? (open-ended answer)

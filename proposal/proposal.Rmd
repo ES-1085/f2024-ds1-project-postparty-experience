@@ -128,6 +128,15 @@ library(stringr)
 #Postpartum_renamed_variables_US <- #Postpartum_renamed_variables_US |>
 #  mutate(age = as.numeric(age))
 ```
+```{r first birth age}
+age_of_first_birth <- Postpartum_renamed_variables_US %>% 
+  mutate(age_of_first_birth = substr(age, start = 1, stop = 2)) %>% 
+  mutate(age_of_first_birth = if_else(age_of_first_birth == "On", "35", age_of_first_birth)) %>% 
+  mutate(age_of_first_birth = as.numeric(age_of_first_birth)) %>% 
+arrange(age_of_first_birth)
+
+ 
+```
 
 ```{r finding-other-NA-numerics}
 #which(Postpartum_renamed_variables_US$age > 100)
