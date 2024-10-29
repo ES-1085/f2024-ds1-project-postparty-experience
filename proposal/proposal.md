@@ -265,7 +265,7 @@ Postpartum_renamed_variables_US |>
 Postpartum_by_child <- Postpartum_renamed_variables_US |> 
   mutate(birth_age_year = str_replace_all(age, "\\d{4}", replacement = "")) |>
   mutate(birth_age = map_chr(str_extract_all(birth_age_year, "\\d{2}"),  ~ str_c(.x, collapse = ","))) |> 
-   separate_longer_delim(birth_age, delim = ",")
+   separate_longer_delim(birth_age, delim = ",") # this line of the code makes each birth age a separate entry in the spreadsheet
 ```
 
 Map Draft
