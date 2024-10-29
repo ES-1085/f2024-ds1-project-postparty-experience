@@ -186,6 +186,14 @@ library(stringr)
 ```
 
 ``` r
+age_of_first_birth <- Postpartum_renamed_variables_US %>% 
+  mutate(age_of_first_birth = substr(age, start = 1, stop = 2)) %>% 
+  mutate(age_of_first_birth = if_else(age_of_first_birth == "On", "35", age_of_first_birth)) %>% 
+  mutate(age_of_first_birth = as.numeric(age_of_first_birth)) %>% 
+arrange(age_of_first_birth)
+```
+
+``` r
 #which(Postpartum_renamed_variables_US$age > 100)
 
 #`which` for identifying rows of a dataset.
@@ -250,6 +258,15 @@ Postpartum_renamed_variables_US |>
     ##  9 Don’t recall but I don’t think so          1
     ## 10 Don’t remember                             1
     ## # ℹ 35 more rows
+
+`Age` clean up:
+
+``` r
+Postpartum_by_child <- Postpartum_renamed_variables_US |> 
+  mutate(birth_age_year = str_replace_all(age, "\\d{4}", replacement = "")) |>
+  mutate(birth_age = map_chr(str_extract_all(birth_age_year, "\\d{2}"),  ~ str_c(.x, collapse = ","))) |> 
+   separate_longer_delim(birth_age, delim = ",")
+```
 
 Map Draft
 
