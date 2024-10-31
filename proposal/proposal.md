@@ -255,7 +255,27 @@ mutate(cost_factor = ifelse(cost_factor == "To some extent, but luckily I could 
 ```
 
 ``` r
-hospital_cleanup <- data.frame(birth_location = Postpartum_renamed_variables_US$birth_location)
+hospital_cleanup <- data.frame(birth_location = Postpartum_renamed_variables_US$birth_location) %>% 
+  
+     mutate(birth_location = ifelse(birth_location == "Hospital, Was supposed to go to birth center", "Hospital", birth_location)) %>%  
+  
+mutate(birth_location = ifelse(birth_location == "At home", "Non-Hospital", birth_location)) %>% 
+  
+       mutate(birth_location = ifelse(birth_location == "Birthing Center attached to hospital", "Non-Hospital", birth_location)) %>% 
+  
+    mutate(birth_location = ifelse(birth_location == "Free standing birth center", "Non-Hospital", birth_location)) %>% 
+  
+       mutate(birth_location = ifelse(birth_location == "At home, I’m our car in an empty church parking lot", "Non-Hospital", birth_location)) %>% 
+  
+       mutate(birth_location = ifelse(birth_location == "Began at a free standing birth center, had to transfer to a midwife center at a hospital", "Hospital", birth_location)) %>% 
+  
+  mutate(birth_location = ifelse(birth_location == "Birthing center attached to a hospital", "Non-Hospital", birth_location)) %>% 
+  
+  mutate(birth_location = ifelse(birth_location == "Birthing Center attached to a hospital", "Non-Hospital", birth_location)) %>% 
+  
+  mutate(birth_location = ifelse(birth_location == "Free standing birth center, At home", "Non-Hospital", birth_location)) %>% 
+  
+  mutate(birth_location = ifelse(birth_location == "Birthing center within a hospital", "ask team", birth_location))
 ```
 
 ``` r
