@@ -17,12 +17,11 @@ library(broom)
 
 ```{r rename-answer-with-commas}
 Postpartum_support_type <- Postpartum_by_child |>
-  mutate(support_type = case_when(
-      support_type == "In-home help with tasks like laundry, cooking, cleaning, and child care" ~ "In-home help with care tasks"))
+  mutate(support_type = str_replace(support_type, pattern = "In-home help with tasks like laundry, cooking, cleaning, and child care", "In-home help with care tasks")) 
 ```
 
 ```{r support-type-separate-longer}
-Postpartum_support_longer <- Postpartum_support_type|>
+Postpartum_support_longer <- Postpartum_support_type |>
   separate_longer_delim(support_type, delim = ",")
 ```
 ```{r unique-support-types}
@@ -93,6 +92,37 @@ Postpartum_support_type_clean <- Postpartum_support_longer |>
 
 ```{r recheck-unqiue-entries}
 unique(Postpartum_support_type_clean$support_type)
+```
+```{r baseline column}
+baseline <- c("Lactation support", "Pelvic floor rehabilitation",  "Emotional support",  "Hospital or office based wellness services and postpartum follow up appointments")
+
+baseline <- c("Lactation support", "Pelvic floor rehabilitation",  "Emotional support",  "Hospital or office based wellness services and postpartum follow up appointments")
+
+baseline_pattern <- "lact|pelv|"
+
+Postpartum_support_type_clean <- Postpartum_support_type_clean |>
+  mutate(baseline = case_when(str_detect(support_type, pattern = regex(baseline_pattern, ignore_case = T)) ~ 1,
+                              TRUE ~ 0)) 
+
+Postpartum_support_type_clean <- Postpartum_support_type_clean |>
+  mutate(baseline = case_when(support_type %in% baseline ~ 1,
+                              TRUE ~ 0)) |>
+  mutate(service_category = case_when(support_type %in% baseline ~ "baseline",
+                              TRUE ~ 0)) |>
+  
+  relocate(baseline, .after = support_type)
+
+Postpartum_support_type_clean |>
+  group_by(respondent, birth_age) |>
+  mutate(support_type_all = str_flatten(support_type, collapse = ", ")) |>
+  summarize(baseline_score = sum(baseline, na.rm = TRUE))
+  #distinct(respondent, birth_age, .keep_all = TRUE)
+
+Postpartum_support_type_clean |>
+  group_by(respondent, birth_age) |>
+  summarize(baseline_score = sum(baseline, na.rm = TRUE))|>
+  ungroup() |>
+  distinct(baseline_score)
 ```
 
 
