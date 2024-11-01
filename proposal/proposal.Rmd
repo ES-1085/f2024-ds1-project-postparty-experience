@@ -140,66 +140,22 @@ arrange(age_of_first_birth)
 
 ```{r cost-factor-cleanup}
 
-cost_factor_clean <- data.frame(cost_factor = Postpartum_renamed_variables_US$cost_factor) %>% 
-mutate(cost_factor = ifelse(cost_factor == "I received care from friends and family, had I not had that I wouldn’t have been able to afford to pay for postpartum care services", "Yes", cost_factor)) %>% 
-  
-mutate(cost_factor = ifelse(cost_factor == "To some extent, but luckily I could afford almost whatever I wanted/needed.", "Yes", cost_factor)) %>% 
-  
-  mutate(cost_factor = ifelse(cost_factor == "We strongly considered going to a birth center for my first birth, but they did not accept insurance and it was cost prohibitive. I feel we would have had more postpartum support with my first if we had gone that route.", "Yes", cost_factor)) %>% 
-    
-   mutate(cost_factor = ifelse(cost_factor == "Had already paid max out of pocket w labor", "Yes", cost_factor)) %>% 
+yes_cost_a_factor <- c("I received care from friends and family, had I not had that I wouldn’t have been able to afford to pay for postpartum care services","To some extent, but luckily I could afford almost whatever I wanted/needed.","We strongly considered going to a birth center for my first birth, but they did not accept insurance and it was cost prohibitive. I feel we would have had more postpartum support with my first if we had gone that route.","Had already paid max out of pocket w labor","No referral","lactation specialist not covered, couldn’t afford otherwise","I definitely knew to look for support covered by insurance.","Did on seek in home help due to cost", "Did on seek in home help due to cost","Partially. Had i known there was support, I probably couldnt afford it.", "Yes but we had a generous budget and family to help financially","Unsure of question.... did it cost,  some of it did", "It was definitely a luxury to afford therapist and lactation help but anything other than that I viewed as “extra.”", "No doula $", "Yes but not as much as just not knowing it was available", "If I could afford food delivery, laundry service, etc, I would have hired the help!", "Do not have insurance","Cost to an extent but also Covid played a role- birth in December 2019, brought son home from NICU in 2020 and recovery was long into 2020)", "Copays sometimes.", "Yes in terms of acupuncture etc I didn’t budget for it and wish I did", "My husband and I prioritized Postpartum care highly so yes and no")
 
-   mutate(cost_factor = ifelse(cost_factor == "No referral", "ask team", cost_factor)) %>% 
+cost_not_a_factor <- c("It was more not knowing what services I should have had access to. I know more know with Instagram follows.", "No. I just was unaware of the services that might be helpful. If I had another kid I’d invest in more.", "Covid was, not cost", "Not since we hit our deductible", "Main factor was pandemic. 6 week was nearly canceled, counseling went virtual but took months to initiate")
 
-   mutate(cost_factor = ifelse(cost_factor == "lactation specialist not covered, couldn’t afford otherwise", "Yes", cost_factor)) %>% 
+cost_not_applicable <- c("Did not know post partum services other than the follow up appointment were covered services", "Didn’t even know what type of support was available because no one told me!","The pandemic significantly impacted my lack of access to postpartum support, especially in-person support", "I don't know, I wasn't aware of many services")
 
-   mutate(cost_factor = ifelse(cost_factor == "I definitely knew to look for support covered by insurance.", "ask team", cost_factor)) %>% 
 
-   mutate(cost_factor = ifelse(cost_factor == "Did not know post partum services other than the follow up appointment were covered services", "ask team", cost_factor)) %>% 
-
-   mutate(cost_factor = ifelse(cost_factor == "Did on seek in home help due to cost", "Yes", cost_factor)) %>% 
-
-   mutate(cost_factor = ifelse(cost_factor == "Didn’t even know what type of support was available because no one told me!", "ask team", cost_factor)) %>% 
-
-   mutate(cost_factor = ifelse(cost_factor == "It was more not knowing what services I should have had access to. I know more know with Instagram follows.", "No", cost_factor)) %>% 
-
-   mutate(cost_factor = ifelse(cost_factor == "Partially. Had i known there was support, I probably couldnt afford it.", "Yes", cost_factor)) %>% 
-
-   mutate(cost_factor = ifelse(cost_factor == "Yes but we had a generous budget and family to help financially", "Yes", cost_factor)) %>% 
-
-   mutate(cost_factor = ifelse(cost_factor == "Unsure of question.... did it cost,  some of it did", "Yes", cost_factor)) %>% 
-
-   mutate(cost_factor = ifelse(cost_factor == "It was definitely a luxury to afford therapist and lactation help but anything other than that I viewed as “extra.”", "Yes", cost_factor)) %>% 
-
-   mutate(cost_factor = ifelse(cost_factor == "No. I just was unaware of the services that might be helpful. If I had another kid I’d invest in more.", "No", cost_factor)) %>% 
-
-   mutate(cost_factor = ifelse(cost_factor == "No doula $", "Yes", cost_factor)) %>% 
-
-   mutate(cost_factor = ifelse(cost_factor == "The pandemic significantly impacted my lack of access to postpartum support, especially in-person support", "ask team", cost_factor)) %>% 
-
-   mutate(cost_factor = ifelse(cost_factor == "Yes but not as much as just not knowing it was available", "Yes", cost_factor)) %>% 
-
-   mutate(cost_factor = ifelse(cost_factor == "Covid was, not cost", "No", cost_factor)) %>% 
-
-   mutate(cost_factor = ifelse(cost_factor == "If I could afford food delivery, laundry service, etc, I would have hired the help!", "Yes", cost_factor)) %>% 
-
-   mutate(cost_factor = ifelse(cost_factor == "Not since we hit our deductible", "No", cost_factor)) %>% 
-  
-    mutate(cost_factor = ifelse(cost_factor == "Do not have insurance", "Yes", cost_factor)) %>% 
-  
-    mutate(cost_factor = ifelse(cost_factor == "Main factor was pandemic. 6 week was nearly canceled, counseling went virtual but took months to initiate", "ask team", cost_factor)) %>% 
-
-   mutate(cost_factor = ifelse(cost_factor == "Cost to an extent but also Covid played a role- birth in December 2019, brought son home from NICU in 2020 and recovery was long into 2020)", "Yes", cost_factor)) %>% 
-  
-     mutate(cost_factor = ifelse(cost_factor == "Copays sometimes.", "Yes", cost_factor)) %>% 
-  
-     mutate(cost_factor = ifelse(cost_factor == "I don't know, I wasn't aware of many services", "ask team", cost_factor)) %>% 
-  
-     mutate(cost_factor = ifelse(cost_factor == "Yes in terms of acupuncture etc I didn’t budget for it and wish I did", "Yes", cost_factor)) %>% 
-  
-  mutate(cost_factor = ifelse(cost_factor == "My husband and I prioritized Postpartum care highly so yes and no", "Yes", cost_factor))
+#Postpartum_Experience_renamed_variables_US %>% 
+ # mutate(cost_factor = case_when(cost_factor %in% yes_cost_a_factor ~ "Yes",
+                                     # cost_factor %in% cost_not_a_factor ~ "No",
+                                     # cost_factor %in% cost_not_applicable ~ "N/A",
+       #   TRUE ~ cost_factor))
 
 ```
+ 
+
 
 ```{r hospital-cleanup}
 hospital_cleanup <- data.frame(birth_location = Postpartum_renamed_variables_US$birth_location) %>% 
@@ -222,7 +178,7 @@ mutate(birth_location = ifelse(birth_location == "At home", "Non-Hospital", birt
   
   mutate(birth_location = ifelse(birth_location == "Free standing birth center, At home", "Non-Hospital", birth_location)) %>% 
   
-  mutate(birth_location = ifelse(birth_location == "Birthing center within a hospital", "ask team", birth_location))
+  mutate(birth_location = ifelse(birth_location == "Birthing center within a hospital", "Hospital", birth_location))
   
 ```
 
