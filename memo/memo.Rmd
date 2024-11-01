@@ -17,8 +17,8 @@ library(broom)
 
 ```{r rename-answer-with-commas}
 Postpartum_support_type <- Postpartum_by_child |>
-  mutate(support_type = case_when(
-      support_type == "In-home help with tasks like laundry, cooking, cleaning, and child care" ~ "In-home help with care tasks"))
+  mutate(support_type_replacement = str_replace(support_type, pattern = "In-home help with tasks like laundry, cooking, cleaning, and child care", "In-home help with care tasks")) |>
+  relocate(support_type_replacement, .after = support_type)
 ```
 
 ```{r support-type-separate-longer}
