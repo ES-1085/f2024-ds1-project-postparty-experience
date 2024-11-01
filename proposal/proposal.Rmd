@@ -139,6 +139,7 @@ arrange(age_of_first_birth)
 ```
 
 ```{r cost-factor-cleanup}
+
 cost_factor_clean <- data.frame(cost_factor = Postpartum_renamed_variables_US$cost_factor) %>% 
 mutate(cost_factor = ifelse(cost_factor == "I received care from friends and family, had I not had that I wouldn’t have been able to afford to pay for postpartum care services", "Yes", cost_factor)) %>% 
   
