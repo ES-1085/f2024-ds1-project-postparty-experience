@@ -232,6 +232,8 @@ mutate(birth_location = ifelse(birth_location == "At home", "Non-Hospital", birt
 #`which` for identifying rows of a dataset.
 ```
 
+
+
 ```{r some-ages-california-distribution}
 #Postpartum_renamed_variables_US %>%
 #  filter(state == "California") %>%

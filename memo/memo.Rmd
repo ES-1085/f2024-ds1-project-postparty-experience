@@ -15,9 +15,85 @@ library(broom)
 
 ### Step 1: _________
 
-```{r}
-
+```{r rename-answer-with-commas}
+Postpartum_support_type <- Postpartum_by_child |>
+  mutate(support_type = ifelse(support_type == "In-home help with tasks like laundry, cooking, cleaning, and child care", "In-home help with care tasks", support_type))
 ```
+
+```{r support-type-separate-longer}
+Postpartum_support_longer <- Postpartum_support_type|>
+  separate_longer_delim(support_type, delim = ",")
+```
+```{r unique-support-types}
+  unique(Postpartum_support_longer$support_type)
+```
+
+```{r rename-open-ended-responses}
+Postpartum_support_type_clean <- Postpartum_support_longer |>
+  mutate(support_type = ifelse(support_type == " Mommy and me yoga and classes", "Other", support_type)) |>
+  mutate(support_type = ifelse(support_type == " follow-up appointment with midwife; overnight doula (1 night per week)", "In-home wellness services and postpartum follow up appointments", support_type)) |>
+  mutate(support_type = ifelse(support_type == " we didn’t have anyone else and I often wished we had someone to hold the both of us while we bonded with our baby.", "None of the above", support_type)) |>
+  mutate(support_type = ifelse(support_type == " My partner was incredibly helpful. He handled all of the emotional support and meal and house prep and cleaning. However", "Other", support_type)) |>  
+  mutate(support_type = ifelse(support_type == " any supports I had access to I had to find myself.", "NA", support_type)) |>
+  mutate(support_type = ifelse(support_type == " As a note", "NA", support_type)) |>
+  mutate(support_type = ifelse(support_type == "Yes there was a postpartum follow up but didnt seem like she did nuch other than repeat what she was reading off a pamphlet.", "Hospital or office based wellness services and postpartum follow up appointments", support_type)) |> 
+  mutate(support_type = ifelse(support_type == " 1 PP appointment at 6 weeks", "Hospital or office based wellness services and postpartum follow up appointments", support_type)) |>
+  mutate(support_type = ifelse(support_type == " Virtual postpartum follow up visits due to COVID", "Hospital or office based wellness services and postpartum follow up appointments", support_type)) |>
+  mutate(support_type = ifelse(support_type == " In—home baby education", "Other", support_type)) |>
+  mutate(support_type = ifelse(support_type == " Therapy (for PPD with second kid)", "Emotional support", support_type)) |>
+  mutate(support_type = ifelse(support_type == " Postpartum doula", "In-home wellness services and postpartum follow up appointments", support_type)) |>
+  mutate(support_type = ifelse(support_type == " Home visiting (Maine Families and public health nursing)", "In-home wellness services and postpartum follow up appointments", support_type)) |>
+  mutate(support_type = ifelse(support_type == " I didn't really receive support. I know my pediatrician has lactation services but I didn't need.", "Lactation support", support_type)) |>
+  mutate(support_type = ifelse(support_type == " Besides my required postpartum checkup and family care", "Hospital or office based wellness services and postpartum follow up appointments", support_type)) |>
+  mutate(support_type = ifelse(support_type == " Some of these were offered but not helpful. Saw a behaviorist bc my dad died right before birth but they just said I “seemed fine” and were no help", "Hospital or office based wellness services and postpartum follow up appointments", support_type)) |>
+  mutate(support_type = ifelse(support_type == " Ovia Parenting App coaches", "Other", support_type)) |>
+  mutate(support_type = ifelse(support_type == " Baby was in NICU so we also had access to a social worker and classes with fellow nicu parents on development/feeding/etc", "Hospital or office based wellness services and postpartum follow up appointments", support_type)) |>
+  mutate(support_type = ifelse(support_type == " Lactation support pre-covid. Post covid nothing in hospital", "Lactation support", support_type)) |>
+  mutate(support_type = ifelse(support_type == " Stay at home spouse", "Other", support_type)) |>
+  mutate(support_type = ifelse(support_type == " Lactation support was virtual only due to pandemic", "Lactation support", support_type)) |>
+  mutate(support_type = ifelse(support_type == " One postpartum appointment with my OBGYN", "Hospital or office based wellness services and postpartum follow up appointments", support_type)) |>
+  mutate(support_type = ifelse(support_type == "Gave birth in 2020. Everything I thought I’d have access to was shut down", "None of the above", support_type)) |>
+  mutate(support_type = ifelse(support_type == " Except for my second  was born March 2020. I had no follow up", "None of the above", support_type)) |>
+  mutate(support_type = ifelse(support_type == " most of my concerns were ignored by my ob.", "None of the above", support_type)) |>
+  mutate(support_type = ifelse(support_type == " the process wasn’t easy or clear. After my 6-week checkup", "Hospital or office based wellness services and postpartum follow up appointments", support_type)) |>
+  mutate(support_type = ifelse(support_type == " Had to seek out lactation help on my own", "Lactation support", support_type)) |>
+  mutate(support_type = ifelse(support_type == " Ped PT and dentist for tie release + torticollis (for LO but her care is critical to my well being + BF journey)", "Other", support_type)) |>
+  mutate(support_type = ifelse(support_type == "", "NA", support_type)) |>
+  mutate(support_type = ifelse(support_type == " I probably could have had access to some of the other things on this list but didn't look into it", "None of the above", support_type)) |>
+  mutate(support_type = ifelse(support_type == " Doula support", "In-home wellness services and postpartum follow up appointments", support_type)) |>
+  mutate(support_type = ifelse(support_type == " I had access to lactation/new parent group but didn’t have the knowledge to go to them", "Lactation support, New parent groups - in person", support_type)) |>
+  mutate(support_type = ifelse(support_type == " Therapy for Anxiety", "Emotional support", support_type)) |>
+  mutate(support_type = ifelse(support_type == " 6 week follow up pp with doctor", "Hospital or office based wellness services and postpartum follow up appointments", support_type)) |>
+  mutate(support_type = ifelse(support_type == " Lactation support was VERY hard to access", "Lactation support", support_type)) |>
+  mutate(support_type = ifelse(support_type == " 1x nurse check-in over phone (through hospital)", "Hospital or office based wellness services and postpartum follow up appointments", support_type)) |>
+  mutate(support_type = ifelse(support_type == " Nighttime support night nurse", "Overnight help", support_type)) |>
+  mutate(support_type = ifelse(support_type == " Postpartum doula and a night doula", "In-home wellness services and postpartum follow up appointments", support_type)) |>
+  mutate(support_type = ifelse(support_type == " Therapist but not specializing in postpartum concerns", "Emotional support", support_type)) |>
+  mutate(support_type = ifelse(support_type == " Family", "Family support", support_type)) |>
+  mutate(support_type = ifelse(support_type == " Mental health therapy", "Emotional support", support_type)) |>
+  mutate(support_type = ifelse(support_type == " but the second hospital I delivered at has a robust new parent program", "New parent groups - in person", support_type)) |>
+  mutate(support_type = ifelse(support_type == " I didn’t attend any of the new parent groups", "NA", support_type)) |>
+  mutate(support_type = ifelse(support_type ==" I probably had access to pelvic floor therapy but didn’t know about it in order to access it.", "Pelvic floor rehabilitation", support_type)) |>
+  mutate(support_type = ifelse(support_type ==" Doula. Also", "In-home wellness services and postpartum follow up appointments", support_type)) |>
+  mutate(support_type = ifelse(support_type ==" Emotional support", "Emotional support", support_type)) |>
+  mutate(support_type = ifelse(support_type ==" None of the above", "None of the above", support_type)) |>
+  mutate(support_type = ifelse(support_type ==" Grief support", "Grief support", support_type)) |>
+  mutate(support_type = ifelse(support_type ==" Pelvic floor rehabilitation", "Pelvic floor rehabilitation", support_type)) |>
+  mutate(support_type = ifelse(support_type ==" New parent groups - online", " New parent groups - online", support_type)) |>
+  mutate(support_type = ifelse(support_type ==" Acupuncture", "Acupuncture", support_type)) |>
+  mutate(support_type = ifelse(support_type ==" Massage or chiropractic", "Massage or chiropractic", support_type)) |>
+  mutate(support_type = ifelse(support_type ==" New parent groups - in person", "New parent groups - in person", support_type)) |>
+  mutate(support_type = ifelse(support_type ==" New parent groups - online", "New parent groups - online", support_type)) |>
+  mutate(support_type = ifelse(support_type ==" Community meal train or other meal service", "Community meal train or other meal service", support_type)) |>
+  mutate(support_type = ifelse(support_type ==" Hospital or office based wellness services and postpartum follow up appointments", "Hospital or office based wellness services and postpartum follow up appointments", support_type)) |>
+  mutate(support_type = ifelse(support_type ==" In-home wellness services and postpartum follow up appointments", "In-home wellness services and postpartum follow up appointments", support_type))
+  
+```
+
+```{r recheck-unqiue-entries}
+unique(Postpartum_support_type_clean$support_type)
+```
+
 
 ### Step 2: ________
 
