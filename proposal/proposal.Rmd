@@ -226,13 +226,33 @@ mutate(birth_location = ifelse(birth_location == "At home", "Non-Hospital", birt
 ```
 
 
+```{r state-clean-up}
+Postpartum_renamed_variables_US <- Postpartum_renamed_variables_US |>
+  mutate(state = str_replace(state, "CO", "Colorado")) |>
+  mutate(state = str_replace(state, "IA", "Iowa")) |>
+  mutate(state = str_replace(state, "DC", "District of Columbia")) |>
+  mutate(state = str_replace(state, "TN", "Tennessee")) |>
+  mutate(state = str_replace(state, "MS", "Mississippi")) |>
+  mutate(state = str_replace(state, "Mass", "Massachusetts")) |>
+  mutate(state = str_replace(state, "Massachusettsachusetts", "Massachusetts")) |>
+  mutate(state = str_replace(state, "RI", "Rhode Island")) |>
+  mutate(state = str_replace(state, "NY", "New York")) |>
+  mutate(state = str_replace(state, "Tennesee", "Tennessee")) |>
+
+  #In order to correct specific mistakes/misspellings etc across the data frame.
+#using stringr package  
+
+  filter(state != "United States",
+         state != "US",
+         state != "USA")
+```
+
+
 ```{r finding-other-NA-numerics}
 #which(Postpartum_renamed_variables_US$age > 100)
 
 #`which` for identifying rows of a dataset.
 ```
-
-
 
 ```{r some-ages-california-distribution}
 #Postpartum_renamed_variables_US %>%
@@ -240,13 +260,6 @@ mutate(birth_location = ifelse(birth_location == "At home", "Non-Hospital", birt
 #  ggplot(aes(x = age)) +
 #  geom_histogram() +
 #  xlim(0,50) #Additional outliers and NAs ignored for the sake of the visualization (still present in data frame)
-```
-
-String example
-```{r example-clean-up}
-Postpartum_renamed_variables_US |>
-  mutate(state = str_replace(state, "DC", "District of Columbia")) 
-#In order to correct specific mistakes/misspellings etc across the data frame.
 ```
 
 Example of table:

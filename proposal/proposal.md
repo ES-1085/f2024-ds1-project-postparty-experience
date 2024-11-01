@@ -279,6 +279,27 @@ mutate(birth_location = ifelse(birth_location == "At home", "Non-Hospital", birt
 ```
 
 ``` r
+Postpartum_renamed_variables_US <- Postpartum_renamed_variables_US |>
+  mutate(state = str_replace(state, "CO", "Colorado")) |>
+  mutate(state = str_replace(state, "IA", "Iowa")) |>
+  mutate(state = str_replace(state, "DC", "District of Columbia")) |>
+  mutate(state = str_replace(state, "TN", "Tennessee")) |>
+  mutate(state = str_replace(state, "MS", "Mississippi")) |>
+  mutate(state = str_replace(state, "Mass", "Massachusetts")) |>
+  mutate(state = str_replace(state, "Massachusettsachusetts", "Massachusetts")) |>
+  mutate(state = str_replace(state, "RI", "Rhode Island")) |>
+  mutate(state = str_replace(state, "NY", "New York")) |>
+  mutate(state = str_replace(state, "Tennesee", "Tennessee")) |>
+
+  #In order to correct specific mistakes/misspellings etc across the data frame.
+#using stringr package  
+
+  filter(state != "United States",
+         state != "US",
+         state != "USA")
+```
+
+``` r
 #which(Postpartum_renamed_variables_US$age > 100)
 
 #`which` for identifying rows of a dataset.
@@ -292,35 +313,6 @@ mutate(birth_location = ifelse(birth_location == "At home", "Non-Hospital", birt
 #  xlim(0,50) #Additional outliers and NAs ignored for the sake of the visualization (still present in data frame)
 ```
 
-String example
-
-``` r
-Postpartum_renamed_variables_US |>
-  mutate(state = str_replace(state, "DC", "District of Columbia")) 
-```
-
-    ## # A tibble: 784 × 15
-    ##    respondent          state age   birth_location informed_by other_info_sources
-    ##    <dttm>              <chr> <chr> <chr>          <chr>       <chr>             
-    ##  1 2023-02-05 23:57:39 Cali… 30.0  At home        Yes         Birth education p…
-    ##  2 2023-02-06 09:57:13 Penn… 26.0  Hospital, Was… No          Social media      
-    ##  3 2023-02-06 11:54:12 Mich… 21.0  At home        No          Social media      
-    ##  4 2023-02-06 21:04:15 Mass… 36 a… Hospital       Yes         Birth education p…
-    ##  5 2023-02-06 21:19:43 Dist… 36.0  Hospital       No          Birth education p…
-    ##  6 2023-02-06 21:20:00 Mary… 40 (… Hospital       Yes         Family members or…
-    ##  7 2023-02-06 21:20:05 Sout… 34/37 Hospital       No          Birth education p…
-    ##  8 2023-02-06 21:27:11 Maine 28.0  At home        No          Books             
-    ##  9 2023-02-06 21:34:54 Arka… 42.0  Hospital       Yes         Family members or…
-    ## 10 2023-02-06 21:41:49 Mass… 33.0  Hospital       No          Family members or…
-    ## # ℹ 774 more rows
-    ## # ℹ 9 more variables: support_type <chr>, provider <chr>,
-    ## #   ins_covered_services <chr>, cost_factor <chr>, if_insurance <chr>,
-    ## #   critical_support <chr>, ideal_support <chr>, comments <chr>, emails <chr>
-
-``` r
-#In order to correct specific mistakes/misspellings etc across the data frame.
-```
-
 Example of table:
 
 ``` r
@@ -329,20 +321,20 @@ Postpartum_renamed_variables_US |>
   arrange(desc(n))
 ```
 
-    ## # A tibble: 45 × 2
-    ##    informed_by                                n
-    ##    <chr>                                  <int>
-    ##  1 No                                       448
-    ##  2 Yes                                      292
-    ##  3 Some information                           2
-    ##  4 Apart from the follow up at 6 weeks no     1
-    ##  5 As defined by?                             1
-    ##  6 Baby 1/2 MDs-no, baby 3 midwife, yes       1
-    ##  7 Breastfeeding groups                       1
-    ##  8 CO- no. IA- yes.                           1
-    ##  9 Don’t recall but I don’t think so          1
-    ## 10 Don’t remember                             1
-    ## # ℹ 35 more rows
+    ## # A tibble: 44 × 2
+    ##    informed_by                                                                 n
+    ##    <chr>                                                                   <int>
+    ##  1 No                                                                        438
+    ##  2 Yes                                                                       281
+    ##  3 Some information                                                            2
+    ##  4 Apart from the follow up at 6 weeks no                                      1
+    ##  5 As defined by?                                                              1
+    ##  6 Baby 1/2 MDs-no, baby 3 midwife, yes                                        1
+    ##  7 Breastfeeding groups                                                        1
+    ##  8 CO- no. IA- yes.                                                            1
+    ##  9 Don’t recall but I don’t think so                                           1
+    ## 10 I actually can’t remember, if they did, it was instructions for self c…     1
+    ## # ℹ 34 more rows
 
 `Age` clean up:
 
