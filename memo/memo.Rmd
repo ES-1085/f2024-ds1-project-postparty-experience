@@ -1,6 +1,6 @@
 ---
 title: "Project memo"
-author: "Team name"
+author: "Postparty Experience - Tikyra, Emmy, and Willow"
 output: github_document
 ---
 
@@ -9,7 +9,17 @@ This document should contain a detailed account of the data clean up for your da
 ```{r load-packages, message = FALSE}
 library(tidyverse)
 library(broom)
+library(readxl)
 ```
+
+```{r read-in-data}
+# use this part in the proposal
+# write.csv(Postpartum_by_child, "Postpartum_by_child.csv", row.names = FALSE)
+# read_csv("data/Postpartum_by_child.csv")
+
+Postpartum_by_child <- read.csv("Postpartum_by_child.csv")
+```
+
 
 ## Data Clean Up Steps for Overall Data
 
@@ -96,7 +106,9 @@ unique(Postpartum_support_type_clean$support_type)
 ```{r baseline column}
 baseline <- c("Lactation support", "Pelvic floor rehabilitation",  "Emotional support",  "Hospital or office based wellness services and postpartum follow up appointments")
 
-baseline <- c("Lactation support", "Pelvic floor rehabilitation",  "Emotional support",  "Hospital or office based wellness services and postpartum follow up appointments")
+better <- c("")
+
+best <- c("")
 
 baseline_pattern <- "lact|pelv|"
 
