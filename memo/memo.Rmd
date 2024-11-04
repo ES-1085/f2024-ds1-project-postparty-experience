@@ -14,8 +14,7 @@ library(readxl)
 
 ```{r read-in-data}
 # use this part in the proposal
-# write.csv(Postpartum_by_child, "Postpartum_by_child.csv", row.names = FALSE)
-# read_csv("data/Postpartum_by_child.csv")
+
 
 Postpartum_by_child <- read.csv("Postpartum_by_child.csv")
 ```

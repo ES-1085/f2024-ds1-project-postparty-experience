@@ -236,6 +236,10 @@ Postpartum_by_child <- Postpartum_renamed_variables_US |>
    separate_longer_delim(birth_age, delim = ",") # this line of the code makes each birth age a separate entry in the spreadsheet
 ```
 
+```{r write-out-data-for-memo}
+write.csv(Postpartum_by_child, "Postpartum_by_child.csv", row.names = FALSE)
+# read_csv("data/Postpartum_by_child.csv")
+```
 
 Map Draft
 
