@@ -222,56 +222,68 @@ mutate(birth_location = ifelse(birth_location == "At home", "Non-Hospital", birt
   
           mutate(birth_location = ifelse(birth_location == "Hospital, began care at birth center all 3 times & transferred", "Hospital", birth_location)) %>%
   
-  mutate(birth_location = ifelse(birth_location == "Birthing center within a hospital", "Hospital", birth_location))
-```
-
-``` r
-#baseline <- c("Lactation support", "Pelvic floor rehabilitation",  "Emotional support",  "Hospital or office based wellness services and postpartum follow up appointments")
-
-#better <- c("")
-
-#best <- c("")
-
-#baseline_pattern <- "lact|pelv|"
-
-#Postpartum_support_type_clean <- Postpartum_support_type_clean |>
-  #mutate(baseline = case_when(str_detect(support_type, pattern = regex(baseline_pattern, ignore_case = T)) ~ 1,
-                         #    TRUE ~ 0)) 
-
-#Postpartum_support_type_clean <- Postpartum_support_type_clean |>
-  #mutate(baseline = case_when(support_type %in% baseline ~ 1,
-                          #    TRUE ~ 0)) |>
-  #mutate(service_category = case_when(support_type %in% baseline ~ "baseline",
-                            #  TRUE ~ 0)) |>
+  mutate(birth_location = ifelse(birth_location == "Birthing center within a hospital", "Hospital", birth_location)) %>% 
   
- # relocate(baseline, .after = support_type)
-
-#  Postpartum_support_type_clean |>
- # group_by(respondent, birth_age) |>
-#  mutate(support_type_all = str_flatten(support_type, collapse = ", ")) |>
-#  summarize(baseline_score = sum(baseline, na.rm = TRUE))
-#  distinct(respondent, birth_age, .keep_all = TRUE) # we don't need this line, example only
-
-#Postpartum_support_type_clean |>
-# group_by(respondent, birth_age) |>
-#  summarize(baseline_score = sum(baseline, na.rm = TRUE))|>
-#  ungroup() |>
-#  distinct(baseline_score)
+   mutate(birth_location = ifelse(birth_location == "Hospital, Free standing birth center", "NA", birth_location)) %>% 
+  
+    mutate(birth_location = ifelse(birth_location == "Hospital, At home", "NA", birth_location)) %>% 
+  
+  mutate(birth_location = ifelse(birth_location ==  "Hospital, Birth center room in the hospital", "NA", birth_location)) %>% 
+  
+  mutate(birth_location = ifelse(birth_location ==  "Hospital, Car", "NA", birth_location))
 ```
 
-### Step 2: \_\_\_\_\_\_\_\_
+mutate(birth_location = ifelse(birth_location == “Birthing center within
+a hospital”, “Hospital”, birth_location))\`\`\`{r baseline column}
+\#baseline \<- c(“Lactation support”, “Pelvic floor rehabilitation”,
+“Emotional support”, “Hospital or office based wellness services and
+postpartum follow up appointments”)
 
-## Plots
+\#better \<- c(““)
 
-``` r
-# comparing states and support_type
+\#best \<- c(““)
 
-ggplot(Postpartum_support_type_clean, aes(x = support_type, y = state, fill = support_type)) +
-  geom_tile() +
-  scale_fill_viridis_d() +
-  theme_minimal() +
-  labs(title = "Heatmap-Like Plot of Postpartum Support in each US State", x = "Support Type", y = "US State")
-```
+\#baseline_pattern \<- “lact\|pelv\|”
+
+\#Postpartum_support_type_clean \<- Postpartum_support_type_clean \|\>
+\#mutate(baseline = case_when(str_detect(support_type, pattern =
+regex(baseline_pattern, ignore_case = T)) ~ 1, \# TRUE ~ 0))
+
+\#Postpartum_support_type_clean \<- Postpartum_support_type_clean \|\>
+\#mutate(baseline = case_when(support_type %in% baseline ~ 1, \# TRUE ~
+0)) \|\> \#mutate(service_category = case_when(support_type %in%
+baseline ~ “baseline”, \# TRUE ~ 0)) \|\>
+
+\# relocate(baseline, .after = support_type)
+
+# Postpartum_support_type_clean \|\>
+
+\# group_by(respondent, birth_age) \|\> \# mutate(support_type_all =
+str_flatten(support_type, collapse = “,”)) \|\> \#
+summarize(baseline_score = sum(baseline, na.rm = TRUE)) \#
+distinct(respondent, birth_age, .keep_all = TRUE) \# we don’t need this
+line, example only
+
+\#Postpartum_support_type_clean \|\> \# group_by(respondent, birth_age)
+\|\> \# summarize(baseline_score = sum(baseline, na.rm = TRUE))\|\> \#
+ungroup() \|\> \# distinct(baseline_score)
+
+
+
+    ### Step 2: ________
+
+    ## Plots
+
+
+
+    ``` r
+    # comparing states and support_type
+
+    ggplot(Postpartum_support_type_clean, aes(x = support_type, y = state, fill = support_type)) +
+      geom_tile() +
+      scale_fill_viridis_d() +
+      theme_minimal() +
+      labs(title = "Heatmap-Like Plot of Postpartum Support in each US State", x = "Support Type", y = "US State")
 
 ![](memo_files/figure-gfm/heatmap-for-plot-critique-1.png)<!-- -->
 
@@ -303,6 +315,28 @@ ggsave("example-starwars-wide.png", width = 6, height = 4)
 
 These data cleaning sections are optional and depend on if you have some
 data cleaning steps specific to a particular plot
+
+``` r
+#library(openintro)
+#library(countrycode)
+#library(ggpattern)
+#library(ggplot2)
+#library(RColorBrewer)
+
+#Postpartum_support_type_clean %>%
+ 
+  #ggplot(mapping = aes(x = fct_reorder(support_type_clean), fill = birth_location)) +
+  #geom_col_pattern(
+   # aes(pattern = birth_location, fill = birth_location, pattern_fill = birth_location),
+  #  colour                   = 'black', 
+ #   pattern_density          = 0.35, 
+ #   pattern_key_scale_factor = 1.3) +
+#  theme_bw() +
+#  scale_pattern_fill_viridis_d() + 
+#  theme(legend.position = 'none') + 
+ # coord_flip() +
+ # labs(title = "Care Type Frequency", x = "support type", y = "frequency", fill = "hospital/non-hospital") 
+```
 
 #### Final Plot 1
 
