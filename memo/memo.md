@@ -330,7 +330,7 @@ library(ggpattern)
 library(ggplot2)
 library(RColorBrewer)
 
-Postpartum_support_type_clean %>%
+p1 <- Postpartum_support_type_clean |>
   filter(support_type != "NA") %>%
   filter(support_type != "Lactation support, New parent groups - in person") %>%
   ggplot(mapping = aes(x = fct_infreq(support_type), fill = support_type)) +
@@ -344,9 +344,10 @@ Postpartum_support_type_clean %>%
   theme(legend.position = 'none') + 
   coord_flip() +
   labs(title = "Types of Postpartum Care Accessed", subtitle = "In the US Between 2013-2023 by Survey Respondents", x = "Support Type", y = "Frequency", fill = "Birth Location") 
-```
 
-![](memo_files/figure-gfm/care-type-frequency-1.png)<!-- -->
+
+ggsave("example-postpartum-wide.png", width = 10, height = 4)
+```
 
 #### Final Plot 1
 
