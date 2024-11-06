@@ -163,31 +163,33 @@ Postpartum_support_type_clean <- Postpartum_support_longer |>
   mutate(support_type = ifelse(support_type ==" New parent groups - online", "New parent groups - online", support_type)) |>
   mutate(support_type = ifelse(support_type ==" Community meal train or other meal service", "Community meal train or other meal service", support_type)) |>
   mutate(support_type = ifelse(support_type ==" Hospital or office based wellness services and postpartum follow up appointments", "Hospital or office based wellness services and postpartum follow up appointments", support_type)) |>
-  mutate(support_type = ifelse(support_type ==" In-home wellness services and postpartum follow up appointments", "In-home wellness services and postpartum follow up appointments", support_type))
+  mutate(support_type = ifelse(support_type == " In-home wellness services and postpartum follow up appointments", "In-home wellness services and postpartum follow up appointments", support_type)) |>
+  mutate(support_type = ifelse(support_type == "Hospital or office based wellness services and postpartum follow up appointments", "Hospital/office based follow up appointments", support_type)) |>
+  mutate(support_type = ifelse(support_type == "In-home wellness services and postpartum follow up appointments", "In-home follow up appointments", support_type))
 ```
 
 ``` r
 unique(Postpartum_support_type_clean$support_type)
 ```
 
-    ##  [1] "Lactation support"                                                               
-    ##  [2] "Emotional support"                                                               
-    ##  [3] " In-home help with care tasks"                                                   
-    ##  [4] "Hospital or office based wellness services and postpartum follow up appointments"
-    ##  [5] "In-home wellness services and postpartum follow up appointments"                 
-    ##  [6] "Community meal train or other meal service"                                      
-    ##  [7] "New parent groups - in person"                                                   
-    ##  [8] "Massage or chiropractic"                                                         
-    ##  [9] "Acupuncture"                                                                     
-    ## [10] "New parent groups - online"                                                      
-    ## [11] "Pelvic floor rehabilitation"                                                     
-    ## [12] "Grief support"                                                                   
-    ## [13] "NA"                                                                              
-    ## [14] "None of the above"                                                               
-    ## [15] "In-home help with care tasks"                                                    
-    ## [16] "Family support"                                                                  
-    ## [17] "Overnight help"                                                                  
-    ## [18] "Lactation support, New parent groups - in person"                                
+    ##  [1] "Lactation support"                               
+    ##  [2] "Emotional support"                               
+    ##  [3] " In-home help with care tasks"                   
+    ##  [4] "Hospital/office based follow up appointments"    
+    ##  [5] "In-home follow up appointments"                  
+    ##  [6] "Community meal train or other meal service"      
+    ##  [7] "New parent groups - in person"                   
+    ##  [8] "Massage or chiropractic"                         
+    ##  [9] "Acupuncture"                                     
+    ## [10] "New parent groups - online"                      
+    ## [11] "Pelvic floor rehabilitation"                     
+    ## [12] "Grief support"                                   
+    ## [13] "NA"                                              
+    ## [14] "None of the above"                               
+    ## [15] "In-home help with care tasks"                    
+    ## [16] "Family support"                                  
+    ## [17] "Overnight help"                                  
+    ## [18] "Lactation support, New parent groups - in person"
     ## [19] "Other"
 
 ``` r
@@ -234,8 +236,6 @@ mutate(birth_location = ifelse(birth_location == "At home", "Non-Hospital", birt
 ```
 
 ``` r
- #mutate(birth_location = ifelse(birth_location == "Birthing center within a hospital", "Hospital", birth_location))
-
 #baseline <- c("Lactation support", "Pelvic floor rehabilitation",  "Emotional support",  "Hospital or office based wellness services and postpartum follow up appointments")
 
 #better <- c("")
@@ -331,17 +331,19 @@ library(ggplot2)
 library(RColorBrewer)
 
 Postpartum_support_type_clean %>%
-  ggplot(mapping = aes(x = fct_infreq(support_type), fill = birth_location)) +
-  geom_bar_pattern(
-    aes(pattern = birth_location, fill = birth_location, pattern_fill = birth_location),
-    colour                   = 'black', 
-    pattern_density          = 0.35, 
-    pattern_key_scale_factor = 1.3) +
+  filter(support_type != "NA") %>%
+  filter(support_type != "Lactation support, New parent groups - in person") %>%
+  ggplot(mapping = aes(x = fct_infreq(support_type), fill = support_type)) +
+   geom_bar() +
+  #  aes(pattern = birth_location, fill = birth_location, pattern_fill = birth_location),
+   # colour                   = 'black', 
+  #  pattern_density          = 0.35, 
+   # pattern_key_scale_factor = 1.3) +
   theme_bw() +
-  scale_pattern_fill_viridis_d() + 
+  scale_fill_viridis_d() + 
   theme(legend.position = 'none') + 
   coord_flip() +
-  labs(title = "Care Type Frequency", x = "support type", y = "frequency", fill = "hospital/non-hospital") 
+  labs(title = "Types of Postpartum Care Accessed", subtitle = "In the US Between 2013-2023 by Survey Respondents", x = "Support Type", y = "Frequency", fill = "Birth Location") 
 ```
 
 ![](memo_files/figure-gfm/care-type-frequency-1.png)<!-- -->
