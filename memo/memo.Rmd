@@ -141,6 +141,19 @@ unique(Postpartum_support_type_clean$support_type)
 
 ## Plots
 
+
+```{r heatmap-for-plot-critique}
+# comparing states and support_type
+
+ggplot(Postpartum_support_type_clean, aes(x = support_type, y = state, fill = support_type)) +
+  geom_tile() +
+  scale_fill_viridis_d() +
+  theme_minimal() +
+  labs(title = "Heatmap-Like Plot of Postpartum Support in each US State", x = "Support Type", y = "US State")
+
+```
+
+
 ### ggsave example for saving plots
 
 ```{r starwars ggsave example}
