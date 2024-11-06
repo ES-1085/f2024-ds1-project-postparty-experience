@@ -102,6 +102,45 @@ Postpartum_support_type_clean <- Postpartum_support_longer |>
 ```{r recheck-unqiue-entries}
 unique(Postpartum_support_type_clean$support_type)
 ```
+
+```{r birth-location-cleanup}
+Postpartum_support_type_clean <- Postpartum_support_type_clean %>% 
+  
+     mutate(birth_location = ifelse(birth_location == "Hospital, Was supposed to go to birth center", "Hospital", birth_location)) %>%  
+  
+mutate(birth_location = ifelse(birth_location == "At home", "Non-Hospital", birth_location)) %>% 
+  
+       mutate(birth_location = ifelse(birth_location == "Birthing Center attached to hospital", "Non-Hospital", birth_location)) %>% 
+  
+    mutate(birth_location = ifelse(birth_location == "Free standing birth center", "Non-Hospital", birth_location)) %>% 
+  
+       mutate(birth_location = ifelse(birth_location == "At home, I’m our car in an empty church parking lot", "Non-Hospital", birth_location)) %>% 
+  
+       mutate(birth_location = ifelse(birth_location == "Began at a free standing birth center, had to transfer to a midwife center at a hospital", "Hospital", birth_location)) %>% 
+  
+  mutate(birth_location = ifelse(birth_location == "Birthing center attached to a hospital", "Non-Hospital", birth_location)) %>% 
+  
+  mutate(birth_location = ifelse(birth_location == "Planned home birth, transferred to hospital", "Hospital", birth_location)) %>% 
+  
+  mutate(birth_location = ifelse(birth_location == "Free standing birth center, At home", "Non-Hospital", birth_location)) %>% 
+  
+    mutate(birth_location = ifelse(birth_location == "Hospital, Homebirth transfer to hospital csection", "Hospital", birth_location)) %>% 
+  
+  
+      mutate(birth_location = ifelse(birth_location == "Natural birthing center attached to hospital", "Non-Hospital", birth_location)) %>% 
+  
+      mutate(birth_location = ifelse(birth_location == "Hospital based birth center (across a sky bridge)", "Non-Hospital", birth_location)) %>%
+  
+        mutate(birth_location = ifelse(birth_location == "Hospital, Hospital x2", "Hospital", birth_location)) %>% 
+  
+          mutate(birth_location = ifelse(birth_location == "Hospital, began care at birth center all 3 times & transferred", "Hospital", birth_location)) %>%
+  
+  mutate(birth_location = ifelse(birth_location == "Birthing center within a hospital", "Hospital", birth_location))
+  
+```
+
+
+
 ```{r baseline column}
 #baseline <- c("Lactation support", "Pelvic floor rehabilitation",  "Emotional support",  "Hospital or office based wellness services and postpartum follow up appointments")
 
@@ -113,27 +152,27 @@ unique(Postpartum_support_type_clean$support_type)
 
 #Postpartum_support_type_clean <- Postpartum_support_type_clean |>
   #mutate(baseline = case_when(str_detect(support_type, pattern = regex(baseline_pattern, ignore_case = T)) ~ 1,
-                             # TRUE ~ 0)) 
+                         #    TRUE ~ 0)) 
 
 #Postpartum_support_type_clean <- Postpartum_support_type_clean |>
- # mutate(baseline = case_when(support_type %in% baseline ~ 1,
-                            #  TRUE ~ 0)) |>
- # mutate(service_category = case_when(support_type %in% baseline ~ "baseline",
+  #mutate(baseline = case_when(support_type %in% baseline ~ 1,
+                          #    TRUE ~ 0)) |>
+  #mutate(service_category = case_when(support_type %in% baseline ~ "baseline",
                             #  TRUE ~ 0)) |>
   
  # relocate(baseline, .after = support_type)
 
-#Postpartum_support_type_clean |>
+#  Postpartum_support_type_clean |>
  # group_by(respondent, birth_age) |>
-  #mutate(support_type_all = str_flatten(support_type, collapse = ", ")) |>
-  #summarize(baseline_score = sum(baseline, na.rm = TRUE))
-  #distinct(respondent, birth_age, .keep_all = TRUE) # we don't need this line, example only
+#  mutate(support_type_all = str_flatten(support_type, collapse = ", ")) |>
+#  summarize(baseline_score = sum(baseline, na.rm = TRUE))
+#  distinct(respondent, birth_age, .keep_all = TRUE) # we don't need this line, example only
 
 #Postpartum_support_type_clean |>
- # group_by(respondent, birth_age) |>
-  #summarize(baseline_score = sum(baseline, na.rm = TRUE))|>
-  #ungroup() |>
-  #distinct(baseline_score)
+# group_by(respondent, birth_age) |>
+#  summarize(baseline_score = sum(baseline, na.rm = TRUE))|>
+#  ungroup() |>
+#  distinct(baseline_score)
 ```
 
 
