@@ -202,7 +202,7 @@ p2 <- Postpartum_support_type_clean <- Postpartum_support_type_clean |>
   filter(support_type != "Lactation support, New parent groups - in person")
   
 ggplot(Postpartum_support_type_clean, aes(x = support_type, y = state, fill = support_type)) +
-   geom_tile() +
+   geom_tile(alpha = .7) +
   scale_fill_viridis_d() +
   theme_minimal() +
    theme(axis.title.x=element_blank(),
