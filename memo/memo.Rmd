@@ -194,14 +194,25 @@ mutate(birth_location = ifelse(birth_location == "At home", "Non-Hospital", birt
 ## Plots
 
 
-```{r heatmap-for-plot-critique}
+```{r heatmap-like-for-plot-critique}
 # comparing states and support_type
 
+p2 <- Postpartum_support_type_clean <- Postpartum_support_type_clean |>
+  filter(support_type != "NA") |>
+  filter(support_type != "Lactation support, New parent groups - in person")
+  
 ggplot(Postpartum_support_type_clean, aes(x = support_type, y = state, fill = support_type)) +
-  geom_tile() +
+   geom_tile() +
   scale_fill_viridis_d() +
   theme_minimal() +
-  labs(title = "Heatmap-Like Plot of Postpartum Support in each US State", x = "Support Type", y = "US State")
+   theme(axis.title.x=element_blank(),
+        axis.text.x=element_blank(),
+        axis.ticks.x=element_blank()) +
+  theme(axis.text.y=element_blank(),
+        axis.ticks.y=element_blank()) +
+  labs(title = "Heatmap-Like Plot Example", y = "US State", fill = "Support Type")
+
+ggsave("example-tile-heatmap-wide.png", width = 10, height = 5)
 
 ```
 
