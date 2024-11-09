@@ -280,6 +280,33 @@ ggsave("example-postpartum-wide.png", width = 10, height = 4)
 ```
 
 
+```{r wordcloud}
+#install.packages("wordcloud2")
+#install.packages("dplyr")
+#install.packages("tm", dependencies = TRUE, repos = "http://cran.rstudio.com/")
+
+
+#library(wordcloud2)
+#library(dplyr)
+#library(tm) 
+
+#Postpartum_by_child <- read.csv("Postpartum_by_child.csv")
+
+#comments_text <- paste("")
+
+#corpus <- Corpus(VectorSource(comments_text))
+#corpus_clean <- corpus %>%
+ #  tm_map(content_transformer(tolower)) %>% 
+  #tm_map(removePunctuation) %>%
+ # tm_map(removeNumbers) %>% 
+  #tm_map(removeWords, stopwords("en")) %>%
+ # tm_map(stripWhitespace)
+
+#wordcloud2(word_freq_table, size = 0.5, color = "random-light", backgroundColor = "black")
+
+```
+
+
 
 #### Final Plot 1
 

@@ -138,7 +138,7 @@ Postpartum_support_type_clean <- Postpartum_support_longer |>
   mutate(support_type = ifelse(support_type == "", "NA", support_type)) |>
   mutate(support_type = ifelse(support_type == " I probably could have had access to some of the other things on this list but didn't look into it", "None of the above", support_type)) |>
   mutate(support_type = ifelse(support_type == " Doula support", "In-home wellness services and postpartum follow up appointments", support_type)) |>
-  mutate(support_type = ifelse(support_type == " I had access to lactation/new parent group but didn’t have the knowledge to go to them", "Lactation support, New parent groups - in person", support_type)) |>
+  mutate(support_type = ifelse(support_type == " I had access to lactation/new parent group but didn’t have the knowledge to go to them", "Lactation support", support_type)) |>
   mutate(support_type = ifelse(support_type == " Therapy for Anxiety", "Emotional support", support_type)) |>
   mutate(support_type = ifelse(support_type == " 6 week follow up pp with doctor", "Hospital or office based wellness services and postpartum follow up appointments", support_type)) |>
   mutate(support_type = ifelse(support_type == " Lactation support was VERY hard to access", "Lactation support", support_type)) |>
@@ -164,33 +164,36 @@ Postpartum_support_type_clean <- Postpartum_support_longer |>
   mutate(support_type = ifelse(support_type ==" Community meal train or other meal service", "Community meal train or other meal service", support_type)) |>
   mutate(support_type = ifelse(support_type ==" Hospital or office based wellness services and postpartum follow up appointments", "Hospital or office based wellness services and postpartum follow up appointments", support_type)) |>
   mutate(support_type = ifelse(support_type == " In-home wellness services and postpartum follow up appointments", "In-home wellness services and postpartum follow up appointments", support_type)) |>
-  mutate(support_type = ifelse(support_type == "Hospital or office based wellness services and postpartum follow up appointments", "Hospital/office based follow up appointments", support_type)) |>
-  mutate(support_type = ifelse(support_type == "In-home wellness services and postpartum follow up appointments", "In-home follow up appointments", support_type))
+  mutate(support_type = ifelse(support_type == "Hospital or office based wellness services and postpartum follow up appointments", "Hospital/office follow up appointments", support_type)) |>
+  mutate(support_type = ifelse(support_type == " In-home wellness services and postpartum follow up appointments", "In-home follow up appointments", support_type)) |>
+  mutate(support_type = ifelse(support_type == " In-home help with care tasks", "In-home help with care tasks", support_type)) |>
+  mutate(support_type = ifelse(support_type == "Pelvic floor rehabilitation", "Pelvic floor rehab", support_type)) |>
+  mutate(support_type = ifelse(support_type == "New parent groups - in person", "New parent groups", support_type)) |>
+  mutate(support_type = ifelse(support_type == "New parent groups - online", "New parent groups", support_type)) |>
+  mutate(support_type = ifelse(support_type == "In-home wellness services and postpartum follow up appointments", "In-home follow up appointments", support_type)) |>
+  mutate(support_type = ifelse(support_type == "Community meal train or other meal service", "Meal train/meal service", support_type))
 ```
 
 ``` r
 unique(Postpartum_support_type_clean$support_type)
 ```
 
-    ##  [1] "Lactation support"                               
-    ##  [2] "Emotional support"                               
-    ##  [3] " In-home help with care tasks"                   
-    ##  [4] "Hospital/office based follow up appointments"    
-    ##  [5] "In-home follow up appointments"                  
-    ##  [6] "Community meal train or other meal service"      
-    ##  [7] "New parent groups - in person"                   
-    ##  [8] "Massage or chiropractic"                         
-    ##  [9] "Acupuncture"                                     
-    ## [10] "New parent groups - online"                      
-    ## [11] "Pelvic floor rehabilitation"                     
-    ## [12] "Grief support"                                   
-    ## [13] "NA"                                              
-    ## [14] "None of the above"                               
-    ## [15] "In-home help with care tasks"                    
-    ## [16] "Family support"                                  
-    ## [17] "Overnight help"                                  
-    ## [18] "Lactation support, New parent groups - in person"
-    ## [19] "Other"
+    ##  [1] "Lactation support"                     
+    ##  [2] "Emotional support"                     
+    ##  [3] "In-home help with care tasks"          
+    ##  [4] "Hospital/office follow up appointments"
+    ##  [5] "In-home follow up appointments"        
+    ##  [6] "Meal train/meal service"               
+    ##  [7] "New parent groups"                     
+    ##  [8] "Massage or chiropractic"               
+    ##  [9] "Acupuncture"                           
+    ## [10] "Pelvic floor rehab"                    
+    ## [11] "Grief support"                         
+    ## [12] "NA"                                    
+    ## [13] "None of the above"                     
+    ## [14] "Family support"                        
+    ## [15] "Overnight help"                        
+    ## [16] "Other"
 
 ``` r
 Postpartum_support_type_clean <- Postpartum_support_type_clean %>% 
@@ -276,14 +279,26 @@ mutate(birth_location = ifelse(birth_location == "At home", "Non-Hospital", birt
 ``` r
 # comparing states and support_type
 
+p2 <- Postpartum_support_type_clean <- Postpartum_support_type_clean |>
+  filter(support_type != "NA")
+  
 ggplot(Postpartum_support_type_clean, aes(x = support_type, y = state, fill = support_type)) +
-  geom_tile() +
+   geom_tile(alpha = .7) +
   scale_fill_viridis_d() +
   theme_minimal() +
-  labs(title = "Heatmap-Like Plot of Postpartum Support in each US State", x = "Support Type", y = "US State")
+   theme(axis.title.x=element_blank(),
+        axis.text.x=element_blank(),
+        axis.ticks.x=element_blank()) +
+  theme(axis.text.y=element_blank(),
+        axis.ticks.y=element_blank()) +
+  labs(title = "Heatmap-Like Plot Example", y = "US State", fill = "Support Type")
 ```
 
-![](memo_files/figure-gfm/heatmap-for-plot-critique-1.png)<!-- -->
+![](memo_files/figure-gfm/heatmap-like-for-plot-critique-1.png)<!-- -->
+
+``` r
+ggsave("example-tile-heatmap-wide.png", width = 10, height = 5)
+```
 
 ### ggsave example for saving plots
 
@@ -347,6 +362,31 @@ p1 <- Postpartum_support_type_clean |>
 
 
 ggsave("example-postpartum-wide.png", width = 10, height = 4)
+```
+
+``` r
+#install.packages("wordcloud2")
+#install.packages("dplyr")
+#install.packages("tm", dependencies = TRUE, repos = "http://cran.rstudio.com/")
+
+
+#library(wordcloud2)
+#library(dplyr)
+#library(tm) 
+
+#Postpartum_by_child <- read.csv("Postpartum_by_child.csv")
+
+#comments_text <- paste("")
+
+#corpus <- Corpus(VectorSource(comments_text))
+#corpus_clean <- corpus %>%
+ #  tm_map(content_transformer(tolower)) %>% 
+  #tm_map(removePunctuation) %>%
+ # tm_map(removeNumbers) %>% 
+  #tm_map(removeWords, stopwords("en")) %>%
+ # tm_map(stripWhitespace)
+
+#wordcloud2(word_freq_table, size = 0.5, color = "random-light", backgroundColor = "black")
 ```
 
 #### Final Plot 1
