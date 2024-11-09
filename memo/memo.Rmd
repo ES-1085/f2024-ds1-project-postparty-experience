@@ -99,11 +99,11 @@ Postpartum_support_type_clean <- Postpartum_support_longer |>
   mutate(support_type = ifelse(support_type == "Hospital or office based wellness services and postpartum follow up appointments", "Hospital/office follow up appointments", support_type)) |>
   mutate(support_type = ifelse(support_type == " In-home wellness services and postpartum follow up appointments", "In-home follow up appointments", support_type)) |>
   mutate(support_type = ifelse(support_type == " In-home help with care tasks", "In-home help with care tasks", support_type)) |>
-  mutate(support_type = ifelse(support_type == "Pelvic floor rehabilitation", "Pelvic floor rehab", support_type)) |>
+  mutate(support_type = ifelse(support_type == "Pelvic floor rehabilitation", "Pelvic floor PT", support_type)) |>
   mutate(support_type = ifelse(support_type == "New parent groups - in person", "New parent groups", support_type)) |>
   mutate(support_type = ifelse(support_type == "New parent groups - online", "New parent groups", support_type)) |>
   mutate(support_type = ifelse(support_type == "In-home wellness services and postpartum follow up appointments", "In-home follow up appointments", support_type)) |>
-  mutate(support_type = ifelse(support_type == "Community meal train or other meal service", "Meal train/meal service", support_type))
+  mutate(support_type = ifelse(support_type == "Community meal train or other meal service", "Help with meals", support_type))
   
 ```
 
