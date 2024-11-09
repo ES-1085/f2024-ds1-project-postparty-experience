@@ -70,7 +70,7 @@ Postpartum_support_type_clean <- Postpartum_support_longer |>
   mutate(support_type = ifelse(support_type == "", "NA", support_type)) |>
   mutate(support_type = ifelse(support_type == " I probably could have had access to some of the other things on this list but didn't look into it", "None of the above", support_type)) |>
   mutate(support_type = ifelse(support_type == " Doula support", "In-home wellness services and postpartum follow up appointments", support_type)) |>
-  mutate(support_type = ifelse(support_type == " I had access to lactation/new parent group but didn’t have the knowledge to go to them", "Lactation support, New parent groups - in person", support_type)) |>
+  mutate(support_type = ifelse(support_type == " I had access to lactation/new parent group but didn’t have the knowledge to go to them", "Lactation support", support_type)) |>
   mutate(support_type = ifelse(support_type == " Therapy for Anxiety", "Emotional support", support_type)) |>
   mutate(support_type = ifelse(support_type == " 6 week follow up pp with doctor", "Hospital or office based wellness services and postpartum follow up appointments", support_type)) |>
   mutate(support_type = ifelse(support_type == " Lactation support was VERY hard to access", "Lactation support", support_type)) |>
@@ -96,8 +96,14 @@ Postpartum_support_type_clean <- Postpartum_support_longer |>
   mutate(support_type = ifelse(support_type ==" Community meal train or other meal service", "Community meal train or other meal service", support_type)) |>
   mutate(support_type = ifelse(support_type ==" Hospital or office based wellness services and postpartum follow up appointments", "Hospital or office based wellness services and postpartum follow up appointments", support_type)) |>
   mutate(support_type = ifelse(support_type == " In-home wellness services and postpartum follow up appointments", "In-home wellness services and postpartum follow up appointments", support_type)) |>
-  mutate(support_type = ifelse(support_type == "Hospital or office based wellness services and postpartum follow up appointments", "Hospital/office based follow up appointments", support_type)) |>
-  mutate(support_type = ifelse(support_type == "In-home wellness services and postpartum follow up appointments", "In-home follow up appointments", support_type))
+  mutate(support_type = ifelse(support_type == "Hospital or office based wellness services and postpartum follow up appointments", "Hospital/office follow up appointments", support_type)) |>
+  mutate(support_type = ifelse(support_type == " In-home wellness services and postpartum follow up appointments", "In-home follow up appointments", support_type)) |>
+  mutate(support_type = ifelse(support_type == " In-home help with care tasks", "In-home help with care tasks", support_type)) |>
+  mutate(support_type = ifelse(support_type == "Pelvic floor rehabilitation", "Pelvic floor rehab", support_type)) |>
+  mutate(support_type = ifelse(support_type == "New parent groups - in person", "New parent groups", support_type)) |>
+  mutate(support_type = ifelse(support_type == "New parent groups - online", "New parent groups", support_type)) |>
+  mutate(support_type = ifelse(support_type == "In-home wellness services and postpartum follow up appointments", "In-home follow up appointments", support_type)) |>
+  mutate(support_type = ifelse(support_type == "Community meal train or other meal service", "Meal train/meal service", support_type))
   
 ```
 
@@ -198,8 +204,7 @@ mutate(birth_location = ifelse(birth_location == "At home", "Non-Hospital", birt
 # comparing states and support_type
 
 p2 <- Postpartum_support_type_clean <- Postpartum_support_type_clean |>
-  filter(support_type != "NA") |>
-  filter(support_type != "Lactation support, New parent groups - in person")
+  filter(support_type != "NA")
   
 ggplot(Postpartum_support_type_clean, aes(x = support_type, y = state, fill = support_type)) +
    geom_tile(alpha = .7) +
