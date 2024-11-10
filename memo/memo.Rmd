@@ -46,7 +46,7 @@ relocate(first_age, .after = age)
 
 ### Step 2: Cleaning `state`
 
-```{r state-clean-up}
+```{r state-clean-up-names}
 Postpartum <- Postpartum |>
   mutate(state = str_replace(state, "CO", "Colorado")) |>
   mutate(state = str_replace(state, "IA", "Iowa")) |>
@@ -66,6 +66,16 @@ Postpartum <- Postpartum |>
          state != "US",
          state != "USA")
 ```
+
+```{r state-clean-up-first-entry}
+
+#Postpartum <- Postpartum %>% 
+#  mutate(first_state = sub("(,|and|1|/|-|\\(|&)", "", state)) %>% 
+#arrange(first_state) %>% 
+
+#relocate(first_state, .after = state)
+```
+
 
 ### Step 3: Cleaning `support_type`
 

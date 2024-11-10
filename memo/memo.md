@@ -68,6 +68,14 @@ Postpartum <- Postpartum |>
          state != "USA")
 ```
 
+``` r
+#Postpartum <- Postpartum %>% 
+#  mutate(first_state = sub("(,|and|1|/|-|\\(|&)", "", state)) %>% 
+#arrange(first_state) %>% 
+
+#relocate(first_state, .after = state)
+```
+
 ### Step 3: Cleaning `support_type`
 
 ``` r
