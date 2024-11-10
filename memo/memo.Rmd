@@ -367,6 +367,16 @@ cost_not_applicable <- c("Did not know post partum services other than the follo
 
 
 
+### Plot Y
+```{r quality-bar-chart-test}
+# try mutating the group of care types into baseline/good, better, best with | between each care type
+
+#baseline <- c("Lactation support", "Pelvic floor rehabilitation",  "Emotional support",  "Hospital or office based wellness services and postpartum follow up appointments")
+
+#better <- c("")
+
+#best <- c("")
+```
 
 
 
