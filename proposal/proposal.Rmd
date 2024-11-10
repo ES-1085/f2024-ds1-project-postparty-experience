@@ -59,19 +59,19 @@ Postpartum_Experience_renamed_variables <- as_tibble(Postpartum_Experience_Surve
 ```
 
 ```{r excluding-international-entries}
-Postpartum_renamed_variables_US <- Postpartum_Experience_renamed_variables %>%
+Postpartum <- Postpartum_Experience_renamed_variables %>%
   filter(state != "Uk") %>%
   filter(state != "Norway") %>%
   filter(state != "Puerto Rico")
 ```
 
 ```{r dimensions}
-dim(Postpartum_renamed_variables_US)
+dim(Postpartum)
 ```
 Variables: 15
 
 ```{r glimpse}
-glimpse(Postpartum_renamed_variables_US)
+glimpse(Postpartum)
 ```
 
 
@@ -122,6 +122,12 @@ Visualization of filtered age distribution in California
 
 ```{r stringr}
 library(stringr)
+```
+
+```{r write-out-data-for-memo}
+write.csv(Postpartum, "Postpartum.csv", row.names = FALSE)
+
+# read_csv("data/Postpartum.csv")
 ```
 
 ```{r age-numeric-NAs}
@@ -209,12 +215,6 @@ Postpartum_renamed_variables_US |>
  # mutate(birth_age_year = str_replace_all(age, "\\d{4}", replacement = "")) |>
   #mutate(birth_age = map_chr(str_extract_all(birth_age_year, "\\d{2}"),  ~ str_c(.x, collapse = ","))) |> 
    #separate_longer_delim(birth_age, delim = ",") # this line of the code makes each birth age a separate entry in the spreadsheet
-```
-
-```{r write-out-data-for-memo}
-write.csv(Postpartum_by_child, "Postpartum_by_child.csv", row.names = FALSE)
-
-read_csv("data/Postpartum_by_child.csv")
 ```
 
 Map Draft
