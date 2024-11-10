@@ -10,6 +10,15 @@ This document should contain a detailed account of the data clean up for your da
 library(tidyverse)
 library(broom)
 library(readxl)
+
+library(stringr)
+
+
+library(openintro)
+library(countrycode)
+library(ggpattern)
+library(ggplot2)
+library(RColorBrewer)
 ```
 
 ```{r read-in-data}
@@ -23,6 +32,55 @@ Postpartum_by_child <- read.csv("Postpartum_by_child.csv")
 ## Data Clean Up Steps for Overall Data
 
 ### Step 1: _________
+
+```{r first-birth-age}
+age_of_first_birth <- Postpartum_renamed_variables_US %>% 
+  mutate(age_of_first_birth = substr(age, start = 1, stop = 2)) %>% 
+  mutate(age_of_first_birth = if_else(age_of_first_birth == "On", "35", age_of_first_birth)) %>% 
+  mutate(age_of_first_birth = as.numeric(age_of_first_birth)) %>% 
+arrange(age_of_first_birth)
+
+```
+
+```{r cost-factor-cleanup}
+
+yes_cost_a_factor <- c("I received care from friends and family, had I not had that I wouldn’t have been able to afford to pay for postpartum care services","To some extent, but luckily I could afford almost whatever I wanted/needed.","We strongly considered going to a birth center for my first birth, but they did not accept insurance and it was cost prohibitive. I feel we would have had more postpartum support with my first if we had gone that route.","Had already paid max out of pocket w labor","No referral","lactation specialist not covered, couldn’t afford otherwise","I definitely knew to look for support covered by insurance.","Did on seek in home help due to cost", "Did on seek in home help due to cost","Partially. Had i known there was support, I probably couldnt afford it.", "Yes but we had a generous budget and family to help financially","Unsure of question.... did it cost,  some of it did", "It was definitely a luxury to afford therapist and lactation help but anything other than that I viewed as “extra.”", "No doula $", "Yes but not as much as just not knowing it was available", "If I could afford food delivery, laundry service, etc, I would have hired the help!", "Do not have insurance","Cost to an extent but also Covid played a role- birth in December 2019, brought son home from NICU in 2020 and recovery was long into 2020)", "Copays sometimes.", "Yes in terms of acupuncture etc I didn’t budget for it and wish I did", "My husband and I prioritized Postpartum care highly so yes and no")
+
+cost_not_a_factor <- c("It was more not knowing what services I should have had access to. I know more know with Instagram follows.", "No. I just was unaware of the services that might be helpful. If I had another kid I’d invest in more.", "Covid was, not cost", "Not since we hit our deductible", "Main factor was pandemic. 6 week was nearly canceled, counseling went virtual but took months to initiate")
+
+cost_not_applicable <- c("Did not know post partum services other than the follow up appointment were covered services", "Didn’t even know what type of support was available because no one told me!","The pandemic significantly impacted my lack of access to postpartum support, especially in-person support", "I don't know, I wasn't aware of many services")
+
+
+#Postpartum_Experience_renamed_variables_US %>% 
+ # mutate(cost_factor = case_when(cost_factor %in% yes_cost_a_factor ~ "Yes",
+                                     # cost_factor %in% cost_not_a_factor ~ "No",
+                                     # cost_factor %in% cost_not_applicable ~ "N/A",
+       #   TRUE ~ cost_factor))
+
+```
+
+
+```{r state-clean-up}
+Postpartum_renamed_variables_US <- Postpartum_renamed_variables_US |>
+  mutate(state = str_replace(state, "CO", "Colorado")) |>
+  mutate(state = str_replace(state, "IA", "Iowa")) |>
+  mutate(state = str_replace(state, "DC", "District of Columbia")) |>
+  mutate(state = str_replace(state, "TN", "Tennessee")) |>
+  mutate(state = str_replace(state, "MS", "Mississippi")) |>
+  mutate(state = str_replace(state, "Mass", "Massachusetts")) |>
+  mutate(state = str_replace(state, "Massachusettsachusetts", "Massachusetts")) |>
+  mutate(state = str_replace(state, "RI", "Rhode Island")) |>
+  mutate(state = str_replace(state, "NY", "New York")) |>
+  mutate(state = str_replace(state, "Tennesee", "Tennessee")) |>
+
+  #In order to correct specific mistakes/misspellings etc across the data frame.
+#using stringr package  
+
+  filter(state != "United States",
+         state != "US",
+         state != "USA")
+```
+
 
 ```{r rename-answer-with-commas}
 Postpartum_support_type <- Postpartum_by_child |>
@@ -253,12 +311,6 @@ ggsave("example-starwars-wide.png", width = 6, height = 4)
 These data cleaning sections are optional and depend on if you have some data cleaning steps specific to a particular plot
 
 ```{r care-type-frequency }
-
-library(openintro)
-library(countrycode)
-library(ggpattern)
-library(ggplot2)
-library(RColorBrewer)
 
 p1 <- Postpartum_support_type_clean |>
   filter(support_type != "NA") %>%
