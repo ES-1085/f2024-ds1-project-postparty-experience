@@ -13,100 +13,144 @@ the data cleaning steps and graphics in your handout.
 library(tidyverse)
 library(broom)
 library(readxl)
+
+library(stringr)
+
+
+library(openintro)
+library(countrycode)
+library(ggpattern)
+library(ggplot2)
+library(RColorBrewer)
 ```
 
 ``` r
 # use this part in the proposal
 
 
-Postpartum_by_child <- read.csv("Postpartum_by_child.csv")
+Postpartum <- read.csv("Postpartum.csv")
 ```
 
 ## Data Clean Up Steps for Overall Data
 
-### Step 1: \_\_\_\_\_\_\_\_\_
+### Step 1: Cleaning `age`
 
 ``` r
-Postpartum_support_type <- Postpartum_by_child |>
+Postpartum <- Postpartum %>% 
+  mutate(first_age = substr(age, start = 1, stop = 2)) %>% 
+  mutate(first_age = if_else(first_age == "On", "35", first_age)) %>% 
+  mutate(first_age = as.numeric(first_age)) %>% 
+arrange(first_age) %>% 
+
+relocate(first_age, .after = age)
+```
+
+### Step 2: Cleaning `state`
+
+``` r
+Postpartum <- Postpartum |>
+  mutate(state = str_replace(state, "CO", "Colorado")) |>
+  mutate(state = str_replace(state, "IA", "Iowa")) |>
+  mutate(state = str_replace(state, "DC", "District of Columbia")) |>
+  mutate(state = str_replace(state, "TN", "Tennessee")) |>
+  mutate(state = str_replace(state, "MS", "Mississippi")) |>
+  mutate(state = str_replace(state, "Mass", "Massachusetts")) |>
+  mutate(state = str_replace(state, "Massachusettsachusetts", "Massachusetts")) |>
+  mutate(state = str_replace(state, "RI", "Rhode Island")) |>
+  mutate(state = str_replace(state, "NY", "New York")) |>
+  mutate(state = str_replace(state, "Tennesee", "Tennessee")) |>
+
+  #In order to correct specific mistakes/misspellings etc across the data frame.
+#using stringr package  
+
+  filter(state != "United States",
+         state != "US",
+         state != "USA")
+```
+
+### Step 3: Cleaning `support_type`
+
+``` r
+Postpartum <- Postpartum |>
   mutate(support_type = str_replace(support_type, pattern = "In-home help with tasks like laundry, cooking, cleaning, and child care", "In-home help with care tasks")) 
 ```
 
 ``` r
-Postpartum_support_longer <- Postpartum_support_type |>
+Postpartum <- Postpartum |>
   separate_longer_delim(support_type, delim = ",")
 ```
 
 ``` r
-  unique(Postpartum_support_longer$support_type)
+  unique(Postpartum$support_type)
 ```
 
     ##  [1] "Lactation support"                                                                                                                                   
     ##  [2] " Emotional support"                                                                                                                                  
-    ##  [3] " In-home help with care tasks"                                                                                                                       
-    ##  [4] " Hospital or office based wellness services and postpartum follow up appointments"                                                                   
-    ##  [5] " In-home wellness services and postpartum follow up appointments"                                                                                    
-    ##  [6] " Community meal train or other meal service"                                                                                                         
-    ##  [7] " New parent groups - in person"                                                                                                                      
+    ##  [3] " Hospital or office based wellness services and postpartum follow up appointments"                                                                   
+    ##  [4] " Community meal train or other meal service"                                                                                                         
+    ##  [5] " New parent groups - in person"                                                                                                                      
+    ##  [6] " New parent groups - online"                                                                                                                         
+    ##  [7] " In-home help with care tasks"                                                                                                                       
     ##  [8] " Massage or chiropractic"                                                                                                                            
-    ##  [9] " Acupuncture"                                                                                                                                        
-    ## [10] "Emotional support"                                                                                                                                   
-    ## [11] " New parent groups - online"                                                                                                                         
-    ## [12] " Pelvic floor rehabilitation"                                                                                                                        
-    ## [13] " Grief support"                                                                                                                                      
-    ## [14] " Doula. Also"                                                                                                                                        
-    ## [15] " I probably had access to pelvic floor therapy but didn’t know about it in order to access it."                                                      
-    ## [16] " I didn’t attend any of the new parent groups"                                                                                                       
-    ## [17] " but the second hospital I delivered at has a robust new parent program"                                                                             
-    ## [18] "None of the above"                                                                                                                                   
-    ## [19] "In-home help with care tasks"                                                                                                                        
-    ## [20] "Community meal train or other meal service"                                                                                                          
-    ## [21] "New parent groups - online"                                                                                                                          
-    ## [22] "Hospital or office based wellness services and postpartum follow up appointments"                                                                    
-    ## [23] " Mental health therapy"                                                                                                                              
+    ##  [9] "Hospital or office based wellness services and postpartum follow up appointments"                                                                    
+    ## [10] " Pelvic floor rehabilitation"                                                                                                                        
+    ## [11] "Emotional support"                                                                                                                                   
+    ## [12] "None of the above"                                                                                                                                   
+    ## [13] " In-home wellness services and postpartum follow up appointments"                                                                                    
+    ## [14] " 1 PP appointment at 6 weeks"                                                                                                                        
+    ## [15] "In-home help with care tasks"                                                                                                                        
+    ## [16] ""                                                                                                                                                    
+    ## [17] " Besides my required postpartum checkup and family care"                                                                                             
+    ## [18] " I didn't really receive support. I know my pediatrician has lactation services but I didn't need."                                                  
+    ## [19] "Community meal train or other meal service"                                                                                                          
+    ## [20] " Grief support"                                                                                                                                      
+    ## [21] " Baby was in NICU so we also had access to a social worker and classes with fellow nicu parents on development/feeding/etc"                          
+    ## [22] " Acupuncture"                                                                                                                                        
+    ## [23] " 6 week follow up pp with doctor"                                                                                                                    
     ## [24] " Family"                                                                                                                                             
-    ## [25] " Therapist but not specializing in postpartum concerns"                                                                                              
-    ## [26] " Nighttime support night nurse"                                                                                                                      
-    ## [27] " 1x nurse check-in over phone (through hospital)"                                                                                                    
-    ## [28] " Lactation support was VERY hard to access"                                                                                                          
-    ## [29] "Pelvic floor rehabilitation"                                                                                                                         
-    ## [30] " 6 week follow up pp with doctor"                                                                                                                    
-    ## [31] " Therapy for Anxiety"                                                                                                                                
-    ## [32] " I had access to lactation/new parent group but didn’t have the knowledge to go to them"                                                             
-    ## [33] " I probably could have had access to some of the other things on this list but didn't look into it"                                                  
-    ## [34] ""                                                                                                                                                    
-    ## [35] " Ped PT and dentist for tie release + torticollis (for LO but her care is critical to my well being + BF journey)"                                   
-    ## [36] " None of the above"                                                                                                                                  
-    ## [37] " Had to seek out lactation help on my own"                                                                                                           
-    ## [38] " the process wasn’t easy or clear. After my 6-week checkup"                                                                                          
-    ## [39] " most of my concerns were ignored by my ob."                                                                                                         
-    ## [40] " Except for my second  was born March 2020. I had no follow up"                                                                                      
-    ## [41] "Gave birth in 2020. Everything I thought I’d have access to was shut down"                                                                           
-    ## [42] " One postpartum appointment with my OBGYN"                                                                                                           
-    ## [43] " Lactation support was virtual only due to pandemic"                                                                                                 
-    ## [44] " Stay at home spouse"                                                                                                                                
-    ## [45] " Postpartum doula and a night doula"                                                                                                                 
-    ## [46] " Lactation support pre-covid. Post covid nothing in hospital"                                                                                        
-    ## [47] " Baby was in NICU so we also had access to a social worker and classes with fellow nicu parents on development/feeding/etc"                          
-    ## [48] " Ovia Parenting App coaches"                                                                                                                         
-    ## [49] " Some of these were offered but not helpful. Saw a behaviorist bc my dad died right before birth but they just said I “seemed fine” and were no help"
-    ## [50] " Besides my required postpartum checkup and family care"                                                                                             
-    ## [51] " I didn't really receive support. I know my pediatrician has lactation services but I didn't need."                                                  
-    ## [52] " Home visiting (Maine Families and public health nursing)"                                                                                           
-    ## [53] " Postpartum doula"                                                                                                                                   
-    ## [54] " Therapy (for PPD with second kid)"                                                                                                                  
-    ## [55] " In—home baby education"                                                                                                                             
-    ## [56] " Virtual postpartum follow up visits due to COVID"                                                                                                   
-    ## [57] " 1 PP appointment at 6 weeks"                                                                                                                        
-    ## [58] "Yes there was a postpartum follow up but didnt seem like she did nuch other than repeat what she was reading off a pamphlet."                        
-    ## [59] " As a note"                                                                                                                                          
-    ## [60] " any supports I had access to I had to find myself."                                                                                                 
-    ## [61] " My partner was incredibly helpful. He handled all of the emotional support and meal and house prep and cleaning. However"                           
-    ## [62] " we didn’t have anyone else and I often wished we had someone to hold the both of us while we bonded with our baby."                                 
-    ## [63] " follow-up appointment with midwife; overnight doula (1 night per week)"                                                                             
-    ## [64] " Mommy and me yoga and classes"
+    ## [25] " Lactation support was VERY hard to access"                                                                                                          
+    ## [26] "New parent groups - online"                                                                                                                          
+    ## [27] "Pelvic floor rehabilitation"                                                                                                                         
+    ## [28] " Except for my second  was born March 2020. I had no follow up"                                                                                      
+    ## [29] " Lactation support pre-covid. Post covid nothing in hospital"                                                                                        
+    ## [30] " Home visiting (Maine Families and public health nursing)"                                                                                           
+    ## [31] " As a note"                                                                                                                                          
+    ## [32] " any supports I had access to I had to find myself."                                                                                                 
+    ## [33] " My partner was incredibly helpful. He handled all of the emotional support and meal and house prep and cleaning. However"                           
+    ## [34] " we didn’t have anyone else and I often wished we had someone to hold the both of us while we bonded with our baby."                                 
+    ## [35] " I had access to lactation/new parent group but didn’t have the knowledge to go to them"                                                             
+    ## [36] " One postpartum appointment with my OBGYN"                                                                                                           
+    ## [37] " Postpartum doula"                                                                                                                                   
+    ## [38] " Virtual postpartum follow up visits due to COVID"                                                                                                   
+    ## [39] " I didn’t attend any of the new parent groups"                                                                                                       
+    ## [40] " but the second hospital I delivered at has a robust new parent program"                                                                             
+    ## [41] " I probably could have had access to some of the other things on this list but didn't look into it"                                                  
+    ## [42] "Gave birth in 2020. Everything I thought I’d have access to was shut down"                                                                           
+    ## [43] " Ovia Parenting App coaches"                                                                                                                         
+    ## [44] " Lactation support was virtual only due to pandemic"                                                                                                 
+    ## [45] " Some of these were offered but not helpful. Saw a behaviorist bc my dad died right before birth but they just said I “seemed fine” and were no help"
+    ## [46] " In—home baby education"                                                                                                                             
+    ## [47] "Yes there was a postpartum follow up but didnt seem like she did nuch other than repeat what she was reading off a pamphlet."                        
+    ## [48] " Mommy and me yoga and classes"                                                                                                                      
+    ## [49] " Had to seek out lactation help on my own"                                                                                                           
+    ## [50] " the process wasn’t easy or clear. After my 6-week checkup"                                                                                          
+    ## [51] " most of my concerns were ignored by my ob."                                                                                                         
+    ## [52] " None of the above"                                                                                                                                  
+    ## [53] " Therapy (for PPD with second kid)"                                                                                                                  
+    ## [54] " Mental health therapy"                                                                                                                              
+    ## [55] " Therapist but not specializing in postpartum concerns"                                                                                              
+    ## [56] " Ped PT and dentist for tie release + torticollis (for LO but her care is critical to my well being + BF journey)"                                   
+    ## [57] " Postpartum doula and a night doula"                                                                                                                 
+    ## [58] " Therapy for Anxiety"                                                                                                                                
+    ## [59] " Stay at home spouse"                                                                                                                                
+    ## [60] " 1x nurse check-in over phone (through hospital)"                                                                                                    
+    ## [61] " follow-up appointment with midwife; overnight doula (1 night per week)"                                                                             
+    ## [62] " Nighttime support night nurse"                                                                                                                      
+    ## [63] " Doula. Also"                                                                                                                                        
+    ## [64] " I probably had access to pelvic floor therapy but didn’t know about it in order to access it."
 
 ``` r
-Postpartum_support_type_clean <- Postpartum_support_longer |>
+Postpartum <- Postpartum|>
   mutate(support_type = ifelse(support_type == " Mommy and me yoga and classes", "Other", support_type)) |>
   mutate(support_type = ifelse(support_type == " follow-up appointment with midwife; overnight doula (1 night per week)", "In-home wellness services and postpartum follow up appointments", support_type)) |>
   mutate(support_type = ifelse(support_type == " we didn’t have anyone else and I often wished we had someone to hold the both of us while we bonded with our baby.", "None of the above", support_type)) |>
@@ -167,74 +211,56 @@ Postpartum_support_type_clean <- Postpartum_support_longer |>
   mutate(support_type = ifelse(support_type == "Hospital or office based wellness services and postpartum follow up appointments", "Hospital/office follow up appointments", support_type)) |>
   mutate(support_type = ifelse(support_type == " In-home wellness services and postpartum follow up appointments", "In-home follow up appointments", support_type)) |>
   mutate(support_type = ifelse(support_type == " In-home help with care tasks", "In-home help with care tasks", support_type)) |>
-  mutate(support_type = ifelse(support_type == "Pelvic floor rehabilitation", "Pelvic floor rehab", support_type)) |>
+  mutate(support_type = ifelse(support_type == "Pelvic floor rehabilitation", "Pelvic floor PT", support_type)) |>
   mutate(support_type = ifelse(support_type == "New parent groups - in person", "New parent groups", support_type)) |>
   mutate(support_type = ifelse(support_type == "New parent groups - online", "New parent groups", support_type)) |>
   mutate(support_type = ifelse(support_type == "In-home wellness services and postpartum follow up appointments", "In-home follow up appointments", support_type)) |>
-  mutate(support_type = ifelse(support_type == "Community meal train or other meal service", "Meal train/meal service", support_type))
+  mutate(support_type = ifelse(support_type == "Community meal train or other meal service", "Help with meals", support_type))
 ```
 
 ``` r
-unique(Postpartum_support_type_clean$support_type)
+unique(Postpartum$support_type)
 ```
 
     ##  [1] "Lactation support"                     
     ##  [2] "Emotional support"                     
-    ##  [3] "In-home help with care tasks"          
-    ##  [4] "Hospital/office follow up appointments"
-    ##  [5] "In-home follow up appointments"        
-    ##  [6] "Meal train/meal service"               
-    ##  [7] "New parent groups"                     
-    ##  [8] "Massage or chiropractic"               
-    ##  [9] "Acupuncture"                           
-    ## [10] "Pelvic floor rehab"                    
-    ## [11] "Grief support"                         
-    ## [12] "NA"                                    
-    ## [13] "None of the above"                     
+    ##  [3] "Hospital/office follow up appointments"
+    ##  [4] "Help with meals"                       
+    ##  [5] "New parent groups"                     
+    ##  [6] "In-home help with care tasks"          
+    ##  [7] "Massage or chiropractic"               
+    ##  [8] "Pelvic floor PT"                       
+    ##  [9] "None of the above"                     
+    ## [10] "In-home follow up appointments"        
+    ## [11] "NA"                                    
+    ## [12] "Grief support"                         
+    ## [13] "Acupuncture"                           
     ## [14] "Family support"                        
-    ## [15] "Overnight help"                        
-    ## [16] "Other"
+    ## [15] "Other"                                 
+    ## [16] "Overnight help"
+
+### Step 4: Cleaning `birth_location`
 
 ``` r
-Postpartum_support_type_clean <- Postpartum_support_type_clean %>% 
-  
-     mutate(birth_location = ifelse(birth_location == "Hospital, Was supposed to go to birth center", "Hospital", birth_location)) %>%  
-  
-mutate(birth_location = ifelse(birth_location == "At home", "Non-Hospital", birth_location)) %>% 
-  
-       mutate(birth_location = ifelse(birth_location == "Birthing Center attached to hospital", "Non-Hospital", birth_location)) %>% 
-  
-    mutate(birth_location = ifelse(birth_location == "Free standing birth center", "Non-Hospital", birth_location)) %>% 
-  
-       mutate(birth_location = ifelse(birth_location == "At home, I’m our car in an empty church parking lot", "Non-Hospital", birth_location)) %>% 
-  
-       mutate(birth_location = ifelse(birth_location == "Began at a free standing birth center, had to transfer to a midwife center at a hospital", "Hospital", birth_location)) %>% 
-  
+Postpartum <- Postpartum %>% 
+  mutate(birth_location = ifelse(birth_location == "Hospital, Was supposed to go to birth center", "Hospital", birth_location)) %>%  
+  mutate(birth_location = ifelse(birth_location == "At home", "Non-Hospital", birth_location)) %>% 
+  mutate(birth_location = ifelse(birth_location == "Birthing Center attached to hospital", "Non-Hospital", birth_location)) %>% 
+  mutate(birth_location = ifelse(birth_location == "Free standing birth center", "Non-Hospital", birth_location)) %>% 
+  mutate(birth_location = ifelse(birth_location == "At home, I’m our car in an empty church parking lot", "Non-Hospital", birth_location)) %>% 
+  mutate(birth_location = ifelse(birth_location == "Began at a free standing birth center, had to transfer to a midwife center at a hospital", "Hospital", birth_location)) %>% 
   mutate(birth_location = ifelse(birth_location == "Birthing center attached to a hospital", "Non-Hospital", birth_location)) %>% 
-  
   mutate(birth_location = ifelse(birth_location == "Planned home birth, transferred to hospital", "Hospital", birth_location)) %>% 
-  
   mutate(birth_location = ifelse(birth_location == "Free standing birth center, At home", "Non-Hospital", birth_location)) %>% 
-  
-    mutate(birth_location = ifelse(birth_location == "Hospital, Homebirth transfer to hospital csection", "Hospital", birth_location)) %>% 
-  
-  
-      mutate(birth_location = ifelse(birth_location == "Natural birthing center attached to hospital", "Non-Hospital", birth_location)) %>% 
-  
-      mutate(birth_location = ifelse(birth_location == "Hospital based birth center (across a sky bridge)", "Non-Hospital", birth_location)) %>%
-  
-        mutate(birth_location = ifelse(birth_location == "Hospital, Hospital x2", "Hospital", birth_location)) %>% 
-  
-          mutate(birth_location = ifelse(birth_location == "Hospital, began care at birth center all 3 times & transferred", "Hospital", birth_location)) %>%
-  
+  mutate(birth_location = ifelse(birth_location == "Hospital, Homebirth transfer to hospital csection", "Hospital", birth_location)) %>% 
+  mutate(birth_location = ifelse(birth_location == "Natural birthing center attached to hospital", "Non-Hospital", birth_location)) %>% 
+  mutate(birth_location = ifelse(birth_location == "Hospital based birth center (across a sky bridge)", "Non-Hospital", birth_location)) %>%
+  mutate(birth_location = ifelse(birth_location == "Hospital, Hospital x2", "Hospital", birth_location)) %>% 
+  mutate(birth_location = ifelse(birth_location == "Hospital, began care at birth center all 3 times & transferred", "Hospital", birth_location)) %>%
   mutate(birth_location = ifelse(birth_location == "Birthing center within a hospital", "Hospital", birth_location)) %>% 
-  
-   mutate(birth_location = ifelse(birth_location == "Hospital, Free standing birth center", "NA", birth_location)) %>% 
-  
-    mutate(birth_location = ifelse(birth_location == "Hospital, At home", "NA", birth_location)) %>% 
-  
+  mutate(birth_location = ifelse(birth_location == "Hospital, Free standing birth center", "NA", birth_location)) %>% 
+  mutate(birth_location = ifelse(birth_location == "Hospital, At home", "NA", birth_location)) %>% 
   mutate(birth_location = ifelse(birth_location ==  "Hospital, Birth center room in the hospital", "NA", birth_location)) %>% 
-  
   mutate(birth_location = ifelse(birth_location ==  "Hospital, Car", "NA", birth_location))
 ```
 
@@ -272,33 +298,7 @@ mutate(birth_location = ifelse(birth_location == "At home", "Non-Hospital", birt
 #  distinct(baseline_score)
 ```
 
-### Step 2: \_\_\_\_\_\_\_\_
-
 ## Plots
-
-``` r
-# comparing states and support_type
-
-p2 <- Postpartum_support_type_clean <- Postpartum_support_type_clean |>
-  filter(support_type != "NA")
-  
-ggplot(Postpartum_support_type_clean, aes(x = support_type, y = state, fill = support_type)) +
-   geom_tile(alpha = .7) +
-  scale_fill_viridis_d() +
-  theme_minimal() +
-   theme(axis.title.x=element_blank(),
-        axis.text.x=element_blank(),
-        axis.ticks.x=element_blank()) +
-  theme(axis.text.y=element_blank(),
-        axis.ticks.y=element_blank()) +
-  labs(title = "Heatmap-Like Plot Example", y = "US State", fill = "Support Type")
-```
-
-![](memo_files/figure-gfm/heatmap-like-for-plot-critique-1.png)<!-- -->
-
-``` r
-ggsave("example-tile-heatmap-wide.png", width = 10, height = 5)
-```
 
 ### ggsave example for saving plots
 
@@ -322,7 +322,7 @@ ggsave("example-starwars.png", width = 4, height = 4)
 ggsave("example-starwars-wide.png", width = 6, height = 4)
 ```
 
-### Plot 1: \_\_\_\_\_\_\_\_\_
+### Plot 1: Bar chart
 
 #### Data cleanup steps specific to plot 1
 
@@ -330,22 +330,7 @@ These data cleaning sections are optional and depend on if you have some
 data cleaning steps specific to a particular plot
 
 ``` r
-library(openintro)
-```
-
-    ## Loading required package: airports
-
-    ## Loading required package: cherryblossom
-
-    ## Loading required package: usdata
-
-``` r
-library(countrycode)
-library(ggpattern)
-library(ggplot2)
-library(RColorBrewer)
-
-p1 <- Postpartum_support_type_clean |>
+p1 <- Postpartum |>
   filter(support_type != "NA") %>%
   filter(support_type != "Lactation support, New parent groups - in person") %>%
   ggplot(mapping = aes(x = fct_infreq(support_type), fill = support_type)) +
@@ -364,6 +349,10 @@ p1 <- Postpartum_support_type_clean |>
 ggsave("example-postpartum-wide.png", width = 10, height = 4)
 ```
 
+### Plot 2: Wordcloud
+
+#### Data cleanup steps specific to plot 2
+
 ``` r
 #install.packages("wordcloud2")
 #install.packages("dplyr")
@@ -373,8 +362,6 @@ ggsave("example-postpartum-wide.png", width = 10, height = 4)
 #library(wordcloud2)
 #library(dplyr)
 #library(tm) 
-
-#Postpartum_by_child <- read.csv("Postpartum_by_child.csv")
 
 #comments_text <- paste("")
 
@@ -387,6 +374,53 @@ ggsave("example-postpartum-wide.png", width = 10, height = 4)
  # tm_map(stripWhitespace)
 
 #wordcloud2(word_freq_table, size = 0.5, color = "random-light", backgroundColor = "black")
+```
+
+### Plot 3: Heat map
+
+#### Data cleanup steps specific to plot 3
+
+``` r
+# comparing states and support_type
+
+p2 <- Postpartum <- Postpartum |>
+  filter(support_type != "NA")
+  
+ggplot(Postpartum, aes(x = support_type, y = state, fill = support_type)) +
+   geom_tile(alpha = .7) +
+  scale_fill_viridis_d() +
+  theme_minimal() +
+   theme(axis.title.x=element_blank(),
+        axis.text.x=element_blank(),
+        axis.ticks.x=element_blank()) +
+  theme(axis.text.y=element_blank(),
+        axis.ticks.y=element_blank()) +
+  labs(title = "Heatmap-Like Plot Example", y = "US State", fill = "Support Type")
+```
+
+![](memo_files/figure-gfm/heatmap-like-for-plot-critique-1.png)<!-- -->
+
+``` r
+ggsave("example-tile-heatmap-wide.png", width = 10, height = 5)
+```
+
+### Plot X: \_\_\_\_\_\_\_\_\_
+
+#### Data cleanup steps specific to plot X
+
+``` r
+yes_cost_a_factor <- c("I received care from friends and family, had I not had that I wouldn’t have been able to afford to pay for postpartum care services","To some extent, but luckily I could afford almost whatever I wanted/needed.","We strongly considered going to a birth center for my first birth, but they did not accept insurance and it was cost prohibitive. I feel we would have had more postpartum support with my first if we had gone that route.","Had already paid max out of pocket w labor","No referral","lactation specialist not covered, couldn’t afford otherwise","I definitely knew to look for support covered by insurance.","Did on seek in home help due to cost", "Did on seek in home help due to cost","Partially. Had i known there was support, I probably couldnt afford it.", "Yes but we had a generous budget and family to help financially","Unsure of question.... did it cost,  some of it did", "It was definitely a luxury to afford therapist and lactation help but anything other than that I viewed as “extra.”", "No doula $", "Yes but not as much as just not knowing it was available", "If I could afford food delivery, laundry service, etc, I would have hired the help!", "Do not have insurance","Cost to an extent but also Covid played a role- birth in December 2019, brought son home from NICU in 2020 and recovery was long into 2020)", "Copays sometimes.", "Yes in terms of acupuncture etc I didn’t budget for it and wish I did", "My husband and I prioritized Postpartum care highly so yes and no")
+
+cost_not_a_factor <- c("It was more not knowing what services I should have had access to. I know more know with Instagram follows.", "No. I just was unaware of the services that might be helpful. If I had another kid I’d invest in more.", "Covid was, not cost", "Not since we hit our deductible", "Main factor was pandemic. 6 week was nearly canceled, counseling went virtual but took months to initiate")
+
+cost_not_applicable <- c("Did not know post partum services other than the follow up appointment were covered services", "Didn’t even know what type of support was available because no one told me!","The pandemic significantly impacted my lack of access to postpartum support, especially in-person support", "I don't know, I wasn't aware of many services")
+
+
+#Postpartum_Experience_renamed_variables_US %>% 
+ # mutate(cost_factor = case_when(cost_factor %in% yes_cost_a_factor ~ "Yes",
+                                     # cost_factor %in% cost_not_a_factor ~ "No",
+                                     # cost_factor %in% cost_not_applicable ~ "N/A",
+       #   TRUE ~ cost_factor))
 ```
 
 #### Final Plot 1

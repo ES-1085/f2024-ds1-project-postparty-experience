@@ -31,37 +31,23 @@ Postpartum <- read.csv("Postpartum.csv")
 
 ## Data Clean Up Steps for Overall Data
 
-### Step 1: _________
+### Step 1: Cleaning `age`
 
 ```{r first-birth-age}
-age_of_first_birth <- Postpartum_renamed_variables_US %>% 
-  mutate(age_of_first_birth = substr(age, start = 1, stop = 2)) %>% 
-  mutate(age_of_first_birth = if_else(age_of_first_birth == "On", "35", age_of_first_birth)) %>% 
-  mutate(age_of_first_birth = as.numeric(age_of_first_birth)) %>% 
-arrange(age_of_first_birth)
+Postpartum <- Postpartum %>% 
+  mutate(first_age = substr(age, start = 1, stop = 2)) %>% 
+  mutate(first_age = if_else(first_age == "On", "35", first_age)) %>% 
+  mutate(first_age = as.numeric(first_age)) %>% 
+arrange(first_age) %>% 
+
+relocate(first_age, .after = age)
 
 ```
 
-```{r cost-factor-cleanup}
-
-yes_cost_a_factor <- c("I received care from friends and family, had I not had that I wouldn’t have been able to afford to pay for postpartum care services","To some extent, but luckily I could afford almost whatever I wanted/needed.","We strongly considered going to a birth center for my first birth, but they did not accept insurance and it was cost prohibitive. I feel we would have had more postpartum support with my first if we had gone that route.","Had already paid max out of pocket w labor","No referral","lactation specialist not covered, couldn’t afford otherwise","I definitely knew to look for support covered by insurance.","Did on seek in home help due to cost", "Did on seek in home help due to cost","Partially. Had i known there was support, I probably couldnt afford it.", "Yes but we had a generous budget and family to help financially","Unsure of question.... did it cost,  some of it did", "It was definitely a luxury to afford therapist and lactation help but anything other than that I viewed as “extra.”", "No doula $", "Yes but not as much as just not knowing it was available", "If I could afford food delivery, laundry service, etc, I would have hired the help!", "Do not have insurance","Cost to an extent but also Covid played a role- birth in December 2019, brought son home from NICU in 2020 and recovery was long into 2020)", "Copays sometimes.", "Yes in terms of acupuncture etc I didn’t budget for it and wish I did", "My husband and I prioritized Postpartum care highly so yes and no")
-
-cost_not_a_factor <- c("It was more not knowing what services I should have had access to. I know more know with Instagram follows.", "No. I just was unaware of the services that might be helpful. If I had another kid I’d invest in more.", "Covid was, not cost", "Not since we hit our deductible", "Main factor was pandemic. 6 week was nearly canceled, counseling went virtual but took months to initiate")
-
-cost_not_applicable <- c("Did not know post partum services other than the follow up appointment were covered services", "Didn’t even know what type of support was available because no one told me!","The pandemic significantly impacted my lack of access to postpartum support, especially in-person support", "I don't know, I wasn't aware of many services")
-
-
-#Postpartum_Experience_renamed_variables_US %>% 
- # mutate(cost_factor = case_when(cost_factor %in% yes_cost_a_factor ~ "Yes",
-                                     # cost_factor %in% cost_not_a_factor ~ "No",
-                                     # cost_factor %in% cost_not_applicable ~ "N/A",
-       #   TRUE ~ cost_factor))
-
-```
-
+### Step 2: Cleaning `state`
 
 ```{r state-clean-up}
-Postpartum_renamed_variables_US <- Postpartum_renamed_variables_US |>
+Postpartum <- Postpartum |>
   mutate(state = str_replace(state, "CO", "Colorado")) |>
   mutate(state = str_replace(state, "IA", "Iowa")) |>
   mutate(state = str_replace(state, "DC", "District of Columbia")) |>
@@ -81,22 +67,25 @@ Postpartum_renamed_variables_US <- Postpartum_renamed_variables_US |>
          state != "USA")
 ```
 
+### Step 3: Cleaning `support_type`
 
 ```{r rename-answer-with-commas}
-Postpartum_support_type <- Postpartum_by_child |>
+Postpartum <- Postpartum |>
   mutate(support_type = str_replace(support_type, pattern = "In-home help with tasks like laundry, cooking, cleaning, and child care", "In-home help with care tasks")) 
 ```
 
+
 ```{r support-type-separate-longer}
-Postpartum_support_longer <- Postpartum_support_type |>
+Postpartum <- Postpartum |>
   separate_longer_delim(support_type, delim = ",")
 ```
+
 ```{r unique-support-types}
-  unique(Postpartum_support_longer$support_type)
+  unique(Postpartum$support_type)
 ```
 
 ```{r rename-support_type-open-ended-responses}
-Postpartum_support_type_clean <- Postpartum_support_longer |>
+Postpartum <- Postpartum|>
   mutate(support_type = ifelse(support_type == " Mommy and me yoga and classes", "Other", support_type)) |>
   mutate(support_type = ifelse(support_type == " follow-up appointment with midwife; overnight doula (1 night per week)", "In-home wellness services and postpartum follow up appointments", support_type)) |>
   mutate(support_type = ifelse(support_type == " we didn’t have anyone else and I often wished we had someone to hold the both of us while we bonded with our baby.", "None of the above", support_type)) |>
@@ -166,52 +155,33 @@ Postpartum_support_type_clean <- Postpartum_support_longer |>
 ```
 
 ```{r recheck-unqiue-entries}
-unique(Postpartum_support_type_clean$support_type)
+unique(Postpartum$support_type)
 ```
 
 
+### Step 4: Cleaning `birth_location`
+
 ```{r birth-location-cleanup}
 
-
-Postpartum_support_type_clean <- Postpartum_support_type_clean %>% 
-  
-     mutate(birth_location = ifelse(birth_location == "Hospital, Was supposed to go to birth center", "Hospital", birth_location)) %>%  
-  
-mutate(birth_location = ifelse(birth_location == "At home", "Non-Hospital", birth_location)) %>% 
-  
-       mutate(birth_location = ifelse(birth_location == "Birthing Center attached to hospital", "Non-Hospital", birth_location)) %>% 
-  
-    mutate(birth_location = ifelse(birth_location == "Free standing birth center", "Non-Hospital", birth_location)) %>% 
-  
-       mutate(birth_location = ifelse(birth_location == "At home, I’m our car in an empty church parking lot", "Non-Hospital", birth_location)) %>% 
-  
-       mutate(birth_location = ifelse(birth_location == "Began at a free standing birth center, had to transfer to a midwife center at a hospital", "Hospital", birth_location)) %>% 
-  
+Postpartum <- Postpartum %>% 
+  mutate(birth_location = ifelse(birth_location == "Hospital, Was supposed to go to birth center", "Hospital", birth_location)) %>%  
+  mutate(birth_location = ifelse(birth_location == "At home", "Non-Hospital", birth_location)) %>% 
+  mutate(birth_location = ifelse(birth_location == "Birthing Center attached to hospital", "Non-Hospital", birth_location)) %>% 
+  mutate(birth_location = ifelse(birth_location == "Free standing birth center", "Non-Hospital", birth_location)) %>% 
+  mutate(birth_location = ifelse(birth_location == "At home, I’m our car in an empty church parking lot", "Non-Hospital", birth_location)) %>% 
+  mutate(birth_location = ifelse(birth_location == "Began at a free standing birth center, had to transfer to a midwife center at a hospital", "Hospital", birth_location)) %>% 
   mutate(birth_location = ifelse(birth_location == "Birthing center attached to a hospital", "Non-Hospital", birth_location)) %>% 
-  
   mutate(birth_location = ifelse(birth_location == "Planned home birth, transferred to hospital", "Hospital", birth_location)) %>% 
-  
   mutate(birth_location = ifelse(birth_location == "Free standing birth center, At home", "Non-Hospital", birth_location)) %>% 
-  
-    mutate(birth_location = ifelse(birth_location == "Hospital, Homebirth transfer to hospital csection", "Hospital", birth_location)) %>% 
-  
-  
-      mutate(birth_location = ifelse(birth_location == "Natural birthing center attached to hospital", "Non-Hospital", birth_location)) %>% 
-  
-      mutate(birth_location = ifelse(birth_location == "Hospital based birth center (across a sky bridge)", "Non-Hospital", birth_location)) %>%
-  
-        mutate(birth_location = ifelse(birth_location == "Hospital, Hospital x2", "Hospital", birth_location)) %>% 
-  
-          mutate(birth_location = ifelse(birth_location == "Hospital, began care at birth center all 3 times & transferred", "Hospital", birth_location)) %>%
-  
+  mutate(birth_location = ifelse(birth_location == "Hospital, Homebirth transfer to hospital csection", "Hospital", birth_location)) %>% 
+  mutate(birth_location = ifelse(birth_location == "Natural birthing center attached to hospital", "Non-Hospital", birth_location)) %>% 
+  mutate(birth_location = ifelse(birth_location == "Hospital based birth center (across a sky bridge)", "Non-Hospital", birth_location)) %>%
+  mutate(birth_location = ifelse(birth_location == "Hospital, Hospital x2", "Hospital", birth_location)) %>% 
+  mutate(birth_location = ifelse(birth_location == "Hospital, began care at birth center all 3 times & transferred", "Hospital", birth_location)) %>%
   mutate(birth_location = ifelse(birth_location == "Birthing center within a hospital", "Hospital", birth_location)) %>% 
-  
-   mutate(birth_location = ifelse(birth_location == "Hospital, Free standing birth center", "NA", birth_location)) %>% 
-  
-    mutate(birth_location = ifelse(birth_location == "Hospital, At home", "NA", birth_location)) %>% 
-  
+  mutate(birth_location = ifelse(birth_location == "Hospital, Free standing birth center", "NA", birth_location)) %>% 
+  mutate(birth_location = ifelse(birth_location == "Hospital, At home", "NA", birth_location)) %>% 
   mutate(birth_location = ifelse(birth_location ==  "Hospital, Birth center room in the hospital", "NA", birth_location)) %>% 
-  
   mutate(birth_location = ifelse(birth_location ==  "Hospital, Car", "NA", birth_location))
   
 ```
@@ -253,32 +223,11 @@ mutate(birth_location = ifelse(birth_location == "At home", "Non-Hospital", birt
 ```
 
 
-### Step 2: ________
+
+
+
 
 ## Plots
-
-
-```{r heatmap-like-for-plot-critique}
-# comparing states and support_type
-
-p2 <- Postpartum_support_type_clean <- Postpartum_support_type_clean |>
-  filter(support_type != "NA")
-  
-ggplot(Postpartum_support_type_clean, aes(x = support_type, y = state, fill = support_type)) +
-   geom_tile(alpha = .7) +
-  scale_fill_viridis_d() +
-  theme_minimal() +
-   theme(axis.title.x=element_blank(),
-        axis.text.x=element_blank(),
-        axis.ticks.x=element_blank()) +
-  theme(axis.text.y=element_blank(),
-        axis.ticks.y=element_blank()) +
-  labs(title = "Heatmap-Like Plot Example", y = "US State", fill = "Support Type")
-
-ggsave("example-tile-heatmap-wide.png", width = 10, height = 5)
-
-```
-
 
 ### ggsave example for saving plots
 
@@ -304,15 +253,15 @@ ggsave("example-starwars-wide.png", width = 6, height = 4)
 
 
 
-### Plot 1: _________
+### Plot 1: Bar chart 
 
 #### Data cleanup steps specific to plot 1
 
 These data cleaning sections are optional and depend on if you have some data cleaning steps specific to a particular plot
 
-```{r care-type-frequency }
+```{r care-type-frequency-bar-chart }
 
-p1 <- Postpartum_support_type_clean |>
+p1 <- Postpartum |>
   filter(support_type != "NA") %>%
   filter(support_type != "Lactation support, New parent groups - in person") %>%
   ggplot(mapping = aes(x = fct_infreq(support_type), fill = support_type)) +
@@ -332,6 +281,9 @@ ggsave("example-postpartum-wide.png", width = 10, height = 4)
 ```
 
 
+### Plot 2: Wordcloud
+#### Data cleanup steps specific to plot 2
+
 ```{r wordcloud}
 #install.packages("wordcloud2")
 #install.packages("dplyr")
@@ -341,8 +293,6 @@ ggsave("example-postpartum-wide.png", width = 10, height = 4)
 #library(wordcloud2)
 #library(dplyr)
 #library(tm) 
-
-#Postpartum_by_child <- read.csv("Postpartum_by_child.csv")
 
 #comments_text <- paste("")
 
@@ -357,6 +307,57 @@ ggsave("example-postpartum-wide.png", width = 10, height = 4)
 #wordcloud2(word_freq_table, size = 0.5, color = "random-light", backgroundColor = "black")
 
 ```
+
+### Plot 3: Heat map
+#### Data cleanup steps specific to plot 3
+
+```{r heatmap-like-for-plot-critique}
+# comparing states and support_type
+
+p2 <- Postpartum <- Postpartum |>
+  filter(support_type != "NA")
+  
+ggplot(Postpartum, aes(x = support_type, y = state, fill = support_type)) +
+   geom_tile(alpha = .7) +
+  scale_fill_viridis_d() +
+  theme_minimal() +
+   theme(axis.title.x=element_blank(),
+        axis.text.x=element_blank(),
+        axis.ticks.x=element_blank()) +
+  theme(axis.text.y=element_blank(),
+        axis.ticks.y=element_blank()) +
+  labs(title = "Heatmap-Like Plot Example", y = "US State", fill = "Support Type")
+
+ggsave("example-tile-heatmap-wide.png", width = 10, height = 5)
+
+```
+
+
+
+### Plot X: _________
+
+#### Data cleanup steps specific to plot X
+
+```{r cost-factor-cleanup}
+
+yes_cost_a_factor <- c("I received care from friends and family, had I not had that I wouldn’t have been able to afford to pay for postpartum care services","To some extent, but luckily I could afford almost whatever I wanted/needed.","We strongly considered going to a birth center for my first birth, but they did not accept insurance and it was cost prohibitive. I feel we would have had more postpartum support with my first if we had gone that route.","Had already paid max out of pocket w labor","No referral","lactation specialist not covered, couldn’t afford otherwise","I definitely knew to look for support covered by insurance.","Did on seek in home help due to cost", "Did on seek in home help due to cost","Partially. Had i known there was support, I probably couldnt afford it.", "Yes but we had a generous budget and family to help financially","Unsure of question.... did it cost,  some of it did", "It was definitely a luxury to afford therapist and lactation help but anything other than that I viewed as “extra.”", "No doula $", "Yes but not as much as just not knowing it was available", "If I could afford food delivery, laundry service, etc, I would have hired the help!", "Do not have insurance","Cost to an extent but also Covid played a role- birth in December 2019, brought son home from NICU in 2020 and recovery was long into 2020)", "Copays sometimes.", "Yes in terms of acupuncture etc I didn’t budget for it and wish I did", "My husband and I prioritized Postpartum care highly so yes and no")
+
+cost_not_a_factor <- c("It was more not knowing what services I should have had access to. I know more know with Instagram follows.", "No. I just was unaware of the services that might be helpful. If I had another kid I’d invest in more.", "Covid was, not cost", "Not since we hit our deductible", "Main factor was pandemic. 6 week was nearly canceled, counseling went virtual but took months to initiate")
+
+cost_not_applicable <- c("Did not know post partum services other than the follow up appointment were covered services", "Didn’t even know what type of support was available because no one told me!","The pandemic significantly impacted my lack of access to postpartum support, especially in-person support", "I don't know, I wasn't aware of many services")
+
+
+#Postpartum_Experience_renamed_variables_US %>% 
+ # mutate(cost_factor = case_when(cost_factor %in% yes_cost_a_factor ~ "Yes",
+                                     # cost_factor %in% cost_not_a_factor ~ "No",
+                                     # cost_factor %in% cost_not_applicable ~ "N/A",
+       #   TRUE ~ cost_factor))
+
+```
+
+
+
+
 
 
 
