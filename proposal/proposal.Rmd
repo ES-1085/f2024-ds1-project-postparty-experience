@@ -58,8 +58,16 @@ Postpartum_Experience_renamed_variables <- as_tibble(Postpartum_Experience_Surve
     `emails` = `If you are open to follow up questions or want the results from this research project, please enter your email below.`)
 ```
 
+```{r add-clean_critical_care-data}
+Postpartum_combined <- bind_cols(Postpartum_Experience_renamed_variables, Clean_critical_care)
+
+head(Postpartum_combined)
+
+```
+
+
 ```{r excluding-international-entries}
-Postpartum <- Postpartum_Experience_renamed_variables %>%
+Postpartum <- Postpartum_combined %>%
   filter(state != "Uk") %>%
   filter(state != "Norway") %>%
   filter(state != "Puerto Rico")
@@ -68,7 +76,7 @@ Postpartum <- Postpartum_Experience_renamed_variables %>%
 ```{r dimensions}
 dim(Postpartum)
 ```
-Variables: 15
+Variables: 16
 
 ```{r glimpse}
 glimpse(Postpartum)
@@ -187,7 +195,7 @@ Postpartum_renamed_variables_US <- Postpartum_renamed_variables_US |>
 
 
 ```{r finding-other-NA-numerics}
-#which(Postpartum_renamed_variables_US$age > 100)
+#which(Postpartum$age > 100)
 
 #`which` for identifying rows of a dataset.
 ```
@@ -203,7 +211,7 @@ Postpartum_renamed_variables_US <- Postpartum_renamed_variables_US |>
 Example of table:
 
 ```{r informed-by-count}
-Postpartum_renamed_variables_US |>
+Postpartum |>
   count(informed_by) |>
   arrange(desc(n))
 
