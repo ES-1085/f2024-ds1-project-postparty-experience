@@ -34,11 +34,11 @@ Postpartum <- read.csv("Postpartum.csv")
 ### Step 1: Cleaning `age`
 
 ```{r first-birth-age}
-Postpartum <- Postpartum %>% 
-  mutate(first_age = substr(age, start = 1, stop = 2)) %>% 
-  mutate(first_age = if_else(first_age == "On", "35", first_age)) %>% 
-  mutate(first_age = as.numeric(first_age)) %>% 
-arrange(first_age) %>% 
+Postpartum <- Postpartum |> 
+  mutate(first_age = substr(age, start = 1, stop = 2)) |> 
+  mutate(first_age = if_else(first_age == "On", "35", first_age)) |> 
+  mutate(first_age = as.numeric(first_age)) |> 
+arrange(first_age) |> 
 
 relocate(first_age, .after = age)
 
@@ -63,17 +63,53 @@ Postpartum <- Postpartum |>
 #using stringr package  
 
   filter(state != "United States",
+         state != "United states",
          state != "US",
          state != "USA")
 ```
 
 ```{r state-clean-up-first-entry}
 
-#Postpartum <- Postpartum %>% 
-#  mutate(first_state = sub("(,|and|1|/|-|\\(|&)", "", state)) %>% 
-#arrange(first_state) %>% 
+Postpartum <- Postpartum |> 
+  mutate(first_state = sub("(,|and|1|/|-|\\(|&).*", "", state)) |>
+arrange(first_state) |> 
 
-#relocate(first_state, .after = state)
+relocate(first_state, .after = state)
+
+Postpartum <- Postpartum |>
+  mutate(first_state = str_replace(first_state, "Arizona ", "Arizona")) |>
+  mutate(first_state = str_replace(first_state, "Arkansas ", "Arkansas")) |>
+  mutate(first_state = str_replace(first_state, "California ", "California")) |>
+  mutate(first_state = str_replace(first_state, "california ", "California")) |>
+  mutate(first_state = str_replace(first_state, "california", "California")) |>
+  mutate(first_state = str_replace(first_state, "Colorado ", "Colorado")) |>
+  mutate(first_state = str_replace(first_state, "First", "Tennessee")) |>
+  mutate(first_state = str_replace(first_state, "Indiana ", "Indiana")) |>
+  mutate(first_state = str_replace(first_state, "Kentcky", "Kentucky")) |>
+  mutate(first_state = str_replace(first_state, "Massachusetts ", "Massachusetts")) |>
+  mutate(first_state = str_replace(first_state, "Massachusettsechusetts", "Massachusetts")) |>
+  mutate(first_state = str_replace(first_state, "Michigan ", "Michigan")) |>
+  mutate(first_state = str_replace(first_state, "Minesotta", "Minnesota")) |>
+  mutate(first_state = str_replace(first_state, "Minnesotta", "Minnesota")) |>
+  mutate(first_state = str_replace(first_state, "New York ", "New York")) |>
+  mutate(first_state = str_replace(first_state, "New york", "New York")) |>
+  mutate(first_state = str_replace(first_state, "North carolina", "North Carolina")) |>
+  mutate(first_state = str_replace(first_state, "Oregon ", "Oregon")) |>
+  mutate(first_state = str_replace(first_state, "Rhode isl", "Rhode Island")) |>
+  mutate(first_state = str_replace(first_state, "Rhode Isl", "Rhode Island")) |>
+  mutate(first_state = str_replace(first_state, "Rhode Islandand", "Rhode Island")) |>
+  mutate(first_state = str_replace(first_state, "Texas ", "Texas")) |>
+  mutate(first_state = str_replace(first_state, "Washington ", "Washington")) |>
+  mutate(first_state = str_replace(first_state, "New jersey", "New Jersey")) |>
+  mutate(first_state = str_replace(first_state, "wisconsin", "Wisconsin")) |>
+  mutate(first_state = str_replace(first_state, "virginia", "Virginia")) |>
+  mutate(first_state = str_replace(first_state, "Virginia ", "Virginia")) |>
+  mutate(first_state = str_replace(first_state, "Maryl", "Maryland")) |>
+  mutate(first_state = str_replace(first_state, "North dakota", "North Dakota")) |>
+  mutate(first_state = str_replace(first_state, "pennsylvania", "Pennsylvania")) 
+  
+ unique(Postpartum$first_state)
+
 ```
 
 
@@ -173,25 +209,25 @@ unique(Postpartum$support_type)
 
 ```{r birth-location-cleanup}
 
-Postpartum <- Postpartum %>% 
-  mutate(birth_location = ifelse(birth_location == "Hospital, Was supposed to go to birth center", "Hospital", birth_location)) %>%  
-  mutate(birth_location = ifelse(birth_location == "At home", "Non-Hospital", birth_location)) %>% 
-  mutate(birth_location = ifelse(birth_location == "Birthing Center attached to hospital", "Non-Hospital", birth_location)) %>% 
-  mutate(birth_location = ifelse(birth_location == "Free standing birth center", "Non-Hospital", birth_location)) %>% 
-  mutate(birth_location = ifelse(birth_location == "At home, I’m our car in an empty church parking lot", "Non-Hospital", birth_location)) %>% 
-  mutate(birth_location = ifelse(birth_location == "Began at a free standing birth center, had to transfer to a midwife center at a hospital", "Hospital", birth_location)) %>% 
-  mutate(birth_location = ifelse(birth_location == "Birthing center attached to a hospital", "Non-Hospital", birth_location)) %>% 
-  mutate(birth_location = ifelse(birth_location == "Planned home birth, transferred to hospital", "Hospital", birth_location)) %>% 
-  mutate(birth_location = ifelse(birth_location == "Free standing birth center, At home", "Non-Hospital", birth_location)) %>% 
-  mutate(birth_location = ifelse(birth_location == "Hospital, Homebirth transfer to hospital csection", "Hospital", birth_location)) %>% 
-  mutate(birth_location = ifelse(birth_location == "Natural birthing center attached to hospital", "Non-Hospital", birth_location)) %>% 
-  mutate(birth_location = ifelse(birth_location == "Hospital based birth center (across a sky bridge)", "Non-Hospital", birth_location)) %>%
-  mutate(birth_location = ifelse(birth_location == "Hospital, Hospital x2", "Hospital", birth_location)) %>% 
-  mutate(birth_location = ifelse(birth_location == "Hospital, began care at birth center all 3 times & transferred", "Hospital", birth_location)) %>%
-  mutate(birth_location = ifelse(birth_location == "Birthing center within a hospital", "Hospital", birth_location)) %>% 
-  mutate(birth_location = ifelse(birth_location == "Hospital, Free standing birth center", "NA", birth_location)) %>% 
-  mutate(birth_location = ifelse(birth_location == "Hospital, At home", "NA", birth_location)) %>% 
-  mutate(birth_location = ifelse(birth_location ==  "Hospital, Birth center room in the hospital", "NA", birth_location)) %>% 
+Postpartum <- Postpartum |>
+  mutate(birth_location = ifelse(birth_location == "Hospital, Was supposed to go to birth center", "Hospital", birth_location)) |>  
+  mutate(birth_location = ifelse(birth_location == "At home", "Non-Hospital", birth_location)) |>
+  mutate(birth_location = ifelse(birth_location == "Birthing Center attached to hospital", "Non-Hospital", birth_location)) |> 
+  mutate(birth_location = ifelse(birth_location == "Free standing birth center", "Non-Hospital", birth_location)) |> 
+  mutate(birth_location = ifelse(birth_location == "At home, I’m our car in an empty church parking lot", "Non-Hospital", birth_location)) |> 
+  mutate(birth_location = ifelse(birth_location == "Began at a free standing birth center, had to transfer to a midwife center at a hospital", "Hospital", birth_location)) |> 
+  mutate(birth_location = ifelse(birth_location == "Birthing center attached to a hospital", "Non-Hospital", birth_location)) |> 
+  mutate(birth_location = ifelse(birth_location == "Planned home birth, transferred to hospital", "Hospital", birth_location)) |> 
+  mutate(birth_location = ifelse(birth_location == "Free standing birth center, At home", "Non-Hospital", birth_location)) |> 
+  mutate(birth_location = ifelse(birth_location == "Hospital, Homebirth transfer to hospital csection", "Hospital", birth_location)) |> 
+  mutate(birth_location = ifelse(birth_location == "Natural birthing center attached to hospital", "Non-Hospital", birth_location)) |> 
+  mutate(birth_location = ifelse(birth_location == "Hospital based birth center (across a sky bridge)", "Non-Hospital", birth_location)) |>
+  mutate(birth_location = ifelse(birth_location == "Hospital, Hospital x2", "Hospital", birth_location)) |>
+  mutate(birth_location = ifelse(birth_location == "Hospital, began care at birth center all 3 times & transferred", "Hospital", birth_location)) |>
+  mutate(birth_location = ifelse(birth_location == "Birthing center within a hospital", "Hospital", birth_location)) |> 
+  mutate(birth_location = ifelse(birth_location == "Hospital, Free standing birth center", "NA", birth_location)) |> 
+  mutate(birth_location = ifelse(birth_location == "Hospital, At home", "NA", birth_location)) |>
+  mutate(birth_location = ifelse(birth_location ==  "Hospital, Birth center room in the hospital", "NA", birth_location)) |>
   mutate(birth_location = ifelse(birth_location ==  "Hospital, Car", "NA", birth_location))
   
 ```
@@ -272,8 +308,8 @@ These data cleaning sections are optional and depend on if you have some data cl
 ```{r care-type-frequency-bar-chart }
 
 p1 <- Postpartum |>
-  filter(support_type != "NA") %>%
-  filter(support_type != "Lactation support, New parent groups - in person") %>%
+  filter(support_type != "NA") |>
+  filter(support_type != "Lactation support, New parent groups - in person") |>
   ggplot(mapping = aes(x = fct_infreq(support_type), fill = support_type)) +
    geom_bar() +
   #  aes(pattern = birth_location, fill = birth_location, pattern_fill = birth_location),
