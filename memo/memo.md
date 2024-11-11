@@ -15,6 +15,8 @@ library(broom)
 library(readxl)
 
 library(stringr)
+library(forcats)
+library(gridExtra)
 
 
 library(openintro)
@@ -276,7 +278,8 @@ Postpartum <- Postpartum|>
   mutate(support_type = ifelse(support_type == "New parent groups - in person", "New parent groups", support_type)) |>
   mutate(support_type = ifelse(support_type == "New parent groups - online", "New parent groups", support_type)) |>
   mutate(support_type = ifelse(support_type == "In-home wellness services and postpartum follow up appointments", "In-home follow up appointments", support_type)) |>
-  mutate(support_type = ifelse(support_type == "Community meal train or other meal service", "Help with meals", support_type))
+  mutate(support_type = ifelse(support_type == "Community meal train or other meal service", "Help with meals", support_type)) |> 
+  mutate(support_type = ifelse(support_type == "Grief support", "Emotional support", support_type))
 ```
 
 ``` r
@@ -292,13 +295,12 @@ unique(Postpartum$support_type)
     ##  [7] "Massage or chiropractic"               
     ##  [8] "Pelvic floor PT"                       
     ##  [9] "In-home follow up appointments"        
-    ## [10] "Grief support"                         
-    ## [11] "Acupuncture"                           
-    ## [12] "None of the above"                     
-    ## [13] "Family support"                        
-    ## [14] "Other"                                 
-    ## [15] "NA"                                    
-    ## [16] "Overnight help"
+    ## [10] "Acupuncture"                           
+    ## [11] "None of the above"                     
+    ## [12] "Family support"                        
+    ## [13] "Other"                                 
+    ## [14] "NA"                                    
+    ## [15] "Overnight help"
 
 ### Step 4: Cleaning `birth_location`
 
@@ -391,23 +393,42 @@ These data cleaning sections are optional and depend on if you have some
 data cleaning steps specific to a particular plot
 
 ``` r
-p1 <- Postpartum |>
-  filter(support_type != "NA") |>
-  filter(support_type != "Lactation support, New parent groups - in person") |>
-  ggplot(mapping = aes(x = fct_infreq(support_type), fill = support_type)) +
-   geom_bar() +
-  #  aes(pattern = birth_location, fill = birth_location, pattern_fill = birth_location),
-   # colour                   = 'black', 
-  #  pattern_density          = 0.35, 
-   # pattern_key_scale_factor = 1.3) +
+#p1 <- 
+Postpartum |>
+  filter(!is.na(support_type)) |>
+  filter(support_type != "Lactation support, New parent groups - in person",
+         support_type != "NA",
+         support_type != "Overnight help",
+         support_type != "Family support",
+         support_type != "New parent groups",
+         support_type != "In-home help with care tasks",
+         support_type != "Help with meals") |>
+  ggplot(mapping = aes(x = fct_rev(fct_infreq(support_type)), fill = support_type)) +
+  geom_bar() +
+  scale_fill_manual(
+    values = c(
+      "In-home follow up appointments" = "pink",
+      "Massage or chiropractic" = "pink",
+      "Acupuncture" = "pink",
+      "default" = "dark blue"
+    )
+    ) +
   theme_bw() +
-  scale_fill_viridis_d() + 
   theme(legend.position = 'none') + 
   coord_flip() +
-  labs(title = "Types of Postpartum Care Accessed", subtitle = "In the US Between 2013-2023 by Survey Respondents", x = "Support Type", y = "Frequency", fill = "Birth Location") 
+  labs(title = "Formal types of Postpartum Care Accessed", 
+       subtitle = "In the US Between 2013-2023 by Survey Respondents", 
+       x = "Support Type", 
+       y = "Number of Survey Respondents",
+       ) 
+```
 
+![](memo_files/figure-gfm/care-type-frequency-bar-chart-1.png)<!-- -->
 
-ggsave("example-postpartum-wide.png", width = 10, height = 4)
+``` r
+#we could add text on graph with geom_text() to indicate pink = higher quality services
+
+#ggsave("example-postpartum-wide.png", width = 10, height = 4)
 ```
 
 ### Plot 2: Wordcloud
