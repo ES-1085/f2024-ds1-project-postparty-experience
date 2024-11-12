@@ -405,7 +405,7 @@ Postpartum |>
 
 #we could add text on graph with geom_text() to indicate pink = higher quality services
 
-#ggsave("example-postpartum-wide-2.png", width = 10, height = 4)
+ggsave("example-postpartum-wide-2.png", width = 10, height = 4)
 ```
 
 ```{r care-type-frequency-bar-chart-V2}
@@ -441,7 +441,7 @@ Postpartum |>
        health outcomes for the birthing parent and baby."
        ) 
 
-#ggsave("example-postpartum-wide-2.png", width = 10, height = 4)
+ggsave("example-postpartum-wide-2.png", width = 10, height = 4)
 ```
 
 
