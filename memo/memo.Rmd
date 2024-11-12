@@ -20,6 +20,7 @@ library(ggpattern)
 library(ggplot2)
 library(RColorBrewer)
 library(ggridges)
+library(visdat)
 ```
 
 ```{r read-in-data}
@@ -511,6 +512,20 @@ ggplot(Postpartum,
   theme(legend.position = "none") +
   labs (title = "Critical Postpartum Care by Age of Birthing Person", x ="Age during first birth", y = "Care Type")
 
+```
+
+
+### Plot 6 Missing Data
+
+```{r missing data plot}
+Postpartum <- Postpartum %>%
+  select(respondent, state, age, birth_location, informed_by, other_info_sources, support_type, provider, ins_covered_services, cost_factor, if_insurance, critical_support, ideal_support, comments, emails)
+```
+
+```{r}
+vis_miss(Postpartum)
+
+ggsave(filename = "Missingdataplot.png", width = 8, height = 4)
 ```
 
 
