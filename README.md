@@ -1,6 +1,6 @@
-Project title
+The Postpartum Experience
 ================
-by Team name
+by Emmy Wahlström, Tikyra Downs, and Willow Gibson
 
 ## Summary
 

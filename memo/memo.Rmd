@@ -446,8 +446,32 @@ Postpartum |>
 ggsave("example-postpartum-wide-3.png", width = 10, height = 4)
 ```
 
+### Plot 2: Ridge plot
 
-### Plot 2: Wordcloud
+```{r critical-ridge-plot}
+
+Postpartum <- Postpartum |>
+  filter(critical != "NA") |>
+  filter(critical != "Duplicate entry")
+
+ggplot(Postpartum, 
+       aes(x = first_age, 
+           y = critical,
+           color = critical, 
+           fill = critical)) +
+  geom_density_ridges(alpha = .6) +
+  scale_color_viridis_d(alpha = .6) +
+  scale_fill_viridis_d() +
+  scale_x_continuous(breaks = seq(from = 18, to = 44, by = 2)) +
+  theme_minimal() +
+  theme(legend.position = "none") +
+  # need to re-order care types and potentially break it up by quality or formal/informal
+  labs (title = "Most Critical Postpartum Care by Age of Birthing Person", subtitle = "what is the takeaway?" x ="Age During First Birth", y = "Care Type")
+
+```
+
+
+### Plot 3: Wordcloud
 #### Data cleanup steps specific to plot 2
 #I asked chatgpt to randomly select a number between 1 and 789. I then just copied whatever comments were in those cells in the excel document to choose the quotes for our wordcloud. 215 391 420 644 170 159 538 154(BLANK) 466 535 351 439 231(BLANK) 266 174 572 and 577(BLANK) 306(BLANK) 662 180. I asked chat gpt to randomly generate 4 numbers between 1 and 786 to make up for the blank entries. These numbers were 328 567 149 and 734.
 
@@ -1416,29 +1440,6 @@ cost_not_applicable <- c("Did not know post partum services other than the follo
 #best <- c("")
 ```
 
-
-### Plot 4
-
-```{r critical-ridge-plot}
-
-Postpartum <- Postpartum |>
-  filter(critical != "NA") |>
-  filter(critical != "Duplicate entry")
-
-ggplot(Postpartum, 
-       aes(x = first_age, 
-           y = critical,
-           color = critical, 
-           fill = critical)) +
-  # add facet by age group or care type or ??
-  geom_density_ridges(alpha = .8) +
-  scale_color_viridis_d() +
-  scale_fill_viridis_d() +
-  theme_minimal() +
-  theme(legend.position = "none") +
-  labs (title = "Critical Postpartum Care by Age of Birthing Person", x ="Age During First Birth", y = "Care Type")
-
-```
 
 
 ### Plot 6 Missing Data
