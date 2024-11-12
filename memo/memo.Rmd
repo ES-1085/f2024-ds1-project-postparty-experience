@@ -327,7 +327,7 @@ Postpartum |>
       "In-home follow up appointments" = "pink",
       "Massage or chiropractic" = "pink",
       "Acupuncture" = "pink",
-      "default" = "dark blue"
+      "default" = "darkblue"
     )
     ) +
   theme_bw() +
@@ -337,11 +337,47 @@ Postpartum |>
        subtitle = "In the US Between 2013-2023 by Survey Respondents", 
        x = "Support Type", 
        y = "Number of Survey Respondents",
+       caption = "The highlighted care types have been defined as care that increases the birthing parent and baby’s 
+       physical and emotional wellbeing beyond baseline services."
        ) 
 
 #we could add text on graph with geom_text() to indicate pink = higher quality services
 
 #ggsave("example-postpartum-wide.png", width = 10, height = 4)
+```
+```{r care-type-frequency-bar-chart-V2}
+#p2 <- 
+Postpartum |>
+  filter(!is.na(support_type)) |>
+  filter(support_type != "Lactation support, New parent groups - in person",
+         support_type != "NA",
+         support_type != "Overnight help",
+         support_type != "Family support",
+         support_type != "New parent groups",
+         support_type != "In-home help with care tasks",
+         support_type != "Help with meals") |>
+  ggplot(mapping = aes(x = fct_rev(fct_infreq(support_type)), fill = support_type)) +
+  geom_bar() +
+  scale_fill_manual(
+    values = c(
+      "Lactation support" = "gold",
+      "Emotional support" = "gold",
+      "Pelvic floor PT" = "gold",
+      "Hospital/office follow up appointments" = "gold",
+      "default" = "darkblue"
+    )
+    ) +
+  theme_bw() +
+  theme(legend.position = 'none') + 
+  coord_flip() +
+  labs(title = "Formal types of Postpartum Care Accessed", 
+       subtitle = "In the US Between 2013-2023 by Survey Respondents", 
+       x = "Support Type", 
+       y = "Number of Survey Respondents",
+       caption = "The highlighted care types have been defined as the baseline care needed to prevent worst long term
+       health outcomes for the birthing parent and baby."
+       ) 
+
 ```
 
 
