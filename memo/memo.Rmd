@@ -443,7 +443,7 @@ Postpartum |>
        health outcomes for the birthing parent and baby."
        ) 
 
-ggsave("example-postpartum-wide-2.png", width = 10, height = 4)
+ggsave("example-postpartum-wide-3.png", width = 10, height = 4)
 ```
 
 
