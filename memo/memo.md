@@ -510,7 +510,7 @@ Postpartum |>
 ``` r
 #we could add text on graph with geom_text() to indicate pink = higher quality services
 
-#ggsave("example-postpartum-wide-2.png", width = 10, height = 4)
+ggsave("example-postpartum-wide-2.png", width = 10, height = 4)
 ```
 
 ``` r
@@ -550,34 +550,1073 @@ Postpartum |>
 ![](memo_files/figure-gfm/care-type-frequency-bar-chart-V2-1.png)<!-- -->
 
 ``` r
-#ggsave("example-postpartum-wide-2.png", width = 10, height = 4)
+ggsave("example-postpartum-wide-2.png", width = 10, height = 4)
 ```
 
 ### Plot 2: Wordcloud
 
 #### Data cleanup steps specific to plot 2
 
+\#I asked chatgpt to randomly select a number between 1 and 789. I then
+just copied whatever comments were in those cells in the excel document
+to choose the quotes for our wordcloud. 215 391 420 644 170 159 538
+154(BLANK) 466 535 351 439 231(BLANK) 266 174 572 and 577(BLANK)
+306(BLANK) 662 180. I asked chat gpt to randomly generate 4 numbers
+between 1 and 786 to make up for the blank entries. These numbers were
+328 567 149 and 734.
+
 ``` r
-#install.packages("wordcloud2")
-#install.packages("dplyr")
-#install.packages("tm", dependencies = TRUE, repos = "http://cran.rstudio.com/")
+install.packages("wordcloud2")
+```
 
+    ## Installing package into '/cloud/lib/x86_64-pc-linux-gnu-library/4.4'
+    ## (as 'lib' is unspecified)
 
-#library(wordcloud2)
-#library(dplyr)
-#library(tm) 
+``` r
+install.packages("dplyr")
+```
 
-#comments_text <- paste("")
+    ## Installing package into '/cloud/lib/x86_64-pc-linux-gnu-library/4.4'
+    ## (as 'lib' is unspecified)
 
-#corpus <- Corpus(VectorSource(comments_text))
-#corpus_clean <- corpus %>%
- #  tm_map(content_transformer(tolower)) %>% 
-  #tm_map(removePunctuation) %>%
- # tm_map(removeNumbers) %>% 
-  #tm_map(removeWords, stopwords("en")) %>%
- # tm_map(stripWhitespace)
+``` r
+install.packages("png")
+```
 
-#wordcloud2(word_freq_table, size = 0.5, color = "random-light", backgroundColor = "black")
+    ## Installing package into '/cloud/lib/x86_64-pc-linux-gnu-library/4.4'
+    ## (as 'lib' is unspecified)
+
+``` r
+install.packages("tm", dependencies = TRUE, repos = "http://cran.rstudio.com/")
+```
+
+    ## Installing package into '/cloud/lib/x86_64-pc-linux-gnu-library/4.4'
+    ## (as 'lib' is unspecified)
+
+    ## Warning: dependencies 'Rcampdf', 'Rgraphviz', 'tm.lexicon.GeneralInquirer' are
+    ## not available
+
+``` r
+library(wordcloud2)
+library(dplyr)
+library(png)
+library(tm) 
+```
+
+    ## Loading required package: NLP
+
+    ## 
+    ## Attaching package: 'NLP'
+
+    ## The following object is masked from 'package:ggplot2':
+    ## 
+    ##     annotate
+
+``` r
+comments_text <- paste("We had a night nurse aka night nanny for 2 months She came 5 nights a week and taught us everything we needed to know in addition to allowing me to sleep 12 hours while she worked I had a level 4 tear during delivery and was surprised at how minimal the follow up and care instructions felt More support is needed in many areas My child was going to his pediatrician a few times a week or a few times a month until he was 3 months I was seen once and that was after a c section where they mainly just looked at my scar Definitely would have liked more support in postpartum After my first child was born I was a wreck and everyone told me it was normal In hindsight I wish someone would have said something to me that would have encouraged me to go get help I had intrusive thoughts and the hardest time sleeping not just because of the baby My milk took forever to come in and I never felt confident about breastfeeding Anytime I said anything about what I was feeling I was told I was normal I wish I had known that there were postpartum support available As a brand new mom of twins I didnt know what questions to ask or what was even available Next time we will be more prepared Having to go back to work 6 weeks later when my stitches still hadnt healed and I was barely sleeping was a nightmare Being postpartum in 2020 was absolutely awful The fear of you or your child getting sick because of having people over or taking the baby out was so so isolating Insurance made things really complicated I wasnt allowed to leave the birth center at the hospital until we had insurance for our daughter which was totally not on my radar and never mentioned in any of my education or prep support before birth And it was hard to find out what was covered and what costs would be if paid out of pocket And when my postpartum anxiety was bad my therapists recommended me to the midwives who then just recommended I see a therapist. So friends became extra helpful then This all broke apart 6 months in because covid hit so the small semblance of a community of postpartum support we had pieced together all fell apart And as I prepare for a second  child I dont have paid leave I shifted from full time W2 work with health insurance from to a 1099 consulting practice with high insurance costs we pay out to of pocket Id love what Germany and other countries have And we have privilege and access and so many people dont I dont know how marriages survive without such community care and I know many babies and children suffer as a result Also it turned out that birthing a baby also triggered a mental breakdown in our local in laws who we thought would be part of of our child care and support Couples therapy and individual therapy and mentors helped us come to understand how the event of our family triggered her narcissism and borderline personality disorder and that was traumatic experience that took my spouse and I 3 years to come to understand Postpartum in the US is horrible I had an unpaid leave and went back to work 9 weeks post c-section My baby got sick in daycare and I almost lost my job due to having to take time off I was lost sad exhausted and felt completely alone and like I was the only person experiencing what I was I felt like a complete failure to this child I am a LCSW and privileged to have access to supports and still felt this way it breaks my heart to think of those less educated privileged and the lack of support they experience")
+
+corpus <- Corpus(VectorSource(comments_text))
+corpus_clean <- corpus %>%
+   tm_map(content_transformer(tolower)) %>% 
+  tm_map(removePunctuation) %>%
+  tm_map(removeNumbers) %>% 
+  tm_map(removeWords, stopwords("en")) %>%
+  tm_map(stripWhitespace) %>% 
+  tm_map(removeWords, c("first", "second", "don't", "dont", "kid", "son", "for", "get", "one", "just", "make", "many", "come", "keep", "kept", "didn't", "going", "made", "anymore", "felt", "child", "something", "wasnt", "wasn't", "will", "borderline", "narcissism", "way", "children", "like", "hadn't", "hadnt", "germany", "told", "totally"))
+```
+
+    ## Warning in tm_map.SimpleCorpus(., content_transformer(tolower)): transformation
+    ## drops documents
+
+    ## Warning in tm_map.SimpleCorpus(., removePunctuation): transformation drops
+    ## documents
+
+    ## Warning in tm_map.SimpleCorpus(., removeNumbers): transformation drops
+    ## documents
+
+    ## Warning in tm_map.SimpleCorpus(., removeWords, stopwords("en")): transformation
+    ## drops documents
+
+    ## Warning in tm_map.SimpleCorpus(., stripWhitespace): transformation drops
+    ## documents
+
+    ## Warning in tm_map.SimpleCorpus(., removeWords, c("first", "second", "don't", :
+    ## transformation drops documents
+
+``` r
+tdm <- TermDocumentMatrix(corpus_clean)
+
+m <- as.matrix(tdm)
+
+word_freqs <- sort(rowSums(m), decreasing = TRUE)
+
+word_freq_table <- data.frame(word = names(word_freqs), freq = word_freqs)
+
+wordcloud2(word_freq_table, size = 0.5, color = "random-light", backgroundColor = "black")
+```
+
+<div class="wordcloud2 html-widget html-fill-item" id="htmlwidget-2a3524013d3cb707f516" style="width:672px;height:480px;"></div>
+<script type="application/json" data-for="htmlwidget-2a3524013d3cb707f516">{"x":{"word":["support","postpartum","baby","insurance","know","time","care","leave","months","work","access","also","apart","available","back","birth","community","costs","experience","lost","needed","never","night","normal","paid","people","pocket","privileged","recommended","said","sick","sleeping","still","therapy","times","took","triggered","understand","week","weeks","wish","absolutely","addition","aka","allowed","allowing","almost","alone","anxiety","anything","anytime","areas","ask","awful","babies","bad","barely","became","birthing","born","brand","breakdown","breaks","breastfeeding","broke","came","center","complete","completely","complicated","confident","consulting","countries","couples","covered","covid","csection","daughter","daycare","definitely","delivery","didnt","disorder","due","educated","education","encouraged","even","event","everyone","everything","exhausted","experiencing","extra","failure","family","fear","feeling","fell","find","follow","forever","friends","full","getting","got","hard","hardest","healed","health","heart","help","helped","helpful","high","hindsight","hit","horrible","hospital","hours","individual","instructions","intrusive","isolating","job","known","lack","later","laws","lcsw","less","level","liked","local","looked","love","mainly","marriages","mental","mentioned","mentors","midwives","milk","minimal","mom","month","nanny","new","next","nightmare","nights","nurse","part","pay","pediatrician","person","personality","pieced","post","practice","prep","prepare","prepared","privilege","questions","radar","really","result","sad","scar","section","see","seen","semblance","shifted","sleep","small","someone","spouse","stitches","suffer","supports","surprised","survive","take","taking","taught","tear","therapist","therapists","things","think","thought","thoughts","together","traumatic","turned","twins","unpaid","went","without","worked","wreck","years"],"freq":[7,6,4,4,4,4,3,3,3,3,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],"fontFamily":"Segoe UI","fontWeight":"bold","color":"random-light","minSize":0,"weightFactor":12.85714285714286,"backgroundColor":"black","gridSize":0,"minRotation":-0.7853981633974483,"maxRotation":0.7853981633974483,"shuffle":true,"rotateRatio":0.4,"shape":"circle","ellipticity":0.65,"figBase64":null,"hover":null},"evals":[],"jsHooks":{"render":[{"code":"function(el,x){\n                        console.log(123);\n                        if(!iii){\n                          window.location.reload();\n                          iii = False;\n\n                        }\n  }","data":null}]}}</script>
+
+``` r
+install.packages("wordcloud2")
+```
+
+    ## Installing package into '/cloud/lib/x86_64-pc-linux-gnu-library/4.4'
+    ## (as 'lib' is unspecified)
+
+``` r
+install.packages("dplyr")
+```
+
+    ## Installing package into '/cloud/lib/x86_64-pc-linux-gnu-library/4.4'
+    ## (as 'lib' is unspecified)
+
+``` r
+install.packages("tm", dependencies = TRUE, repos = "http://cran.rstudio.com/")
+```
+
+    ## Installing package into '/cloud/lib/x86_64-pc-linux-gnu-library/4.4'
+    ## (as 'lib' is unspecified)
+
+    ## Warning: dependencies 'Rcampdf', 'Rgraphviz', 'tm.lexicon.GeneralInquirer' are
+    ## not available
+
+``` r
+library(wordcloud2)
+library(dplyr)
+library(tm) 
+
+comments_text <- paste("I would have loved more support in any form My PCP was the only medical provider who asked how I was doing emotionally my first year post-partum I think continued lactation support would have also made breastfeeding a lot easier I could have felt more supported in my decisions around feeding my infant How much COVID isolated me couldnt leave the house as a new mom and no one acknowledged how much that would increase likelihood of depression anxiety and health anxiety with a newborn Fed is best Kaiser made me feel like a failure for supplementing with formula I had a relatively positive experience compared to many others I know the support is so vital after second developed post op infection and Ended up with wound vac for 6 plus weeks did have home health care nurse come just for that but no support other than that Struggled with breast feeding both Ended up pumping dried up at 4 months with first and stopped after 13 months with second Supply dropped a lot when I returned to work with second at 4 months postpartum and barely pumped enough to keep up with demand Had anxiety and depression after both Felt very alone as husband was working and working and in school with second baby Parents judgemental and not much help Friends disappeared after had first baby Received excellent care while pregnant countless Dr appointments and then once I left the hospital i felt completely abandoned Made me feel like the US health care system really only viewed be as an incubator for baby and once baby arrived they didnt care about me anymore  Only support I received was through seeking it out myself it should all be standard of care It was hard because everyone kept telling us it takes a village to raise a child but when our son was actually here, no one family friends was very interested in doing the actual work alongside us despite us asking for help A village is great but what happens when theres no village to show up for you Postpartum care also felt far too brief after going through such a huge transitional experience As the parents we overall felt very lonely and unsupported across different domains I prepared more for postpartum for my second delivery and although I paid more out of pocket it did make things easier during the fourth trimester The birth center gave me access to mental health support counseling which meant I was already regularly talking with someone and could get help when I realized I had postpartum anxiety This was crucial as seeking out a therapist and getting an appointment would have been an insurmountable hurdle for me I think there needs to be more support for partners as well because my husband really didnt know how to help me or adjust to his new role in a way that was sustainable That ultimately lead to more stress for me as he burned out and also had to go back to work The US needs better postpartum care This was my second child there were services but I had trouble accessing them because my older kid wasnt allowed")
+
+corpus <- Corpus(VectorSource(comments_text))
+corpus_clean <- corpus %>%
+   tm_map(content_transformer(tolower)) %>% 
+  tm_map(removePunctuation) %>%
+  tm_map(removeNumbers) %>% 
+  tm_map(removeWords, stopwords("en")) %>%
+  tm_map(stripWhitespace) %>% 
+  tm_map(removeWords, c("first", "second", "don't", "dont", "postpartum", "baby", "care", "support", "kid", "son", "for", "get", "one", "just", "make", "many", "come", "keep", "kept", "didn't", "gave", "going", "made", "anymore"))
+```
+
+    ## Warning in tm_map.SimpleCorpus(., content_transformer(tolower)): transformation
+    ## drops documents
+
+    ## Warning in tm_map.SimpleCorpus(., removePunctuation): transformation drops
+    ## documents
+
+    ## Warning in tm_map.SimpleCorpus(., removeNumbers): transformation drops
+    ## documents
+
+    ## Warning in tm_map.SimpleCorpus(., removeWords, stopwords("en")): transformation
+    ## drops documents
+
+    ## Warning in tm_map.SimpleCorpus(., stripWhitespace): transformation drops
+    ## documents
+
+    ## Warning in tm_map.SimpleCorpus(., removeWords, c("first", "second", "don't", :
+    ## transformation drops documents
+
+``` r
+tdm <- TermDocumentMatrix(corpus_clean)
+
+m <- as.matrix(tdm)
+
+word_freqs <- sort(rowSums(m), decreasing = TRUE)
+
+word_freq_table <- data.frame(word = names(word_freqs), freq = word_freqs)
+
+wordcloud2(word_freq_table, size = 0.5, color = "random-light", backgroundColor = "black")
+```
+
+<div class="wordcloud2 html-widget html-fill-item" id="htmlwidget-49f27edadecaaf632cf9" style="width:672px;height:480px;"></div>
+<script type="application/json" data-for="htmlwidget-49f27edadecaaf632cf9">{"x":{"word":["felt","anxiety","health","help","also","months","much","village","work","child","depression","didnt","easier","ended","experience","feeding","feel","friends","husband","know","like","lot","needs","new","parents","really","received","seeking","think","working","abandoned","access","accessing","acknowledged","across","actual","actually","adjust","allowed","alone","alongside","already","although","appointment","appointments","around","arrived","asked","asking","back","barely","best","better","birth","breast","breastfeeding","brief","burned","center","compared","completely","continued","couldnt","counseling","countless","covid","crucial","decisions","delivery","demand","despite","developed","different","disappeared","domains","dried","dropped","emotionally","enough","everyone","excellent","failure","family","far","fed","form","formula","fourth","getting","great","happens","hard","home","hospital","house","huge","hurdle","increase","incubator","infant","infection","insurmountable","interested","isolated","judgemental","kaiser","lactation","lead","leave","left","likelihood","lonely","loved","meant","medical","mental","mom","newborn","nurse","older","others","overall","paid","partners","pcp","plus","pocket","positive","post","pregnant","prepared","provider","pumped","pumping","raise","realized","regularly","relatively","returned","role","school","services","show","someone","standard","stopped","stress","struggled","supplementing","supply","supported","sustainable","system","takes","talking","telling","therapist","theres","things","transitional","trimester","trouble","ultimately","unsupported","vac","viewed","vital","wasnt","way","weeks","well","wound","year"],"freq":[5,4,4,4,3,3,3,3,3,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],"fontFamily":"Segoe UI","fontWeight":"bold","color":"random-light","minSize":0,"weightFactor":18,"backgroundColor":"black","gridSize":0,"minRotation":-0.7853981633974483,"maxRotation":0.7853981633974483,"shuffle":true,"rotateRatio":0.4,"shape":"circle","ellipticity":0.65,"figBase64":null,"hover":null},"evals":[],"jsHooks":{"render":[{"code":"function(el,x){\n                        console.log(123);\n                        if(!iii){\n                          window.location.reload();\n                          iii = False;\n\n                        }\n  }","data":null}]}}</script>
+
+``` r
+install.packages("wordcloud2")
+```
+
+    ## Installing package into '/cloud/lib/x86_64-pc-linux-gnu-library/4.4'
+    ## (as 'lib' is unspecified)
+
+``` r
+install.packages("dplyr")
+```
+
+    ## Installing package into '/cloud/lib/x86_64-pc-linux-gnu-library/4.4'
+    ## (as 'lib' is unspecified)
+
+``` r
+install.packages("tm", dependencies = TRUE, repos = "http://cran.rstudio.com/")
+```
+
+    ## Installing package into '/cloud/lib/x86_64-pc-linux-gnu-library/4.4'
+    ## (as 'lib' is unspecified)
+
+    ## Warning: dependencies 'Rcampdf', 'Rgraphviz', 'tm.lexicon.GeneralInquirer' are
+    ## not available
+
+``` r
+install.packages("viridis")
+```
+
+    ## Installing package into '/cloud/lib/x86_64-pc-linux-gnu-library/4.4'
+    ## (as 'lib' is unspecified)
+
+``` r
+library(wordcloud2)
+library(dplyr)
+library(tm) 
+library("viridis")
+```
+
+    ## Loading required package: viridisLite
+
+``` r
+comments_text <- paste("Help with little things so I can nap while baby naps
+Help with meals and housework 
+Help with cooking and cleaning, emotional support, trusted advice, chiropractic care 
+Help with meals
+Lactation help
+New parents group & in home support
+Help with household tasks
+Hands on in house support in the initial weeks (with baby care and household tasks)
+I would have benefitted from therapy and grief support, help with household tasks, better lactation support - instead I just ended up with postpartum depression 
+Hands-down, having my parents retired and able to come over to help whenever I needed it. Close second was having quality, affordable child care available starting when my daughter was six weeks old, though we started her later. 
+Childcare 
+Help in the home
+Pelvic floor PT, lactation consultants 
+IBLC - I waited far too long to access because I didn't realize insurance would cover LC outside a hospital setting 
+I could have used mental health support, and pelvic floor therapy that was covered by insurance. Help overnight occasionally would have been amazing, or with the house, I felt like i was drowning.
+Childcare
+Overnights during the first few weeks, my partner being able to take leave for the first 5 weeks, friends and neighbors who helped with childcare, pet care, meals, and more, since we have no family in the area 
+Lactation support 
+People coming to visit, providing food and giving advice 
+help with household tasks
+Postpartum doula 
+Helping with meals and cleaning in the first few months, lactation support (I would’ve had more than one visit with my second child of insurance covered it)
+Lactation support, mental health screening, pelvic floor therapy (but I didn’t receive them)
+The meal train made such a difference, but feeling more connected to more moms would have been helpful. It took me a while to attend an inperson support group and felt challenging, but I think that could have been made easier with prompting/encouragement.
+Lactation support, meals and laundry
+I got some support from my doula but not nearly enough! The one home visit was nice. One conversation with a lactation consultants. Definitely needed more support from family and friends, but everyone was scared of Covid and thought I should be too…
+Lactation support, support with cooking, and a community to connect with for emotional support. 
+Definitely lactation consultants, and I did PT for my hip pain, which was helpful. Also, meals and childcare support from friends/family. 
+Sleep consultant
+the community midwifery care model postpartum; hired in-home childcare
+House cleaning, which was paid for by my parents for the first three months. 
+follow up appointments with my midwife
+We received horrific post parting support. I was gaslit and left in pain both emotional and physical 
+Emotional support
+Nanny
+The meal train from friends. 
+My spouse
+Household help from spouse and family - meals and cleaning
+Emotional support 
+Family/Friends
+Lactation Support
+We had almost no support.
+PT, general support at home from family (meals, child care, cleaning etc), support groups
+In home help
+Family assistance 
+Emotional support 
+Support from family members - helping with meals and laundry and taking care of my older child when the younger one was born 
+Family and spouse support
+Emotional/Physical/Lactation
+Support at home, mental health support.
+Trustworthy childcare
+Food, support for sleep & self care 
+Therapy. Psychological support 
+The support from both things offered to be were not very helpful unfortunately 
+I had terrible support w my first birth and that was a dark time. I learned how to advocate for myself with babies 2 and 3
+Mental Health
+Lactation support and massage
+Probably emotional support but that was mostly my partner providing it
+Mental health for my first. Household help for my second. 
+Emotional and physical support for both spouse and I. Husband had to go back to work after two weeks, but we struggled hard. PPD hit me hard.
+Lactation 
+It would have helped my mental health 
+I wish I had pelvic floor rehabilitation available at a better price, I really struggled for 2 years with pain but couldn’t afford thousands of dollars of it. I also wish I had more check ins with providers regarding mental health. I think I had PPA 6 months postpartum but couldn’t even get an appointment with my OB. 
+Therapy 
+Emotional, pelvic floor PT
+N/a
+Therapy, lactation consultant, family help
+Lactation, emotional 
+Therapy
+Household chores (laundry, dishes, cleaning), meals, childcare for toddler once sibling arrived
+Child Care
+Emotional support of partner, friends and family 
+Completing tasks around the house, babysitting, emotional support
+Postpartum/emotional. I was a mess
+I don’t know - sorry I had her in Dec 2019 and 3 months later the world shut down so I had nothing but me and my husband after the first 3 months. I think pelvic floor rehabilitation would have been great if I could have continued. Emotional support from husband and family and friends was important and I really appreciated my doula stopping by and just talking through breast feeding and the birth process after we got home before everything shut down. People dropping off food the first 2 months helped and people helping clean the house the first few months helped too.
+I could have used any help really, I was kind of thrown to the wolves 
+Medical care
+House cleaning.
+Lactation consultant, social media accounts for new moms/newborn advice
+Lactation and in home support 
+Emotional 
+Meals, emotional support
+Mental health and pelvic floor PT
+Help with my other kids & home provided by family & friends
+Lactation support and therapy
+Childcare
+We had very little support. In home support would have been very helpful, additional OB postpartum appointments and care would have been very helpful. Emotional support would have been helpful. 
+In person support groups of lactation advisors and parenting support
+Food/Household chores/lactation support
+Meal service, new parent support group online 
+Support group
+Order in my house/ listening ear and shared experiences 
+Lactation, Pelvic Floor, Counseling, Help at home
+Therapy
+Help from my sisters and MIL
+We really didn’t have any honestly
+Emotional & lactation 
+Help with sleep
+Learning how to breastfeed, keeping up with babies, work, & household
+Childcare when returning to work.
+Lactation support with an IBCLC (first) and Physical Therapy (second child)
+Emotional support
+Emotional and household chores
+Safe!!!! Childcare for older child
+Counseling-PPD/PPA
+Emotional 
+family offering in-home support 
+I needed mental health support as I suffered from PPA
+House cleaning, childcare 
+Meal train (friends), in person support group
+Household support - childcare, food, cleaning, etc. 
+Lactation support
+Medical care
+Emotional support from family and friends
+Spouse, social media group 
+I would have benefited from professional mental health support-but did not receive/did not know how to access
+Lactation would have been helpful. But also information about my traumatic birth. I had undiagnosed placenta accreta and hemorrhaged 2 weeks after my c-section.
+Childcare
+Lactation, child care
+My hiking group helped me get outside and make friends
+Emotional support and childcare assistance
+Emotional, social 
+Lactation and meal train 
+Community building, we participated in a birthing and baby class at BirthRoots which is a parenting community building non-profit
+
+Also lactation consultant
+Therapist, family help with housework 
+Lactation, pelvic floor, mental health
+Lactation help and emotional support 
+Emotional
+Family being around for emotional support
+In-home help, meal service, emotional support, PT
+Pelvic floor physical therapy
+Daily upkeep
+Immediate support from mom/MIL with newborn those first couple of weeks. Supportive partner who took on helping with baby, supporting my breastfeeding journey, making meals, etc. Childcare support from family when we returned to work. This is support I had and I would consider critical.
+Mental health- anxiety and depression support/medications
+Lactation and help with household
+Meal train. Lactation consultant. 
+100% needed more babysitting, household support (chores)
+Household help
+Family support to help with household tasks
+Would have loved more support in the home
+Family and friends 
+Child care 
+Lactation help (wish I had more). Therapy. Assistance from my partner and parents. Other new mom friends!! 
+Meals 
+My mother helping with other children
+All support needed more support overall
+In home care (my mother moved in with us) 
+Any household chores! Pelvic floor physical therapy and massage were helpful with pain 
+Pelvic floor therapy, lactation services
+My partner 
+Help around the house and counseling
+Didn’t have any 
+Extra set of hands 
+Family support
+Lactation 
+Nighttime support (postpartum doula who worked night shifts) and physical therapy 
+Lactation support (I paid out of pocket) 
+My MIL, lactation support, parent support groups 
+Support with household tasks so I could focus on baby
+Doula & nanny
+Emotional support 
+Breastfeeding support
+Childcare
+Meal train 
+Emotional support only since this was my 2nd child
+Lactation support
+Emotional support and food dropped off by family
+Help with child
+had none
+Mental health counseling 
+Support from partner, paterniy/maternity leave from work
+Child care
+Spouse and family help
+Mental health 
+New parent groups 
+Lactation support and mental health support. 
+In-home childcare support
+We didn’t have a lot of support, both because it was inaccessible financially but then we also lacked family/friend support due to COVID 19 and not having people around baby.
+Emotional/mental
+Breastfeeding emotional support
+Lactation support
+Lactation and housekeeping 
+Therapy/ mental health services 
+Childcare tied with lactation consultant 
+Amazing support from my partner and having the choice to take some time off of work before returning. (I took 7 months unpaid and we scraped pennies to make it happen but it was crucial to my mental health.) those who are self employed like myself don’t even have FMLA. 
+Meals and pelvic floor physical therapy 
+Mental health
+Cleaning, emotional support 
+Lactation support 
+Needed professional emotional support and lactation services: Hospital said they provided lactation services, but it was almost impossible to get in touch with the lactation consultants aver going home. 
+For the first, therapy and meds for PPA, lactation support.  Second was postpartum doula support for logistics and emotional support. 
+Childcare
+Lactation, extra hands to help
+Paid time off 
+My partners support
+exclusively pumping education, postpartum education and introducing solids. 
+Having family support and help 
+Meals
+And PT
+Household help 
+Any support that you didn’t have to seek out/ask for help would have been welcomed
+Getting everything else done--housework, food shopping, etc. I had much less time once I had my kids. 
+Night nurse/doula, mental health care for PPD
+Community- new parent group 
+Childcare 
+Family support (emotional, help with household tasks like cooking and laundry), and my husband had 12 weeks of fully paid parental leave
+Talking with mol friends online
+Childcare, therapy,  cleaning 
+Paid maternity leave, physical therapy, lactation support, childcare 
+Home support with household tasks 
+Being able to reach anyone for support 
+Lactation, mental support
+My husband was/is the only person who provides any real support. He would do night feedings so I could rest until both children were sleeping through the night at 4.5 and 3.5 months. He made meals, helped with laundry, let me sleep in on weekends, and allowed me hours of child-free time when he was not working. 
+Lactation support 
+Help with tasks around the house and emotional support.
+Family and friends—emotional and meals
+Lactation support, friends Ava family helping with meals or just checking in on us mentally and emotionally. 
+Family support 
+Emotional and lactation support 
+Lactation support, other supports I didn’t receive  
+My sister helping out and coming over frequently 
+Help with household chores so I could focus on baby
+Ideally emotional support and support with tasks (cleaning or watching the baby so I could get a little sleep). 
+Emotional support and household tasks 
+My mom
+Treatment from physician; support from workplace 
+Therapy 
+My spouse.  Minimal other support after 6 weeks 
+Physical, emotional and mental support 
+ 
+Emotional support 
+Lactation support
+Sleep. 
+Mental health support would have been helpful 
+Pelvic floor PT was crucial but other services ( doula, therapist eg) would have been very helpful
+Meal/home help
+Lactation support, mental health, body work, home derives, meal train  
+Postpartum household tasks 
+Hiring a housekeeper
+Spouse 
+Emotional support
+Family support with managing household tasks, etc 
+Paternity leave/spousal support 
+Lactation support 
+Emotional 
+Childcare
+Food already prepared
+Lactation support
+Spouse having some parental leave
+Breastfeeding 
+Lactation, pelvic floor PT, therapy, child care
+Postpartum doula and pelvic floor pt
+In home help
+Emotional support for both of us. 
+Help in the home
+Child care and house work help from family 
+Help with everyday tasks, meals, emotional support from husband 
+Doctors/specialists 
+I had none 
+Money for childcare, money to hire out routine services like laundry and meals, money to pay full time childcare for older daughter while recovering w newborn, money for LC & massage therapist visits 
+Household care would have been most helpful 
+Emotional 
+Ability to take maternity leave (12 weeks, paid using my sick/vacation time) and the small bit of paternity leave my husband could take (2 weeks). 
+Lactation and doula
+Extra hands to hold baby at times, meal support 
+A night nurse for the first 2 months of baby’s life
+Lactation support 
+Help with child care 
+In-home help with tasks like laundry, cooking, cleaning, and child care 
+Breaks for naps since baby wasn’t sleeping much
+Lactation
+Lactation support 
+Household chores, lactation 
+Breastfeeding help, emotional support 
+Lactation and in home nurse visit
+Emotional 
+Care for other children 
+I really needed more leave from work - I used all my PTO for the birth and had none left all year for any illnesses (and there were many)
+Emotional support and support from child’s pediatrician 
+Lactation, housework/meals, childcare, Employer being very open and flexible for me to pump at work for a year +, supportive husband
+Therapy. Lactation. 
+Childcare 
+Meals 
+Lactation
+Any support would have made a difference, especially after second birth
+Lactation support and wellness 
+All of it. My mental health was on the fritz from the sleep deprivation. I’m lucky I already had a therapist. Having an extra set of hands to help around the house was key to having my basic needs met (eating, showering, etc). The lactation consultant I found did house calls, which was amazing, but having to research for an IBCLC the week of my daughter’s birth was extremely stressful. 
+Mental/emotional support. I would have loved to have access to pelvic floor therapy/physical therapy as well, but I couldn’t afford them and have no idea how to schedule that type of care (no one ever mentioned it as an option during my pregnancy or postpartum)
+Lactation consultant
+Maternity leave
+My husband's support in taking on cleaning and cooking
+Sleep consult, lactation consult, housekeeper
+Emotional
+Post partum depression, lactation, emotional support
+New mom support groups 
+My husband helping me in the middle of the night 
+Emotional support 
+Counseling
+Mental health support 
+Ability to access good childcare to be able to return work. 
+Lactation/family members for child care 
+?
+Emotional and household support 
+Emotional, household help, and breastfeeding 
+My partner and social media postpartum accounts
+Mental health 
+Meal train. Pelvic floor therapy 
+The in-person new mom group I attended at the hospital I gave birth to my first child provided the most direct information and support.
+Household help
+In home assistance with laundry and childcare, emotional support from spouse, therapy for PPD/PPA
+Meals and house cleaning 
+Support from my mom and other family members and friends was very important.
+Emotional, I also wished that doctors would listen better, more communication when complications arose. 
+My spouse support. 
+Meal and household support 
+Emotional support, lactation
+In home support from fam
+Family
+Lactation support, sleep consultant 
+Childcare 
+Support from partner, family and friends
+In home support with laundry and food, pelvic PT, massage, psychotherapy and lactation support 
+Mental health would have been nice
+Social support
+Community support
+Emotional, in home help, pelvic floor rehab 
+Family and spouse support with baby-related tasks and house related tasks.
+Help with household tasks, I was sleeping in 90 min increments due to triple feeding for three weeks, and I was a shell of a human when my partner went back to work after one week
+Emotional support ; household tasks 
+Paternity/ parental leave; screening and access to therapy for PPA 
+Outsourcing tasks like cleaning and cooking
+La leche league 
+Access to our midwife 
+Help during the newborn phase. Surgical support 3 months postpartum for delivery complications. 
+Family/mother watching newborn. 
+Household help
+Lactation 
+In-home help with tasks like laundry, cooking, cleaning, and child care. Emotional support
+SAFE Childcare
+I gave birth at the height of the pandemic in 2020 and had no support in-house apart from my husband because we were terrified of letting outsiders in & getting sick
+Lactation support and also support from my mom who watched the baby so I could sleep occasionally.
+Help at home
+Lactation consultant, pediatrician 
+I'm only 4mo pp currently, would be helpful to have someone take the baby sometimes so I could get other things done and/or have help with household tasks
+Emotional support
+Family medical leave 
+Lactation/tounge tie. 
+Familial support and it wasn’t a lot. 
+Mental health support, help around the house
+PP doula and an acupuncturist/pain specialist for neck/back pain from caring for LO
+N/A
+Family
+Lactation and in person moms group
+Childcare help and breast pump provision
+Zoloft
+Emotional support from other new moms, household task support from paid outside help, emotional support from spouse, lactation support 
+Child care
+My pelvic floor therapy and my therapist for PPD mitigation
+Emotional support helped me through my PPD
+I’m home help
+Not sure
+Medical care for baby and myself. 
+Lactation services
+Emotional, lactation
+Splitting household/childcare with partner
+Postpartum depression medication
+Meal prep, household support, child care
+Mental health, lactation
+Friends and family, and structured/paid care (daycare).
+Babysitting 
+Lactation, mental health medication 
+Child care (nanny) 
+Spousal
+Physical support - backup caregiving, help with household tasks, etc. All provided by family members. 
+Childcare, family help with watching baby
+Cleaning, meals, childcare for my other kids, watching the baby so I could sleep/ do self care / go to an appointment by myself 
+I had none 
+Lactation
+Financial, childcare, mental health
+Lactation support
+A supportive spouse and a mom group I created in my neighborhood were critical for my first born during the first year. Also a lactation consultant coming to my house saved my nursing journey. 
+Emotional support 
+sleep support
+Nanny and cleaning service
+Lactation support 
+Emotional; my birth was during the beginning of the pandemic and we were very isolated for safety reasons. Solidarity meant everything. 
+Lactation support and emotional support
+Mental health 
+Family support in childcare
+Household support, parenting skills 
+Mental health
+Part-Time Nanny to help with the other kids and to help with the newborn. Baby was small and lost weight. Had to pump extra to supplement. Needed someone to feed her while I pumped. She helped with the other kids or watched baby so I could take preschooler to school or spend 1:1 with my toddler.
+Emotional and physical support of my partner
+Lactation support, mental health supports, help with household from family, pelvic floor therapy would have been amazing but not offered 
+Hospital provided weekly parent education and lactation support 
+Family and therapy 
+I wish I would have had post partum support for my second birth as I experienced post partum depression and still haven't been successfully referred to a therapist (my child is now 3)
+Emotional 
+Family (most critical second pregnancy as it was twins)
+Secondary support (cooking, cleaning, etc)
+Lactation support and mental health 
+This was my second child, so I didn’t have the same concerns. With my first for sure lactation support. I felt like I was completely on my own. 
+lactation 
+I wish I had better mental health support. Had to fight for it and still lost it after the provider would no longer take my insurance.
+Help with childcare
+Emotional support / lactation / mental health for both myself and husband
+New parent support 
+I did not have maternity leave and it would have made a huge difference 
+Nutrition 
+Family
+Family support- we didn’t have any
+Pelvic Floor Physical Therapy—but I wish I knew about it sooner. 
+Lactation support 
+Emotional support
+NICU nurse support, other NICU moms, financial support
+Physical and mental
+Any support would have been great. It was incredibly hard. 
+We did not receive adequate support
+Childcare
+Lactation support
+Pelvic floor PT, lactation, help with meal preparation 
+Night doula, post partum doula, nanny
+Lactation, in-home help from my family, therapist 
+I needed someone to realize for me that I had postpartum anxiety and not just new mom worries.
+Chiropractor support - I had really bad nerve pain after first birth.
+Mental health support
+Child care, meal support really any support would have been welcomed
+Depression/stress support
+Pelvic floor PT and PT for back pain So I could lift baby, also spouse help with household tasks and baby 
+Spouse help
+My mother helping with chores and cleaning and the baby at night
+Mental health support, which I did not get. I suffered from postpartum anxiety and ocd.
+Friends and family to step in when I was overwhelmed or needed a break. 
+Family help
+Peer support- moms group
+Help with child care 
+Lactation consulting, pelvic floor therapy, friends who forcibly came over and cleaned my house with love 
+Emotional support
+Social support, childcare
+My mother being here to help for 3 months
+Lactation consultant, emotional support 
+Lactation, Help with food, and household chores, also the ability to sleep without interruption. 
+My mom came over everyday, the home nurse visiting day 2 home from hospital. 
+Child care, lactation, home cleaning/cooking
+Lactation and tip sharing with other moms
+Having a community, people to connect with 
+PPA support
+Affordable child care
+Lactation support, evening / support so I could sleep
+Family members bringing food and helping with the baby
+Emotional support 
+Meals and food were phenomenal to have assistance with as time for outdoor exercise for me to breathe, heal, feel better. Assistance with our oldest who was 4 yrs old with birth of second sibling was great to have. 
+Mental health 
+Support with household tasks/ helping me get sleep
+I was pregnant and gave birth during the pandemic. It was a financially stressful time and health wise I was very concerned. A community or friends who could help would have been critical. 
+Mental health and lactation 
+Support at home- meals, cleaning, allowing me to nap
+parenting group (https://www.peps.org/)
+Lactation 
+Physical therapy 
+Childcare for my other 2 kids & husband home for first 6 weeks
+Emotional support 
+Lactation support, new mom group
+Having family stay with us 
+Physical therapy. Really needed a therapist or meds, but thought I could just work through birth trauma.
+Postpartum doula, meal services
+Emotional support from family
+Lactation consultant 
+Needed help with my older children. 
+Mental health support following birth trauma
+Family support 
+Obgyn followups
+Emotional support 
+unknown 
+Husband and parents 
+My mom helping when able
+Husband having 6 weeks paid off 
+None, I needed more help 
+Therapy, help with household chores, mom support groups, child care providers
+Family support was absolutely vital.
+Mental health therapy and PT (C-section, diastasis recti and pelvic floor)
+Familial support 
+Lactation (only one we were able to have)
+Mental health support (which is non existent)
+Emotional support and in home help
+I wish we had new mom groups, lactation support, family to help care for older children, family to help when we were sleep deprived 
+Domestic support. My mom came to help from out-of-state with the household responsibilities and babysitting. When she went home, it was challenging. My MIL helped every weekend with overnight care.
+I had my mother during the first few weeks after giving birth. Everything else was pieced together over time by my own planning.
+Meals and in home help
+Emotional - therapy
+Household/meal help (with my youngest as I then had 4 kids)
+Lactation but wish I had had mental health,  household tasks, and night doula
+Lactation consultant 
+Emotional - breast feeding clinic 
+I wish a had therapist, and support system 
+Support from husband and lactation consultant
+Counseling/emotional/mental, pelvic floor, lactation support, household help/food 
+Support from family and friends - helping care for baby, give us breaks, provide meals, etc. 
+Sympathetic friends and family
+Lactation support, mental health care
+Childcare, feeding support, Therapy for post partum anxiety
+C section recovery - waited 3 years to start pelvic floor therapy because insurance wouldn’t cover it and had to pay out of pocket 
+Help from family 
+Lactation, pediatrician 
+Unfortunately, my postpartum took place during Covid so I did not receive a lot of supports
+In home help (laundry, cooking, cleaning)
+Having a truly equal partner in my husband, the ability to quickly access mental health treatment when I needed it 
+PPD&A. I needed a therapist and couldn’t find one. 
+Lactation support, emotional support 
+Lactation, help from family 
+Lactation support, emotional support
+Child care
+Family help
+Paid family leave
+Emotional & household support in home
+Childcare, help with chores
+Leave from work and graduate school 
+Help getting sleep
+Lactation and emotional 
+Mental health therapy and lactation support
+Lactation support for oversupply/poor latch diet to suspected/self-resolving posterior tongue tie, & in-person parenting group
+Psychologist 
+In home help with daily tasks 
+In-home help with meals, cleaning, household chores, etc
+Household help, childcare, lactation support, 
+Meal assistance, childcare for older siblings 
+Emotional Support and massage
+Housekeeping, dog walking, cooking, grocery shopping 
+Mental health supports and physical support in home for home care tasks 
+Emotional, mental. It felt like I was stuck in a bubble by myself, my mom and husband were my biggest supports.  But even though my husband didn’t fully understand my needs because I don’t think most people truly understand unless they’ve experienced childbirth and postpartum themselves. 
+Lactation
+, lactation, housework, 
+More Emotional support would have been great. More help in general. 
+Childcare 
+Emotional/ mental health support
+Sleep and lactation 
+Lactation and the family nurse
+Household help (didn’t receive any) and ongoing lactation support (only had one 20 minute appointment immediately after birth)
+Cleaning person, therapist
+Physical, help caring for baby to enable rest 
+Pelvic floor physical therapy
+Assistance with other household tasks and care of other children 
+Mental health, pelvic floor rehab would have been helpful.
+Therapy 
+Partner support + therapy + house keeping
+Sleep-training course (we paid for) and information regarding newborn/infant care on social media since we were first-time parents in March 2020 and didn’t have any in-person support from friends or family
+Spouse home full time 
+Family support
+Doula support for me after first child and night doula after I had twins were; regular therapy sessions 
+Help from spouse and family 
+Childcare
+Help with the house, food, other children
+We didn't really have much of any, but an in-home postpartum care medical provider (murde or nurse midwife) would have made a huge difference the first year
+Maven app and mom and sister staying over
+Emotional/Mental 
+I had basically none with my singleton birth (when I was 35) but learned more and we personally hired a postpartum doula for our twins’ birth (age 39). It saved our sanity. 
+Being home for childcare 
+I had horrendous post partum anxiety - not post partum depression but crippling anxiety thinking the baby was going to die constantly. It was really bad after every baby. If I could have afforded the therapy to deal with this, plus the childcare I would have needed to go to therapy I definitely would.
+Mental Health support
+Childcare so I could go to appointments 
+IBCLC ran an in person new mom support group that got me out of the house & interacting with new moms in the same situation. It was a life line
+Meal train 
+Lactation, food would have been nice
+Pelvic floor PT and lactation support 
+Help with meals and child care
+Family support- providing meals by setting up mela train among friends and neighbors and occasional care for the baby and, w my second child, the toddler. For the first month postpartum I leaned on my doula for advice w breastfeeding and my physical recovery. Therapy and meds for depression, which I already had pre pregnancy, were also crucial 
+In home help. Emotional support
+Emotional and cleaning. I wish I could do pelvic floor therapy 
+Mental support, help with tasks
+Family support 
+Anti- depressants 
+Emotional support 
+Lactation assistance 
+Therapy (for spouse), friends who brought food or gave us a break, parents who gave us a break 
+Emotional and physical from emergency c-section 
+Domestic support so I could have time to myself 
+Family and friends 
+Lactation, chiropractor, in home help with tasks and childcare including overnight care for newborn to give.a.break
+I wish I could have had help with breastfeeding and sleep!
+Meals, cleaning, breaks
+Breastfeeding -exclusive pumper and no one educates you prior 
+Housework help and cooking would have been most helpful 
+Husband’s ability to help with baby.
+In home help with baby care & household upkeep. Lactation
+Family and friend support
+Physical therapy/pelvic floor rehab and counseling
+Being able to bond with our new baby while still being able to nourish and care for ourselves. 
+Hospital grade breast pump and lactation support 
+My mother coming to stay with us for 5 weeks (no family around us for 1000 miles)
+Emotional and hands on help/care and lactation 
+I gave birth February 2020. Once I left the hospital, zero support other than my husband. Postpartum appt cancelled due to covid restrictions and confusion. 
+Postpartum depression and lactation services 
+Talk Therapy
+Parenting group 
+Midwife, support group
+Family support
+Child care because we don't have family nearby and because maternity leave in the US is absolutely ridiculous and unacceptable. I don't know why all the women/moms in this country don't revolt against it. How can you be expected to go back to work when your baby is still breastfeeding every 2-3 hours and can't even hold their up properly yet!! All other developed nations give mothers the option to take 1 year off, at least your infant is a bit more independent by then and may or may not be breastfeeding anymore. 
+
+Maternity leave in America is inhumane, it's anti-family, it's unjust. Pleaaaaase help us change that!!! Please!!! 
+Psychiatry 
+Family support
+Lactation, in home help and meals
+Social/family support 
+Lactation
+Lactation 
+Husband stayed home to provide childcare 
+I didn’t get the support I needed. Lactation was the most critical support that I did receive. 
+Help from friends and family 
+Wish I had mental health check ups
+In home child care from my family
+Child care to catch up on sleep and other things 
+Psychologist and psychiatrist. Lactation consultant. Help with my baby at night. Help during the day so I could sleep. 
+Pelvic floor PT, help from family 
+Lactation consultant and pelvic floor and meal assistance
+House help so I could rest, meals, laundry, etc. 
+Emotional support from my doula and closest family/friends, having childcare for my older child so he was receiving additional care and attention in the early postpartum period, and having meals brought or prepped for us all. 
+Physical in person help with every day things in the first few weeks by family was critical. 
+Self sought pelvic floor therapy after my 2nd birth was crucial as well
+Pelvic floor PT
+Help with laundry and lactation 
+IBCLC
+My husband having one month of paternity leave, and then he was able to work remotely because of covid shortly after I gave birth. Having someone at home to be helpful between meetings was key. 
+In home help
+Lactation consultant 
+Overnight care, mental health services 
+Spouse
+I needed support with housework and basic needs. Meals or errands or help with our dogs. 
+In home support so I could sleep 
+Strong relationship with my husband, therapy, ssri 
+Should have been therapy but I didn't make myself a priority with my 1st like I'm doing with my 2nd
+Our cleaning services 
+Emotional and thankful to my husband for that because it was a very long and lonely journey 
+Support of my husband in household chores and meals, and his emotional support
+I was able to move in with family who helped me frequently with meals, helping with baby so I can sleep, helping wash pump parts and feed baby. 
+Meal train, emotional support from spouse 
+Pelvic floor rehabilitation , Lactation Support, In-Home help with tasks, in-home wellness services
+Lactation. In home support like meals and childcare
+Affordable childcare and paid maternity leave, I had leave partially paid, partially unpaid and took 13 weeks 
+the care from my certified nurse midwife, as well as lactation consultation. i wish there had been accessible mental health and couples counseling as well 
+Emotional and day to day support 
+My friend started a Meal Train; this was the most valuable help in the immediate postpartum weeks.
+Mental health support, physical support overnight 
+Meds, physical recovery (massage, pelvic floor rehab) 
+Therapy
+Therapy, pelvic floor pt. The fact that birth is the only surgery that does NOT get an automatic PT referral in the hospital is bullshit, PT consults should be required. 
+Family coming to clean, cook, etc. Being able to call my OB with any issues.
+People showing up 
+N/A
+Maine Families and family 
+In-house help, lactation support
+Getting our nanny
+Therapy/ medication
+Help with baby so I could sleep
+I needed therapy and did not know where to go for post partum mothers
+Mental health would have been nice to know about and have.
+Lactation support was most important to me 
+Family help 
+Emotional/mental
+Assistance from family and lactation support
+Emotional. I suffered from post partum anxiety and depression. 
+Help around the house, childcare
+Emotional support 
+Lactation 
+Our doula help. They made me feel like myself again. 
+Lactation and sleep help
+Therapy
+My partners 20 week paid paternity leave. I would not have had more children had we not had that benefit!
+Meals, pelvic floor PT, sleep support 
+Family members washing dishes!!
+Mental/physical 
+Postpartum doula who know so much about newborns, cranial sacrum therapy, 
+Emotional support, having a community of friends in a similar life stage. 
+Therapy, 
+Emotional support and physical help like laundry, cleaning, meals cooked.
+Family support
+Family help 
+Family leave from work 
+Family support, help with older kids, help with baby to get a break
+Family providing childcare 
+PT for my core and pelvic floor 
+Provider/ familial 
+Online “bumper” support group of moms who had babies the same month
+Support from our family-mainly childcare 
+Family support
+Meals
+PPD/PPA medicine 
+Pelvic floor, therapy for PTSD from delivery 
+Emotional support from spouse and my mother and every day support with household responsibilities such as cooking and cleaning
+Counseling, lactation 
+Not having support was really hard
+Doula support. We did not have family in the area, my husband had ZERO paternity leave and we paid for all of the support out of pocket and I don’t know what I would have done without it 
+Pelvic floor and parent-support groups, talk therapy
+Family members helping out with meals and emotional support
+Support with household tasks
+Childcare
+Lactation services and new mom support groups 
+Help with household duties 
+pelvic floor therapy 
+Emotional support and sleep support
+Lactation support. 
+Emotional
+Financial 
+My family and friends supporting me; my therapist (online not covered by insurance)
+Any food (cooking, delivery, groceries), cleaning, and dog walking were so important.
+Physical recovery first and foremost and then PTSD/emotional support from birth trauma 
+Support at home from partner and family
+Lactation support/meal train
+Pelvic floor therapy and ppa treatment 
+Lactation consultant, pelvic floor PT
+Emotional support from friends and family 
+We didn’t get any. The worst time period of my life. 
+Lactation support was very important. I could have used that with my second (my first child, born in Indiana at a birthing center, was the only child I had access to LS with). There were feeding issues I ran into with my second child that forced me to take less hours when I did return to work. 
+Family support so I could sleep 
+Childcare so I could return to work. 
+Lactation support 
+Lactation support for exclusive breastfeeding, physical therapist to rehabilitate core and pelvic floor
+Emotional
+Help with household tasks (cooking, laundry, etc.) and childcare so mom could sleep during the day
+Wellness, emotional support, night nurse, sleep help
+In home postpartum care, and continued in office care. 6 appointments within the first 6 weeks, plus phone and text access as needed.
+An extra set of hands (to handle kids, make food, change laundry, etc)
+House cleaning- my mom helped some 
+My mom being close by to help with household tasks 
+Physical rehabilitation and education apart from support with care which i had from family members 
+Lactation/pumping. 
+Chiropractic care 
+I had c section so physical support as I could barely walk the first birth when I came home. They didn’t even send me home w enough painkillers. 
+Emotional
+I wish I had had better support in the form of mental health or household help including meals. I had good help for the physical aspect of birth but not much help otherwise.
+Spousal support 
+Spouse. Online support groups
+Having my parents stay with us for a couple of weeks and my husband's paternity leave (quality postpartum therapy would have been good)
+Help with baby when I (mom) was injured 
+Lactation support, physical therapy
+Household help with meals, so I wouldn’t have to cook; this was critical and was only fulfilled for the first week.  (I exclusively breastfed for three years with my first and five years with my second. The first three months of breastfeeding were very taxing on my body and mind. Good food is paramount. The MOST critical thing needed for me was adequate nourishment at small intervals without my needing to prepare it.) 
+Being able to sleep and having someone take over watching the baby when I needed to rest. 
+Emotional support would have been helpful. 
+I needed more help with breastfeeding and pelvic floor therapy. I also struggled with maternity leave and having enough money to live. My time off was not clearly defined and my boss denied part of my leave while i was on maternity leave.
+Emotional support, lactation support, family/friend support 
+Food train
+My mother in law folding my laundry 
+Lactation consultant 
+Pelvic floor therapy, help from family with other kids/meals while healing
+Childcare, time for myself
+Family support, mental support, physical therapy, and lactation
+Child care and emotional support 
+Mental, feeding the family, emotional support
+Mental health/household support
+Lactation
+Having a postpartum doula / midwife home visits in first 8 weeks to identify and address jaundice & feeding issues between 2 week & 8 week baby wellness checks
+Lactation and emotional house
+Access to whatever mental health support I could receive, my PCP managing the aftereffects of my preeclampsia, my mom helping us 
+Lactation, pelvic floor, Pp follow up and family taking care of us when we returned home
+All of it. And more. 
+Support with finances and work. Would have liked more maternity leave 
+Lactation consultant and emotional support
+We Googled a lot
+Lactation support was helpful, but friends delivering meals was invaluable. Even having someone to wash dishes or hold the baby so I could shower 
+Physical and emotional support. 
+Family—childcare/relief, support with groceries or errands, cleaning and catching up on laundry, emotional support. 
+Lactation
+Time off and mental health care
+Picking a phenomenal partner with whom to have a child; resources to order anything we needed from Amazon; amazing pediatricians; high quality infant care 
+Support on transition back to work 
+Night nurse 
+Meals, emotional support, acupuncture 
+Breastfeeding support
+Help with meals
+Breastfeeding Support
+Childcare
+family coming to stay since support network locally isn’t great
+I wish we had more support for sleep. But the ability to not have to go back to work full time for myself and that my partner had a somewhat flexible job was the most crucial. As well was an online group I was part of and wished for an in person group. We had a very amazing lacatation counselor through pen bay we went to and she was so helpful and checked in alot
+Meals, pelvic floor therapy, encapsulated placenta
+My partner 
+Emotional support, body work
+Emotional support and the feeling of a community around us. It felt like we didn’t have that village everyone always bragged about. 
+My partner 
+Therapist and meal train 
+Help with meals and some housework, lactation consultant 
+Partner support, employer support
+Postpartum doula WOULD have been the most critical
+Postpartum doula WOULD have been the most critical
+4 months in first year, so TBD! So far family support to help have someone else's practical support during the day and having overnight doula so we can sleep one night a week
+Meal train
+Lactation support IMMEDIATELY and recurring, twin club meal train for some early days,  my mom visiting after 2 weeks helping round the clock, dad helping when he visited later, We hired a nanny at 3 months so I could go back to work, and eventually (rarely) going to a therapist for postpartum depression care.  
+
+This was not NEARLY enough support. 
+Family support for child care, food, etc. 
+Help from family
+the support from other moms
+Mealtrain in our first, acupuncture care in our second. My acupuncturist came to our home 
+Spouse assistance, blogs on sleep training and a nanny once I returned to work 
+Having my Mom close by was and is critical.
+Lactation and support from other moms via friends and my postpartum support group")
+
+corpus <- Corpus(VectorSource(comments_text))
+corpus_clean <- corpus %>%
+   tm_map(content_transformer(tolower)) %>% 
+  tm_map(removePunctuation) %>%
+  tm_map(removeNumbers) %>% 
+  tm_map(removeWords, stopwords("en")) %>%
+  tm_map(stripWhitespace) %>% 
+  tm_map(removeWords, c("none"))
+```
+
+    ## Warning in tm_map.SimpleCorpus(., content_transformer(tolower)): transformation
+    ## drops documents
+
+    ## Warning in tm_map.SimpleCorpus(., removePunctuation): transformation drops
+    ## documents
+
+    ## Warning in tm_map.SimpleCorpus(., removeNumbers): transformation drops
+    ## documents
+
+    ## Warning in tm_map.SimpleCorpus(., removeWords, stopwords("en")): transformation
+    ## drops documents
+
+    ## Warning in tm_map.SimpleCorpus(., stripWhitespace): transformation drops
+    ## documents
+
+    ## Warning in tm_map.SimpleCorpus(., removeWords, c("none")): transformation drops
+    ## documents
+
+``` r
+tdm <- TermDocumentMatrix(corpus_clean)
+
+m <- as.matrix(tdm)
+
+word_freqs <- sort(rowSums(m), decreasing = TRUE)
+
+word_freq_table <- data.frame(word = names(word_freqs), freq = word_freqs)
+
+colors <- viridis(nrow(word_freq_table), option = "D")
+
+wordcloud2(word_freq_table, size = 0.5, color = colors)
+```
+
+<div class="wordcloud2 html-widget html-fill-item" id="htmlwidget-d0a5778092ae26d8891f" style="width:672px;height:480px;"></div>
+<script type="application/json" data-for="htmlwidget-d0a5778092ae26d8891f">{"x":{"word":["support","lactation","help","emotional","family","therapy","care","mental","childcare","health","household","home","floor","pelvic","meals","child","baby","tasks","first","postpartum","sleep","cleaning","physical","friends","leave","birth","doula","house","husband","mom","work","meal","needed","spouse","weeks","consultant","group","partner","food","helping","helpful","laundry","new","time","train","breastfeeding","didn’t","etc","months","second","therapist","wish","cooking","like","night","paid","services","able","also","assistance","chores","one","critical","get","helped","inhome","really","access","around","community","depression","groups","maternity","moms","post","take","kids","nanny","nurse","partum","children","day","hospital","members","mother","older","parents","person","anxiety","back","counseling","feeding","gave","hands","know","made","pain","paternity","people","receive","social","someone","week","ability","amazing","better","coming","even","extra","housework","insurance","massage","midwife","newborn","online","overnight","parent","parenting","ppa","year","came","covid","crucial","every","felt","great","important","just","medical","money","much","provided","pump","since","supports","things","took","watching","well","advice","appointments","babysitting","break","breast","can","consultants","couldn’t","difference","don’t","education","enough","everything","getting","good","hard","ibclc","inperson","life","lot","make","media","meds","nice","ppd","providing","recovery","rehab","rehabilitation","rest","self","stay","still","think","three","used","visit","wellness","years","affordable","already","appointment","babies","body","born","breaks","close","covered","csection","definitely","delivery","didnt","dishes","dont","due","emotionalmental","familial","financial","full","going","got","hired","hold","hours","information","issues","journey","later","left","little","medication","mil","month","needs","outside","pandemic","parental","pediatrician","pocket","pregnancy","provider","quality","return","returned","service","set","sleeping","small","struggled","suffered","supportive","taking","toddler","trauma","treatment","went","without","absolutely","accounts","acupuncture","additional","adequate","afford","almost","apart","area","available","bad","basic","birthing","bit","brought","building","caring","challenging","change","check","chiropractic","chiropractor","clean","complications","connect","consult","continued","cook","core","couple","cover","daily","daughter","dog","domestic","done","early","else","employer","errands","everyday","everyone","exclusive","exclusively","experienced","familyfriend","familyfriends","far","feed","feel","feeling","financially","flexible","focus","follow","frequently","friend","fully","general","give","giving","groceries","housekeeper","housekeeping","huge","husbands","immediate","immediately","including","infant","inhouse","keeping","key","learned","less","long","lost","loved","managing","may","mothers","nap","naps","nearly","neighbors","nicu","occasionally","offered","old","option","order","part","partially","partners","pay","period","phenomenal","placenta","plus","ppdppa","professional","provide","providers","psychologist","ran","realize","regarding","responsibilities","returning","safe","saved","school","screening","section","setting","shopping","shut","sibling","sister","spousal","started","stressful","supporting","sure","talk","talking","though","thought","tie","truly","twins","understand","unfortunately","unpaid","upkeep","visiting","visits","waited","walking","wash","wasn’t","watched","welcomed","wished","wouldn’t","zero","’m","’ve","accessible","accreta","acupuncturist","acupuncturistpain","address","advisors","advocate","afforded","aftereffects","age","allowed","allowing","alot","always","amazon","america","among","andor","anti","antifamily","anymore","anyone","anything","app","appreciated","appt","arose","arrived","aspect","attend","attended","attention","automatic","ava","aver","babyrelated","baby’s","backup","barely","basically","bay","beginning","benefit","benefited","benefitted","biggest","birthroots","blogs","bond","boss","bragged","breastfed","breastfeed","breathe","bringing","bubble","bullshit","call","calls","cancelled","cant","caregiving","catch","catching","center","certified","checked","checking","checks","childbirth","childfree","child’s","choice","choreslactation","class","cleaned","cleaningcooking","clearly","clinic","clock","closest","club","come","communication","completely","completing","concerned","concerns","confusion","connected","consider","constantly","consultation","consulting","consults","conversation","cooked","counselingemotionalmental","counselingppdppa","counselor","country","couples","course","cranial","created","crippling","currently","dad","dark","daughter’s","daycare","days","deal","dec","defined","delivering","denied","depressants","depressionstress","deprivation","deprived","derives","developed","diastasis","die","diet","direct","doctors","doctorsspecialists","dogs","dollars","donehousework","dropped","dropping","drowning","duties","ear","easier","eating","educates","elses","emergency","emotionally","emotionalphysicallactation","employed","enable","encapsulated","ended","equal","especially","evening","eventually","ever","exercise","existent","expected","experiences","extremely","fact","fam","families","familymainly","familymother","family—childcarerelief","february","feedings","fight","finances","find","firsttime","five","fmla","folding","following","followups","foodhousehold","forced","forcibly","foremost","form","found","friendsfamily","friends—emotional","fritz","fulfilled","gaslit","giveabreak","googled","grade","graduate","grief","grocery","handle","handsdown","happen","havent","heal","healing","healthhousehold","height","helpcare","helpfood","hemorrhaged","high","hiking","hip","hire","hiring","hit","honestly","horrendous","horrific","householdchildcare","householdmeal","houseworkmeals","httpswwwpepsorg","human","husband’s","iblc","idea","ideally","identify","illnesses","impossible","inaccessible","incredibly","increments","independent","indiana","inhumane","initial","injured","ins","instead","interacting","interruption","intervals","introducing","invaluable","isn’t","isolated","jaundice","job","kidsmeals","kind","knew","lacatation","lacked","lactationfamily","lactationpumping","lactationtounge","latch","law","league","leaned","learning","least","leavespousal","leche","let","letting","lift","liked","line","listen","listening","live","locally","logistics","lonely","longer","love","lucky","maine","making","many","march","maven","mealhome","mealtrain","meant","medicine","meetings","mela","mentalemotional","mentally","mentalphysical","mentioned","mess","met","middle","midwifery","miles","min","mind","minimal","minute","mitigation","model","mol","mommil","momsnewborn","mostly","move","moved","murde","nations","nearby","neckback","needing","neighborhood","nerve","network","newborninfant","newborns","nighttime","non","nonprofit","nothing","nourish","nourishment","now","nursedoula","nursing","nutrition","obgyn","occasional","ocd","offering","office","oldest","ongoing","open","otherwise","outask","outdoor","outofstate","outsiders","outsourcing","overall","overnights","oversupplypoor","overwhelmed","painkillers","paramount","parentsupport","participated","parting","parts","parttime","paterniymaternity","pcp","pediatricians","peer","pen","pennies","personally","pet","phase","phone","physician","picking","pieced","place","planning","pleaaaaase","please","posterior","postpartumemotional","ppda","practical","pre","preeclampsia","pregnant","prep","preparation","prepare","prepared","prepped","preschooler","price","prior","priority","probably","process","promptingencouragement","properly","provides","provision","psychiatrist","psychiatry","psychological","psychotherapy","pto","ptsd","ptsdemotional","pumped","pumper","pumping","quickly","rarely","reach","real","reasons","received","receivedid","receiving","recovering","recti","recurring","referral","referred","regular","rehabilitate","related","relationship","remotely","required","research","resources","restrictions","retired","revolt","ridiculous","round","routine","sacrum","safety","said","sanity","scared","schedule","scraped","secondary","seek","send","sessions","shared","sharing","shell","shifts","shortly","shower","showering","showing","siblings","sick","sickvacation","similar","singleton","sisters","situation","six","skills","sleeptraining","socialfamily","solidarity","solids","sometimes","somewhat","sooner","sorry","sought","specialist","spend","splitting","ssri","stage","start","starting","stayed","staying","step","stopping","strong","structuredpaid","stuck","successfully","supplement","supportbut","supportmeal","supportmedications","surgery","surgical","suspectedselfresolving","sympathetic","system","task","taxing","tbd","terrible","terrified","text","thankful","therapypelvic","therapyphysical","therapy—","thing","thinking","thousands","thrown","tied","times","tip","together","tongue","touch","training","transition","traumatic","triple","trusted","trustworthy","twin","twins’","two","type","unacceptable","undiagnosed","unjust","unknown","unless","ups","using","valuable","via","village","visited","vital","walk","washing","wasis","weekend","weekends","weekly","weight","whatever","whenever","wise","within","wolves","womenmoms","worked","working","workplace","world","worries","worst","yet","younger","youngest","yrs","zoloft","“bumper”","…"],"freq":[351,174,143,122,102,69,68,66,62,59,59,57,52,52,49,43,39,36,34,34,34,33,33,31,27,26,26,25,25,25,25,24,24,24,23,22,22,21,19,19,18,18,17,17,17,16,15,15,15,15,15,15,14,14,14,14,13,12,12,12,12,12,11,11,11,11,11,10,10,10,10,10,10,10,10,10,9,9,9,9,8,8,8,8,8,8,8,8,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],"fontFamily":"Segoe UI","fontWeight":"bold","color":["#440154FF","#440155FF","#440155FF","#440256FF","#440256FF","#440356FF","#450357FF","#450457FF","#450457FF","#450458FF","#450558FF","#450559FF","#450559FF","#46065AFF","#46075AFF","#46075AFF","#46075BFF","#46085BFF","#46085CFF","#46085CFF","#46095DFF","#46095DFF","#460A5DFF","#460A5DFF","#460B5DFF","#460B5EFF","#460B5EFF","#460C5FFF","#470C5FFF","#470D60FF","#470D60FF","#470D60FF","#470E61FF","#470E61FF","#470E61FF","#470F62FF","#471063FF","#471063FF","#471063FF","#471164FF","#471164FF","#471164FF","#471264FF","#471265FF","#471365FF","#471365FF","#481466FF","#481467FF","#481467FF","#481567FF","#481568FF","#481668FF","#481668FF","#481768FF","#481769FF","#481769FF","#481769FF","#481769FF","#48186AFF","#48186AFF","#48196BFF","#48196BFF","#481A6CFF","#481A6CFF","#481A6DFF","#481B6DFF","#481B6DFF","#481B6DFF","#481B6DFF","#481C6EFF","#481C6EFF","#481C6EFF","#481C6FFF","#481D6FFF","#481D6FFF","#481E6FFF","#481E70FF","#481F70FF","#481F70FF","#482070FF","#482071FF","#482071FF","#482072FF","#482072FF","#482173FF","#482173FF","#482273FF","#482274FF","#482374FF","#482374FF","#482474FF","#482475FF","#482475FF","#482475FF","#482576FF","#482576FF","#482576FF","#482576FF","#482677FF","#482677FF","#482677FF","#482777FF","#482778FF","#482878FF","#482878FF","#482979FF","#482979FF","#482979FF","#482979FF","#472A7AFF","#472A7AFF","#472A7AFF","#472B7AFF","#472B7AFF","#472C7AFF","#472C7AFF","#472D7AFF","#472D7BFF","#472D7BFF","#472D7BFF","#472E7CFF","#472E7CFF","#472E7CFF","#472E7CFF","#472F7DFF","#472F7DFF","#472F7DFF","#462F7EFF","#46307EFF","#46307EFF","#46317EFF","#46317EFF","#46327EFF","#46327EFF","#46337EFF","#46337FFF","#46337FFF","#46337FFF","#463480FF","#463480FF","#463480FF","#463480FF","#453481FF","#453581FF","#453581FF","#453681FF","#453681FF","#453781FF","#453781FF","#453881FF","#453882FF","#453882FF","#453882FF","#443983FF","#443983FF","#443983FF","#443983FF","#443A83FF","#443A83FF","#443A83FF","#443A84FF","#443B84FF","#443B84FF","#443C84FF","#433C84FF","#433D84FF","#433D84FF","#433E84FF","#433E85FF","#433E85FF","#433E85FF","#433E85FF","#423F85FF","#423F85FF","#423F85FF","#424086FF","#424086FF","#424086FF","#424086FF","#424186FF","#424186FF","#424186FF","#414186FF","#414287FF","#414287FF","#414387FF","#414387FF","#414487FF","#414487FF","#414487FF","#404588FF","#404588FF","#404588FF","#404588FF","#404688FF","#404688FF","#404688FF","#3F4788FF","#3F4788FF","#3F4788FF","#3F4788FF","#3F4889FF","#3F4889FF","#3F4889FF","#3F4889FF","#3E4989FF","#3E4989FF","#3E4989FF","#3E4989FF","#3E4A89FF","#3E4A89FF","#3E4B89FF","#3E4B8AFF","#3E4C8AFF","#3E4C8AFF","#3E4D8AFF","#3D4D8AFF","#3D4D8AFF","#3D4D8AFF","#3D4E8AFF","#3D4E8AFF","#3D4E8AFF","#3D4E8AFF","#3C4F8AFF","#3C4F8AFF","#3C4F8AFF","#3C4F8AFF","#3C508BFF","#3C508BFF","#3C508BFF","#3B518BFF","#3B518BFF","#3B518BFF","#3B518BFF","#3B528BFF","#3B528BFF","#3B528BFF","#3B528BFF","#3A538BFF","#3A538BFF","#3A538BFF","#3A548CFF","#3A548CFF","#3A548CFF","#3A548CFF","#39558CFF","#39558CFF","#39558CFF","#39558CFF","#39568CFF","#39568CFF","#39568CFF","#38578CFF","#38588CFF","#38588CFF","#38588CFF","#38598CFF","#38598CFF","#38598CFF","#38598CFF","#375A8CFF","#375A8CFF","#375A8CFF","#375B8CFF","#375B8DFF","#375B8DFF","#375B8DFF","#365C8DFF","#365C8DFF","#365C8DFF","#365C8DFF","#365D8DFF","#365D8DFF","#365D8DFF","#365D8DFF","#355E8DFF","#355E8DFF","#355E8DFF","#355F8DFF","#355F8DFF","#355F8DFF","#355F8DFF","#34608DFF","#34608DFF","#34608DFF","#34608DFF","#34618DFF","#34618DFF","#34618DFF","#33628DFF","#33628DFF","#33628DFF","#33628DFF","#33638DFF","#33638DFF","#33638DFF","#33638DFF","#32648EFF","#32648EFF","#32648EFF","#32658EFF","#32658EFF","#32658EFF","#32658EFF","#31668EFF","#31668EFF","#31668EFF","#31668EFF","#31678EFF","#31678EFF","#31678EFF","#31688EFF","#31688EFF","#31688EFF","#31688EFF","#30698EFF","#30698EFF","#30698EFF","#30698EFF","#306A8EFF","#306A8EFF","#306A8EFF","#2F6B8EFF","#2F6B8EFF","#2F6B8EFF","#2F6B8EFF","#2F6C8EFF","#2F6C8EFF","#2F6C8EFF","#2F6C8EFF","#2E6D8EFF","#2E6D8EFF","#2E6D8EFF","#2E6E8EFF","#2E6E8EFF","#2E6E8EFF","#2E6E8EFF","#2E6F8EFF","#2E6F8EFF","#2E6F8EFF","#2E6F8EFF","#2D708EFF","#2D708EFF","#2D708EFF","#2D718EFF","#2D718EFF","#2D718EFF","#2D718EFF","#2C718EFF","#2C718EFF","#2C718EFF","#2C718EFF","#2C728EFF","#2C728EFF","#2C728EFF","#2C738EFF","#2C738EFF","#2C738EFF","#2C738EFF","#2B748EFF","#2B748EFF","#2B748EFF","#2B748EFF","#2B758EFF","#2B758EFF","#2B758EFF","#2B758EFF","#2A768EFF","#2A768EFF","#2A768EFF","#2A778EFF","#2A778EFF","#2A778EFF","#2A778EFF","#2A788EFF","#2A788EFF","#2A788EFF","#2A788EFF","#29798EFF","#29798EFF","#29798EFF","#297A8EFF","#297A8EFF","#297A8EFF","#297A8EFF","#297B8EFF","#297B8EFF","#297B8EFF","#287B8EFF","#287C8EFF","#287C8EFF","#287C8EFF","#287D8EFF","#287D8EFF","#287D8EFF","#287D8EFF","#277E8EFF","#277E8EFF","#277E8EFF","#277E8EFF","#277F8EFF","#277F8EFF","#277F8EFF","#27808EFF","#27808EFF","#27808EFF","#27808EFF","#26818EFF","#26818EFF","#26818EFF","#26828EFF","#26828EFF","#26828EFF","#26828EFF","#26828EFF","#26828EFF","#26828EFF","#26828EFF","#25838EFF","#25838EFF","#25838EFF","#25838EFF","#25848EFF","#25848EFF","#25848EFF","#25858EFF","#25858EFF","#25858EFF","#25858EFF","#24868EFF","#24868EFF","#24868EFF","#24868EFF","#24878EFF","#24878EFF","#24878EFF","#24888EFF","#23888EFF","#23888EFF","#23888EFF","#23898EFF","#23898EFF","#23898EFF","#23898EFF","#238A8DFF","#238A8DFF","#238A8DFF","#228B8DFF","#228B8DFF","#228B8DFF","#228B8DFF","#228C8DFF","#228C8DFF","#228C8DFF","#228C8DFF","#228D8DFF","#228D8DFF","#228D8DFF","#218E8DFF","#218E8DFF","#218E8DFF","#218E8DFF","#218F8DFF","#218F8DFF","#218F8DFF","#218F8DFF","#21908DFF","#21908DFF","#21908DFF","#21908CFF","#21918CFF","#21918CFF","#21918CFF","#20928CFF","#20928CFF","#20928CFF","#20928CFF","#20928CFF","#20928CFF","#20928CFF","#20928CFF","#20938CFF","#20938CFF","#20938CFF","#1F948CFF","#1F948CFF","#1F948CFF","#1F948CFF","#1F958BFF","#1F958BFF","#1F958BFF","#1F958BFF","#1F968BFF","#1F968BFF","#1F968BFF","#1F978BFF","#1F978BFF","#1F978BFF","#1F978BFF","#1F988BFF","#1F988BFF","#1F988BFF","#1F988BFF","#1F998AFF","#1F998AFF","#1F998AFF","#1F9A8AFF","#1F9A8AFF","#1F9A8AFF","#1F9A8AFF","#1E9B8AFF","#1E9B8AFF","#1E9B8AFF","#1E9B8AFF","#1E9C89FF","#1E9C89FF","#1E9C89FF","#1E9D89FF","#1E9D89FF","#1E9D89FF","#1E9D89FF","#1F9E89FF","#1F9E89FF","#1F9E89FF","#1F9E89FF","#1F9F88FF","#1F9F88FF","#1F9F88FF","#1FA088FF","#1FA088FF","#1FA088FF","#1FA088FF","#1FA188FF","#1FA188FF","#1FA188FF","#1FA188FF","#1FA187FF","#1FA187FF","#1FA187FF","#1FA187FF","#1FA287FF","#1FA287FF","#1FA287FF","#20A386FF","#20A386FF","#20A386FF","#20A386FF","#20A486FF","#20A486FF","#20A486FF","#21A586FF","#21A585FF","#21A585FF","#21A585FF","#21A685FF","#21A685FF","#21A685FF","#21A685FF","#22A785FF","#22A785FF","#22A785FF","#22A885FF","#22A884FF","#22A884FF","#22A884FF","#23A983FF","#23A983FF","#23A983FF","#23A983FF","#24AA83FF","#24AA83FF","#24AA83FF","#25AB82FF","#25AB82FF","#25AB82FF","#25AB82FF","#25AC82FF","#25AC82FF","#25AC82FF","#25AC82FF","#26AD81FF","#26AD81FF","#26AD81FF","#27AD81FF","#27AD81FF","#27AD81FF","#27AD81FF","#28AD81FF","#28AE80FF","#28AE80FF","#28AE7FFF","#29AF7FFF","#29AF7FFF","#29AF7FFF","#29AF7FFF","#2AB07FFF","#2AB07FFF","#2BB07FFF","#2BB17FFF","#2CB17EFF","#2CB17EFF","#2CB17EFF","#2DB27DFF","#2DB27DFF","#2DB27DFF","#2DB27CFF","#2EB37CFF","#2EB37CFF","#2EB37CFF","#2EB47CFF","#2FB47CFF","#2FB47CFF","#30B47CFF","#30B57BFF","#31B57BFF","#31B57BFF","#31B67BFF","#32B67AFF","#32B67AFF","#33B67AFF","#33B679FF","#34B679FF","#34B679FF","#34B679FF","#35B779FF","#35B779FF","#35B779FF","#36B779FF","#37B878FF","#37B878FF","#37B878FF","#38B977FF","#38B977FF","#38B977FF","#39B977FF","#39BA76FF","#3ABA76FF","#3ABA76FF","#3ABA76FF","#3BBB75FF","#3BBB75FF","#3BBB75FF","#3CBC74FF","#3DBC74FF","#3DBC74FF","#3EBC74FF","#3EBC73FF","#3FBC73FF","#3FBC73FF","#3FBC73FF","#40BD72FF","#40BD72FF","#40BD72FF","#41BE71FF","#42BE71FF","#42BE71FF","#43BE71FF","#43BF70FF","#44BF70FF","#44BF70FF","#45BF70FF","#45C06FFF","#46C06FFF","#46C06FFF","#47C16EFF","#48C16EFF","#48C16EFF","#49C16EFF","#49C16DFF","#4AC16DFF","#4AC16DFF","#4BC16DFF","#4BC26CFF","#4CC26CFF","#4CC26CFF","#4DC36BFF","#4EC36BFF","#4EC36BFF","#4FC36BFF","#4FC46AFF","#50C46AFF","#50C46AFF","#51C46AFF","#51C569FF","#52C569FF","#52C569FF","#53C568FF","#54C568FF","#54C568FF","#55C568FF","#55C668FF","#56C667FF","#56C667FF","#57C666FF","#57C766FF","#58C765FF","#58C765FF","#59C864FF","#5AC864FF","#5AC864FF","#5BC864FF","#5BC863FF","#5CC863FF","#5CC863FF","#5DC863FF","#5DC962FF","#5EC962FF","#5EC962FF","#5FC961FF","#5FCA60FF","#60CA60FF","#61CA60FF","#62CB5FFF","#63CB5FFF","#63CB5FFF","#64CB5FFF","#64CB5EFF","#65CB5EFF","#65CB5EFF","#66CB5DFF","#66CC5CFF","#67CC5CFF","#68CC5CFF","#68CD5BFF","#69CD5BFF","#69CD5BFF","#6ACD5BFF","#6BCD5AFF","#6CCD5AFF","#6CCD5AFF","#6DCD59FF","#6ECE59FF","#6ECE58FF","#6ECE58FF","#6FCF57FF","#70CF57FF","#70CF57FF","#71CF57FF","#72D057FF","#73D056FF","#73D056FF","#74D055FF","#75D055FF","#75D054FF","#75D054FF","#76D153FF","#77D153FF","#77D153FF","#78D152FF","#79D152FF","#7AD151FF","#7AD151FF","#7BD151FF","#7BD250FF","#7CD250FF","#7DD250FF","#7ED34FFF","#7ED34EFF","#7FD34EFF","#80D34EFF","#80D34DFF","#81D34DFF","#81D34DFF","#82D34CFF","#83D44CFF","#84D44BFF","#85D44AFF","#85D54AFF","#86D549FF","#86D549FF","#87D549FF","#88D548FF","#89D548FF","#89D548FF","#8AD547FF","#8AD647FF","#8BD646FF","#8CD646FF","#8DD645FF","#8DD645FF","#8ED645FF","#8FD644FF","#8FD744FF","#90D743FF","#90D743FF","#91D742FF","#92D742FF","#93D741FF","#94D741FF","#94D741FF","#95D840FF","#95D840FF","#96D840FF","#97D83FFF","#98D83EFF","#98D83EFF","#99D83DFF","#9AD93DFF","#9BD93CFF","#9BD93CFF","#9CD93CFF","#9CD93BFF","#9DD93BFF","#9ED93BFF","#9FDA3AFF","#A0DA39FF","#A0DA39FF","#A1DA38FF","#A1DA38FF","#A2DA37FF","#A3DA37FF","#A3DA37FF","#A4DB36FF","#A5DB36FF","#A6DB36FF","#A7DB35FF","#A8DB34FF","#A8DB34FF","#A9DB33FF","#A9DC33FF","#AADC32FF","#AADC32FF","#ABDC31FF","#ACDC30FF","#ADDC30FF","#AEDC30FF","#AFDD2FFF","#B0DD2FFF","#B0DD2FFF","#B1DD2EFF","#B1DD2EFF","#B2DD2DFF","#B2DD2DFF","#B3DD2CFF","#B4DE2CFF","#B5DE2BFF","#B6DE2AFF","#B7DE2AFF","#B8DE29FF","#B8DE29FF","#B9DE29FF","#B9DE28FF","#BADE28FF","#BADE28FF","#BBDE27FF","#BCDF27FF","#BDDF26FF","#BEDF26FF","#BFDF25FF","#C0DF25FF","#C0DF25FF","#C1DF24FF","#C1DF24FF","#C2DF23FF","#C2DF23FF","#C3DF22FF","#C4E021FF","#C5E021FF","#C6E021FF","#C7E020FF","#C7E020FF","#C8E020FF","#C9E020FF","#C9E120FF","#CAE11FFF","#CAE11FFF","#CBE11EFF","#CCE11EFF","#CDE11DFF","#CEE11DFF","#CFE11CFF","#CFE11CFF","#D0E11CFF","#D1E11CFF","#D1E21BFF","#D2E21BFF","#D2E21BFF","#D3E21BFF","#D4E21AFF","#D5E21AFF","#D6E21AFF","#D7E219FF","#D7E219FF","#D8E219FF","#D9E219FF","#D9E319FF","#DAE319FF","#DAE319FF","#DBE319FF","#DCE318FF","#DDE318FF","#DEE318FF","#DEE318FF","#DFE318FF","#DFE318FF","#E0E318FF","#E1E418FF","#E2E418FF","#E2E418FF","#E3E418FF","#E4E419FF","#E5E419FF","#E5E419FF","#E6E419FF","#E6E419FF","#E7E419FF","#E8E419FF","#E9E519FF","#EAE51AFF","#EAE51AFF","#EBE51AFF","#EBE51BFF","#ECE51BFF","#EDE51BFF","#EDE51BFF","#EEE51CFF","#EFE51CFF","#F0E51CFF","#F0E51DFF","#F1E51DFF","#F1E51DFF","#F2E51DFF","#F3E61EFF","#F4E61EFF","#F4E61EFF","#F5E61FFF","#F6E620FF","#F6E620FF","#F6E620FF","#F7E621FF","#F8E621FF","#F8E621FF","#F9E622FF","#FAE722FF","#FBE723FF","#FCE723FF","#FCE724FF","#FDE725FF","#FDE725FF"],"minSize":0,"weightFactor":0.2564102564102564,"backgroundColor":"white","gridSize":0,"minRotation":-0.7853981633974483,"maxRotation":0.7853981633974483,"shuffle":true,"rotateRatio":0.4,"shape":"circle","ellipticity":0.65,"figBase64":null,"hover":null},"evals":[],"jsHooks":{"render":[{"code":"function(el,x){\n                        console.log(123);\n                        if(!iii){\n                          window.location.reload();\n                          iii = False;\n\n                        }\n  }","data":null}]}}</script>
+
+``` r
+#ggsave("critical-care-wordcloud.png", width = 4500, height = 3000)
 ```
 
 ### Plot 3: Heat map

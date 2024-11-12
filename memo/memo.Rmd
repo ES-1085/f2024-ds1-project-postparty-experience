@@ -2,6 +2,8 @@
 title: "Project memo"
 author: "Postparty Experience - Tikyra, Emmy, and Willow"
 output: github_document
+always_allow_html: true
+
 ---
 
 This document should contain a detailed account of the data clean up for your data and the design choices you are making for your plots. For instance you will want to document choices you've made that were intentional for your graphic, e.g. color you've chosen for the plot. Think of this document as a code script someone can follow to reproduce the data cleaning steps and graphics in your handout.
@@ -483,6 +485,7 @@ word_freq_table <- data.frame(word = names(word_freqs), freq = word_freqs)
 
 wordcloud2(word_freq_table, size = 0.5, color = "random-light", backgroundColor = "black")
 
+
 ```
 
 ```{r wordcloud-2}
@@ -515,6 +518,842 @@ word_freqs <- sort(rowSums(m), decreasing = TRUE)
 word_freq_table <- data.frame(word = names(word_freqs), freq = word_freqs)
 
 wordcloud2(word_freq_table, size = 0.5, color = "random-light", backgroundColor = "black")
+
+
+```
+
+``` {r wordcloud-critical-care}
+
+install.packages("wordcloud2")
+install.packages("dplyr")
+install.packages("tm", dependencies = TRUE, repos = "http://cran.rstudio.com/")
+install.packages("viridis")
+
+library(wordcloud2)
+library(dplyr)
+library(tm) 
+library("viridis")
+
+comments_text <- paste("Help with little things so I can nap while baby naps
+Help with meals and housework 
+Help with cooking and cleaning, emotional support, trusted advice, chiropractic care 
+Help with meals
+Lactation help
+New parents group & in home support
+Help with household tasks
+Hands on in house support in the initial weeks (with baby care and household tasks)
+I would have benefitted from therapy and grief support, help with household tasks, better lactation support - instead I just ended up with postpartum depression 
+Hands-down, having my parents retired and able to come over to help whenever I needed it. Close second was having quality, affordable child care available starting when my daughter was six weeks old, though we started her later. 
+Childcare 
+Help in the home
+Pelvic floor PT, lactation consultants 
+IBLC - I waited far too long to access because I didn't realize insurance would cover LC outside a hospital setting 
+I could have used mental health support, and pelvic floor therapy that was covered by insurance. Help overnight occasionally would have been amazing, or with the house, I felt like i was drowning.
+Childcare
+Overnights during the first few weeks, my partner being able to take leave for the first 5 weeks, friends and neighbors who helped with childcare, pet care, meals, and more, since we have no family in the area 
+Lactation support 
+People coming to visit, providing food and giving advice 
+help with household tasks
+Postpartum doula 
+Helping with meals and cleaning in the first few months, lactation support (I would’ve had more than one visit with my second child of insurance covered it)
+Lactation support, mental health screening, pelvic floor therapy (but I didn’t receive them)
+The meal train made such a difference, but feeling more connected to more moms would have been helpful. It took me a while to attend an inperson support group and felt challenging, but I think that could have been made easier with prompting/encouragement.
+Lactation support, meals and laundry
+I got some support from my doula but not nearly enough! The one home visit was nice. One conversation with a lactation consultants. Definitely needed more support from family and friends, but everyone was scared of Covid and thought I should be too…
+Lactation support, support with cooking, and a community to connect with for emotional support. 
+Definitely lactation consultants, and I did PT for my hip pain, which was helpful. Also, meals and childcare support from friends/family. 
+Sleep consultant
+the community midwifery care model postpartum; hired in-home childcare
+House cleaning, which was paid for by my parents for the first three months. 
+follow up appointments with my midwife
+We received horrific post parting support. I was gaslit and left in pain both emotional and physical 
+Emotional support
+Nanny
+The meal train from friends. 
+My spouse
+Household help from spouse and family - meals and cleaning
+Emotional support 
+Family/Friends
+Lactation Support
+We had almost no support.
+PT, general support at home from family (meals, child care, cleaning etc), support groups
+In home help
+Family assistance 
+Emotional support 
+Support from family members - helping with meals and laundry and taking care of my older child when the younger one was born 
+Family and spouse support
+Emotional/Physical/Lactation
+Support at home, mental health support.
+Trustworthy childcare
+Food, support for sleep & self care 
+Therapy. Psychological support 
+The support from both things offered to be were not very helpful unfortunately 
+I had terrible support w my first birth and that was a dark time. I learned how to advocate for myself with babies 2 and 3
+Mental Health
+Lactation support and massage
+Probably emotional support but that was mostly my partner providing it
+Mental health for my first. Household help for my second. 
+Emotional and physical support for both spouse and I. Husband had to go back to work after two weeks, but we struggled hard. PPD hit me hard.
+Lactation 
+It would have helped my mental health 
+I wish I had pelvic floor rehabilitation available at a better price, I really struggled for 2 years with pain but couldn’t afford thousands of dollars of it. I also wish I had more check ins with providers regarding mental health. I think I had PPA 6 months postpartum but couldn’t even get an appointment with my OB. 
+Therapy 
+Emotional, pelvic floor PT
+N/a
+Therapy, lactation consultant, family help
+Lactation, emotional 
+Therapy
+Household chores (laundry, dishes, cleaning), meals, childcare for toddler once sibling arrived
+Child Care
+Emotional support of partner, friends and family 
+Completing tasks around the house, babysitting, emotional support
+Postpartum/emotional. I was a mess
+I don’t know - sorry I had her in Dec 2019 and 3 months later the world shut down so I had nothing but me and my husband after the first 3 months. I think pelvic floor rehabilitation would have been great if I could have continued. Emotional support from husband and family and friends was important and I really appreciated my doula stopping by and just talking through breast feeding and the birth process after we got home before everything shut down. People dropping off food the first 2 months helped and people helping clean the house the first few months helped too.
+I could have used any help really, I was kind of thrown to the wolves 
+Medical care
+House cleaning.
+Lactation consultant, social media accounts for new moms/newborn advice
+Lactation and in home support 
+Emotional 
+Meals, emotional support
+Mental health and pelvic floor PT
+Help with my other kids & home provided by family & friends
+Lactation support and therapy
+Childcare
+We had very little support. In home support would have been very helpful, additional OB postpartum appointments and care would have been very helpful. Emotional support would have been helpful. 
+In person support groups of lactation advisors and parenting support
+Food/Household chores/lactation support
+Meal service, new parent support group online 
+Support group
+Order in my house/ listening ear and shared experiences 
+Lactation, Pelvic Floor, Counseling, Help at home
+Therapy
+Help from my sisters and MIL
+We really didn’t have any honestly
+Emotional & lactation 
+Help with sleep
+Learning how to breastfeed, keeping up with babies, work, & household
+Childcare when returning to work.
+Lactation support with an IBCLC (first) and Physical Therapy (second child)
+Emotional support
+Emotional and household chores
+Safe!!!! Childcare for older child
+Counseling-PPD/PPA
+Emotional 
+family offering in-home support 
+I needed mental health support as I suffered from PPA
+House cleaning, childcare 
+Meal train (friends), in person support group
+Household support - childcare, food, cleaning, etc. 
+Lactation support
+Medical care
+Emotional support from family and friends
+Spouse, social media group 
+I would have benefited from professional mental health support-but did not receive/did not know how to access
+Lactation would have been helpful. But also information about my traumatic birth. I had undiagnosed placenta accreta and hemorrhaged 2 weeks after my c-section.
+Childcare
+Lactation, child care
+My hiking group helped me get outside and make friends
+Emotional support and childcare assistance
+Emotional, social 
+Lactation and meal train 
+Community building, we participated in a birthing and baby class at BirthRoots which is a parenting community building non-profit
+
+Also lactation consultant
+Therapist, family help with housework 
+Lactation, pelvic floor, mental health
+Lactation help and emotional support 
+Emotional
+Family being around for emotional support
+In-home help, meal service, emotional support, PT
+Pelvic floor physical therapy
+Daily upkeep
+Immediate support from mom/MIL with newborn those first couple of weeks. Supportive partner who took on helping with baby, supporting my breastfeeding journey, making meals, etc. Childcare support from family when we returned to work. This is support I had and I would consider critical.
+Mental health- anxiety and depression support/medications
+Lactation and help with household
+Meal train. Lactation consultant. 
+100% needed more babysitting, household support (chores)
+Household help
+Family support to help with household tasks
+Would have loved more support in the home
+Family and friends 
+Child care 
+Lactation help (wish I had more). Therapy. Assistance from my partner and parents. Other new mom friends!! 
+Meals 
+My mother helping with other children
+All support needed more support overall
+In home care (my mother moved in with us) 
+Any household chores! Pelvic floor physical therapy and massage were helpful with pain 
+Pelvic floor therapy, lactation services
+My partner 
+Help around the house and counseling
+Didn’t have any 
+Extra set of hands 
+Family support
+Lactation 
+Nighttime support (postpartum doula who worked night shifts) and physical therapy 
+Lactation support (I paid out of pocket) 
+My MIL, lactation support, parent support groups 
+Support with household tasks so I could focus on baby
+Doula & nanny
+Emotional support 
+Breastfeeding support
+Childcare
+Meal train 
+Emotional support only since this was my 2nd child
+Lactation support
+Emotional support and food dropped off by family
+Help with child
+had none
+Mental health counseling 
+Support from partner, paterniy/maternity leave from work
+Child care
+Spouse and family help
+Mental health 
+New parent groups 
+Lactation support and mental health support. 
+In-home childcare support
+We didn’t have a lot of support, both because it was inaccessible financially but then we also lacked family/friend support due to COVID 19 and not having people around baby.
+Emotional/mental
+Breastfeeding emotional support
+Lactation support
+Lactation and housekeeping 
+Therapy/ mental health services 
+Childcare tied with lactation consultant 
+Amazing support from my partner and having the choice to take some time off of work before returning. (I took 7 months unpaid and we scraped pennies to make it happen but it was crucial to my mental health.) those who are self employed like myself don’t even have FMLA. 
+Meals and pelvic floor physical therapy 
+Mental health
+Cleaning, emotional support 
+Lactation support 
+Needed professional emotional support and lactation services: Hospital said they provided lactation services, but it was almost impossible to get in touch with the lactation consultants aver going home. 
+For the first, therapy and meds for PPA, lactation support.  Second was postpartum doula support for logistics and emotional support. 
+Childcare
+Lactation, extra hands to help
+Paid time off 
+My partners support
+exclusively pumping education, postpartum education and introducing solids. 
+Having family support and help 
+Meals
+And PT
+Household help 
+Any support that you didn’t have to seek out/ask for help would have been welcomed
+Getting everything else done--housework, food shopping, etc. I had much less time once I had my kids. 
+Night nurse/doula, mental health care for PPD
+Community- new parent group 
+Childcare 
+Family support (emotional, help with household tasks like cooking and laundry), and my husband had 12 weeks of fully paid parental leave
+Talking with mol friends online
+Childcare, therapy,  cleaning 
+Paid maternity leave, physical therapy, lactation support, childcare 
+Home support with household tasks 
+Being able to reach anyone for support 
+Lactation, mental support
+My husband was/is the only person who provides any real support. He would do night feedings so I could rest until both children were sleeping through the night at 4.5 and 3.5 months. He made meals, helped with laundry, let me sleep in on weekends, and allowed me hours of child-free time when he was not working. 
+Lactation support 
+Help with tasks around the house and emotional support.
+Family and friends—emotional and meals
+Lactation support, friends Ava family helping with meals or just checking in on us mentally and emotionally. 
+Family support 
+Emotional and lactation support 
+Lactation support, other supports I didn’t receive  
+My sister helping out and coming over frequently 
+Help with household chores so I could focus on baby
+Ideally emotional support and support with tasks (cleaning or watching the baby so I could get a little sleep). 
+Emotional support and household tasks 
+My mom
+Treatment from physician; support from workplace 
+Therapy 
+My spouse.  Minimal other support after 6 weeks 
+Physical, emotional and mental support 
+ 
+Emotional support 
+Lactation support
+Sleep. 
+Mental health support would have been helpful 
+Pelvic floor PT was crucial but other services ( doula, therapist eg) would have been very helpful
+Meal/home help
+Lactation support, mental health, body work, home derives, meal train  
+Postpartum household tasks 
+Hiring a housekeeper
+Spouse 
+Emotional support
+Family support with managing household tasks, etc 
+Paternity leave/spousal support 
+Lactation support 
+Emotional 
+Childcare
+Food already prepared
+Lactation support
+Spouse having some parental leave
+Breastfeeding 
+Lactation, pelvic floor PT, therapy, child care
+Postpartum doula and pelvic floor pt
+In home help
+Emotional support for both of us. 
+Help in the home
+Child care and house work help from family 
+Help with everyday tasks, meals, emotional support from husband 
+Doctors/specialists 
+I had none 
+Money for childcare, money to hire out routine services like laundry and meals, money to pay full time childcare for older daughter while recovering w newborn, money for LC & massage therapist visits 
+Household care would have been most helpful 
+Emotional 
+Ability to take maternity leave (12 weeks, paid using my sick/vacation time) and the small bit of paternity leave my husband could take (2 weeks). 
+Lactation and doula
+Extra hands to hold baby at times, meal support 
+A night nurse for the first 2 months of baby’s life
+Lactation support 
+Help with child care 
+In-home help with tasks like laundry, cooking, cleaning, and child care 
+Breaks for naps since baby wasn’t sleeping much
+Lactation
+Lactation support 
+Household chores, lactation 
+Breastfeeding help, emotional support 
+Lactation and in home nurse visit
+Emotional 
+Care for other children 
+I really needed more leave from work - I used all my PTO for the birth and had none left all year for any illnesses (and there were many)
+Emotional support and support from child’s pediatrician 
+Lactation, housework/meals, childcare, Employer being very open and flexible for me to pump at work for a year +, supportive husband
+Therapy. Lactation. 
+Childcare 
+Meals 
+Lactation
+Any support would have made a difference, especially after second birth
+Lactation support and wellness 
+All of it. My mental health was on the fritz from the sleep deprivation. I’m lucky I already had a therapist. Having an extra set of hands to help around the house was key to having my basic needs met (eating, showering, etc). The lactation consultant I found did house calls, which was amazing, but having to research for an IBCLC the week of my daughter’s birth was extremely stressful. 
+Mental/emotional support. I would have loved to have access to pelvic floor therapy/physical therapy as well, but I couldn’t afford them and have no idea how to schedule that type of care (no one ever mentioned it as an option during my pregnancy or postpartum)
+Lactation consultant
+Maternity leave
+My husband's support in taking on cleaning and cooking
+Sleep consult, lactation consult, housekeeper
+Emotional
+Post partum depression, lactation, emotional support
+New mom support groups 
+My husband helping me in the middle of the night 
+Emotional support 
+Counseling
+Mental health support 
+Ability to access good childcare to be able to return work. 
+Lactation/family members for child care 
+?
+Emotional and household support 
+Emotional, household help, and breastfeeding 
+My partner and social media postpartum accounts
+Mental health 
+Meal train. Pelvic floor therapy 
+The in-person new mom group I attended at the hospital I gave birth to my first child provided the most direct information and support.
+Household help
+In home assistance with laundry and childcare, emotional support from spouse, therapy for PPD/PPA
+Meals and house cleaning 
+Support from my mom and other family members and friends was very important.
+Emotional, I also wished that doctors would listen better, more communication when complications arose. 
+My spouse support. 
+Meal and household support 
+Emotional support, lactation
+In home support from fam
+Family
+Lactation support, sleep consultant 
+Childcare 
+Support from partner, family and friends
+In home support with laundry and food, pelvic PT, massage, psychotherapy and lactation support 
+Mental health would have been nice
+Social support
+Community support
+Emotional, in home help, pelvic floor rehab 
+Family and spouse support with baby-related tasks and house related tasks.
+Help with household tasks, I was sleeping in 90 min increments due to triple feeding for three weeks, and I was a shell of a human when my partner went back to work after one week
+Emotional support ; household tasks 
+Paternity/ parental leave; screening and access to therapy for PPA 
+Outsourcing tasks like cleaning and cooking
+La leche league 
+Access to our midwife 
+Help during the newborn phase. Surgical support 3 months postpartum for delivery complications. 
+Family/mother watching newborn. 
+Household help
+Lactation 
+In-home help with tasks like laundry, cooking, cleaning, and child care. Emotional support
+SAFE Childcare
+I gave birth at the height of the pandemic in 2020 and had no support in-house apart from my husband because we were terrified of letting outsiders in & getting sick
+Lactation support and also support from my mom who watched the baby so I could sleep occasionally.
+Help at home
+Lactation consultant, pediatrician 
+I'm only 4mo pp currently, would be helpful to have someone take the baby sometimes so I could get other things done and/or have help with household tasks
+Emotional support
+Family medical leave 
+Lactation/tounge tie. 
+Familial support and it wasn’t a lot. 
+Mental health support, help around the house
+PP doula and an acupuncturist/pain specialist for neck/back pain from caring for LO
+N/A
+Family
+Lactation and in person moms group
+Childcare help and breast pump provision
+Zoloft
+Emotional support from other new moms, household task support from paid outside help, emotional support from spouse, lactation support 
+Child care
+My pelvic floor therapy and my therapist for PPD mitigation
+Emotional support helped me through my PPD
+I’m home help
+Not sure
+Medical care for baby and myself. 
+Lactation services
+Emotional, lactation
+Splitting household/childcare with partner
+Postpartum depression medication
+Meal prep, household support, child care
+Mental health, lactation
+Friends and family, and structured/paid care (daycare).
+Babysitting 
+Lactation, mental health medication 
+Child care (nanny) 
+Spousal
+Physical support - backup caregiving, help with household tasks, etc. All provided by family members. 
+Childcare, family help with watching baby
+Cleaning, meals, childcare for my other kids, watching the baby so I could sleep/ do self care / go to an appointment by myself 
+I had none 
+Lactation
+Financial, childcare, mental health
+Lactation support
+A supportive spouse and a mom group I created in my neighborhood were critical for my first born during the first year. Also a lactation consultant coming to my house saved my nursing journey. 
+Emotional support 
+sleep support
+Nanny and cleaning service
+Lactation support 
+Emotional; my birth was during the beginning of the pandemic and we were very isolated for safety reasons. Solidarity meant everything. 
+Lactation support and emotional support
+Mental health 
+Family support in childcare
+Household support, parenting skills 
+Mental health
+Part-Time Nanny to help with the other kids and to help with the newborn. Baby was small and lost weight. Had to pump extra to supplement. Needed someone to feed her while I pumped. She helped with the other kids or watched baby so I could take preschooler to school or spend 1:1 with my toddler.
+Emotional and physical support of my partner
+Lactation support, mental health supports, help with household from family, pelvic floor therapy would have been amazing but not offered 
+Hospital provided weekly parent education and lactation support 
+Family and therapy 
+I wish I would have had post partum support for my second birth as I experienced post partum depression and still haven't been successfully referred to a therapist (my child is now 3)
+Emotional 
+Family (most critical second pregnancy as it was twins)
+Secondary support (cooking, cleaning, etc)
+Lactation support and mental health 
+This was my second child, so I didn’t have the same concerns. With my first for sure lactation support. I felt like I was completely on my own. 
+lactation 
+I wish I had better mental health support. Had to fight for it and still lost it after the provider would no longer take my insurance.
+Help with childcare
+Emotional support / lactation / mental health for both myself and husband
+New parent support 
+I did not have maternity leave and it would have made a huge difference 
+Nutrition 
+Family
+Family support- we didn’t have any
+Pelvic Floor Physical Therapy—but I wish I knew about it sooner. 
+Lactation support 
+Emotional support
+NICU nurse support, other NICU moms, financial support
+Physical and mental
+Any support would have been great. It was incredibly hard. 
+We did not receive adequate support
+Childcare
+Lactation support
+Pelvic floor PT, lactation, help with meal preparation 
+Night doula, post partum doula, nanny
+Lactation, in-home help from my family, therapist 
+I needed someone to realize for me that I had postpartum anxiety and not just new mom worries.
+Chiropractor support - I had really bad nerve pain after first birth.
+Mental health support
+Child care, meal support really any support would have been welcomed
+Depression/stress support
+Pelvic floor PT and PT for back pain So I could lift baby, also spouse help with household tasks and baby 
+Spouse help
+My mother helping with chores and cleaning and the baby at night
+Mental health support, which I did not get. I suffered from postpartum anxiety and ocd.
+Friends and family to step in when I was overwhelmed or needed a break. 
+Family help
+Peer support- moms group
+Help with child care 
+Lactation consulting, pelvic floor therapy, friends who forcibly came over and cleaned my house with love 
+Emotional support
+Social support, childcare
+My mother being here to help for 3 months
+Lactation consultant, emotional support 
+Lactation, Help with food, and household chores, also the ability to sleep without interruption. 
+My mom came over everyday, the home nurse visiting day 2 home from hospital. 
+Child care, lactation, home cleaning/cooking
+Lactation and tip sharing with other moms
+Having a community, people to connect with 
+PPA support
+Affordable child care
+Lactation support, evening / support so I could sleep
+Family members bringing food and helping with the baby
+Emotional support 
+Meals and food were phenomenal to have assistance with as time for outdoor exercise for me to breathe, heal, feel better. Assistance with our oldest who was 4 yrs old with birth of second sibling was great to have. 
+Mental health 
+Support with household tasks/ helping me get sleep
+I was pregnant and gave birth during the pandemic. It was a financially stressful time and health wise I was very concerned. A community or friends who could help would have been critical. 
+Mental health and lactation 
+Support at home- meals, cleaning, allowing me to nap
+parenting group (https://www.peps.org/)
+Lactation 
+Physical therapy 
+Childcare for my other 2 kids & husband home for first 6 weeks
+Emotional support 
+Lactation support, new mom group
+Having family stay with us 
+Physical therapy. Really needed a therapist or meds, but thought I could just work through birth trauma.
+Postpartum doula, meal services
+Emotional support from family
+Lactation consultant 
+Needed help with my older children. 
+Mental health support following birth trauma
+Family support 
+Obgyn followups
+Emotional support 
+unknown 
+Husband and parents 
+My mom helping when able
+Husband having 6 weeks paid off 
+None, I needed more help 
+Therapy, help with household chores, mom support groups, child care providers
+Family support was absolutely vital.
+Mental health therapy and PT (C-section, diastasis recti and pelvic floor)
+Familial support 
+Lactation (only one we were able to have)
+Mental health support (which is non existent)
+Emotional support and in home help
+I wish we had new mom groups, lactation support, family to help care for older children, family to help when we were sleep deprived 
+Domestic support. My mom came to help from out-of-state with the household responsibilities and babysitting. When she went home, it was challenging. My MIL helped every weekend with overnight care.
+I had my mother during the first few weeks after giving birth. Everything else was pieced together over time by my own planning.
+Meals and in home help
+Emotional - therapy
+Household/meal help (with my youngest as I then had 4 kids)
+Lactation but wish I had had mental health,  household tasks, and night doula
+Lactation consultant 
+Emotional - breast feeding clinic 
+I wish a had therapist, and support system 
+Support from husband and lactation consultant
+Counseling/emotional/mental, pelvic floor, lactation support, household help/food 
+Support from family and friends - helping care for baby, give us breaks, provide meals, etc. 
+Sympathetic friends and family
+Lactation support, mental health care
+Childcare, feeding support, Therapy for post partum anxiety
+C section recovery - waited 3 years to start pelvic floor therapy because insurance wouldn’t cover it and had to pay out of pocket 
+Help from family 
+Lactation, pediatrician 
+Unfortunately, my postpartum took place during Covid so I did not receive a lot of supports
+In home help (laundry, cooking, cleaning)
+Having a truly equal partner in my husband, the ability to quickly access mental health treatment when I needed it 
+PPD&A. I needed a therapist and couldn’t find one. 
+Lactation support, emotional support 
+Lactation, help from family 
+Lactation support, emotional support
+Child care
+Family help
+Paid family leave
+Emotional & household support in home
+Childcare, help with chores
+Leave from work and graduate school 
+Help getting sleep
+Lactation and emotional 
+Mental health therapy and lactation support
+Lactation support for oversupply/poor latch diet to suspected/self-resolving posterior tongue tie, & in-person parenting group
+Psychologist 
+In home help with daily tasks 
+In-home help with meals, cleaning, household chores, etc
+Household help, childcare, lactation support, 
+Meal assistance, childcare for older siblings 
+Emotional Support and massage
+Housekeeping, dog walking, cooking, grocery shopping 
+Mental health supports and physical support in home for home care tasks 
+Emotional, mental. It felt like I was stuck in a bubble by myself, my mom and husband were my biggest supports.  But even though my husband didn’t fully understand my needs because I don’t think most people truly understand unless they’ve experienced childbirth and postpartum themselves. 
+Lactation
+, lactation, housework, 
+More Emotional support would have been great. More help in general. 
+Childcare 
+Emotional/ mental health support
+Sleep and lactation 
+Lactation and the family nurse
+Household help (didn’t receive any) and ongoing lactation support (only had one 20 minute appointment immediately after birth)
+Cleaning person, therapist
+Physical, help caring for baby to enable rest 
+Pelvic floor physical therapy
+Assistance with other household tasks and care of other children 
+Mental health, pelvic floor rehab would have been helpful.
+Therapy 
+Partner support + therapy + house keeping
+Sleep-training course (we paid for) and information regarding newborn/infant care on social media since we were first-time parents in March 2020 and didn’t have any in-person support from friends or family
+Spouse home full time 
+Family support
+Doula support for me after first child and night doula after I had twins were; regular therapy sessions 
+Help from spouse and family 
+Childcare
+Help with the house, food, other children
+We didn't really have much of any, but an in-home postpartum care medical provider (murde or nurse midwife) would have made a huge difference the first year
+Maven app and mom and sister staying over
+Emotional/Mental 
+I had basically none with my singleton birth (when I was 35) but learned more and we personally hired a postpartum doula for our twins’ birth (age 39). It saved our sanity. 
+Being home for childcare 
+I had horrendous post partum anxiety - not post partum depression but crippling anxiety thinking the baby was going to die constantly. It was really bad after every baby. If I could have afforded the therapy to deal with this, plus the childcare I would have needed to go to therapy I definitely would.
+Mental Health support
+Childcare so I could go to appointments 
+IBCLC ran an in person new mom support group that got me out of the house & interacting with new moms in the same situation. It was a life line
+Meal train 
+Lactation, food would have been nice
+Pelvic floor PT and lactation support 
+Help with meals and child care
+Family support- providing meals by setting up mela train among friends and neighbors and occasional care for the baby and, w my second child, the toddler. For the first month postpartum I leaned on my doula for advice w breastfeeding and my physical recovery. Therapy and meds for depression, which I already had pre pregnancy, were also crucial 
+In home help. Emotional support
+Emotional and cleaning. I wish I could do pelvic floor therapy 
+Mental support, help with tasks
+Family support 
+Anti- depressants 
+Emotional support 
+Lactation assistance 
+Therapy (for spouse), friends who brought food or gave us a break, parents who gave us a break 
+Emotional and physical from emergency c-section 
+Domestic support so I could have time to myself 
+Family and friends 
+Lactation, chiropractor, in home help with tasks and childcare including overnight care for newborn to give.a.break
+I wish I could have had help with breastfeeding and sleep!
+Meals, cleaning, breaks
+Breastfeeding -exclusive pumper and no one educates you prior 
+Housework help and cooking would have been most helpful 
+Husband’s ability to help with baby.
+In home help with baby care & household upkeep. Lactation
+Family and friend support
+Physical therapy/pelvic floor rehab and counseling
+Being able to bond with our new baby while still being able to nourish and care for ourselves. 
+Hospital grade breast pump and lactation support 
+My mother coming to stay with us for 5 weeks (no family around us for 1000 miles)
+Emotional and hands on help/care and lactation 
+I gave birth February 2020. Once I left the hospital, zero support other than my husband. Postpartum appt cancelled due to covid restrictions and confusion. 
+Postpartum depression and lactation services 
+Talk Therapy
+Parenting group 
+Midwife, support group
+Family support
+Child care because we don't have family nearby and because maternity leave in the US is absolutely ridiculous and unacceptable. I don't know why all the women/moms in this country don't revolt against it. How can you be expected to go back to work when your baby is still breastfeeding every 2-3 hours and can't even hold their up properly yet!! All other developed nations give mothers the option to take 1 year off, at least your infant is a bit more independent by then and may or may not be breastfeeding anymore. 
+
+Maternity leave in America is inhumane, it's anti-family, it's unjust. Pleaaaaase help us change that!!! Please!!! 
+Psychiatry 
+Family support
+Lactation, in home help and meals
+Social/family support 
+Lactation
+Lactation 
+Husband stayed home to provide childcare 
+I didn’t get the support I needed. Lactation was the most critical support that I did receive. 
+Help from friends and family 
+Wish I had mental health check ups
+In home child care from my family
+Child care to catch up on sleep and other things 
+Psychologist and psychiatrist. Lactation consultant. Help with my baby at night. Help during the day so I could sleep. 
+Pelvic floor PT, help from family 
+Lactation consultant and pelvic floor and meal assistance
+House help so I could rest, meals, laundry, etc. 
+Emotional support from my doula and closest family/friends, having childcare for my older child so he was receiving additional care and attention in the early postpartum period, and having meals brought or prepped for us all. 
+Physical in person help with every day things in the first few weeks by family was critical. 
+Self sought pelvic floor therapy after my 2nd birth was crucial as well
+Pelvic floor PT
+Help with laundry and lactation 
+IBCLC
+My husband having one month of paternity leave, and then he was able to work remotely because of covid shortly after I gave birth. Having someone at home to be helpful between meetings was key. 
+In home help
+Lactation consultant 
+Overnight care, mental health services 
+Spouse
+I needed support with housework and basic needs. Meals or errands or help with our dogs. 
+In home support so I could sleep 
+Strong relationship with my husband, therapy, ssri 
+Should have been therapy but I didn't make myself a priority with my 1st like I'm doing with my 2nd
+Our cleaning services 
+Emotional and thankful to my husband for that because it was a very long and lonely journey 
+Support of my husband in household chores and meals, and his emotional support
+I was able to move in with family who helped me frequently with meals, helping with baby so I can sleep, helping wash pump parts and feed baby. 
+Meal train, emotional support from spouse 
+Pelvic floor rehabilitation , Lactation Support, In-Home help with tasks, in-home wellness services
+Lactation. In home support like meals and childcare
+Affordable childcare and paid maternity leave, I had leave partially paid, partially unpaid and took 13 weeks 
+the care from my certified nurse midwife, as well as lactation consultation. i wish there had been accessible mental health and couples counseling as well 
+Emotional and day to day support 
+My friend started a Meal Train; this was the most valuable help in the immediate postpartum weeks.
+Mental health support, physical support overnight 
+Meds, physical recovery (massage, pelvic floor rehab) 
+Therapy
+Therapy, pelvic floor pt. The fact that birth is the only surgery that does NOT get an automatic PT referral in the hospital is bullshit, PT consults should be required. 
+Family coming to clean, cook, etc. Being able to call my OB with any issues.
+People showing up 
+N/A
+Maine Families and family 
+In-house help, lactation support
+Getting our nanny
+Therapy/ medication
+Help with baby so I could sleep
+I needed therapy and did not know where to go for post partum mothers
+Mental health would have been nice to know about and have.
+Lactation support was most important to me 
+Family help 
+Emotional/mental
+Assistance from family and lactation support
+Emotional. I suffered from post partum anxiety and depression. 
+Help around the house, childcare
+Emotional support 
+Lactation 
+Our doula help. They made me feel like myself again. 
+Lactation and sleep help
+Therapy
+My partners 20 week paid paternity leave. I would not have had more children had we not had that benefit!
+Meals, pelvic floor PT, sleep support 
+Family members washing dishes!!
+Mental/physical 
+Postpartum doula who know so much about newborns, cranial sacrum therapy, 
+Emotional support, having a community of friends in a similar life stage. 
+Therapy, 
+Emotional support and physical help like laundry, cleaning, meals cooked.
+Family support
+Family help 
+Family leave from work 
+Family support, help with older kids, help with baby to get a break
+Family providing childcare 
+PT for my core and pelvic floor 
+Provider/ familial 
+Online “bumper” support group of moms who had babies the same month
+Support from our family-mainly childcare 
+Family support
+Meals
+PPD/PPA medicine 
+Pelvic floor, therapy for PTSD from delivery 
+Emotional support from spouse and my mother and every day support with household responsibilities such as cooking and cleaning
+Counseling, lactation 
+Not having support was really hard
+Doula support. We did not have family in the area, my husband had ZERO paternity leave and we paid for all of the support out of pocket and I don’t know what I would have done without it 
+Pelvic floor and parent-support groups, talk therapy
+Family members helping out with meals and emotional support
+Support with household tasks
+Childcare
+Lactation services and new mom support groups 
+Help with household duties 
+pelvic floor therapy 
+Emotional support and sleep support
+Lactation support. 
+Emotional
+Financial 
+My family and friends supporting me; my therapist (online not covered by insurance)
+Any food (cooking, delivery, groceries), cleaning, and dog walking were so important.
+Physical recovery first and foremost and then PTSD/emotional support from birth trauma 
+Support at home from partner and family
+Lactation support/meal train
+Pelvic floor therapy and ppa treatment 
+Lactation consultant, pelvic floor PT
+Emotional support from friends and family 
+We didn’t get any. The worst time period of my life. 
+Lactation support was very important. I could have used that with my second (my first child, born in Indiana at a birthing center, was the only child I had access to LS with). There were feeding issues I ran into with my second child that forced me to take less hours when I did return to work. 
+Family support so I could sleep 
+Childcare so I could return to work. 
+Lactation support 
+Lactation support for exclusive breastfeeding, physical therapist to rehabilitate core and pelvic floor
+Emotional
+Help with household tasks (cooking, laundry, etc.) and childcare so mom could sleep during the day
+Wellness, emotional support, night nurse, sleep help
+In home postpartum care, and continued in office care. 6 appointments within the first 6 weeks, plus phone and text access as needed.
+An extra set of hands (to handle kids, make food, change laundry, etc)
+House cleaning- my mom helped some 
+My mom being close by to help with household tasks 
+Physical rehabilitation and education apart from support with care which i had from family members 
+Lactation/pumping. 
+Chiropractic care 
+I had c section so physical support as I could barely walk the first birth when I came home. They didn’t even send me home w enough painkillers. 
+Emotional
+I wish I had had better support in the form of mental health or household help including meals. I had good help for the physical aspect of birth but not much help otherwise.
+Spousal support 
+Spouse. Online support groups
+Having my parents stay with us for a couple of weeks and my husband's paternity leave (quality postpartum therapy would have been good)
+Help with baby when I (mom) was injured 
+Lactation support, physical therapy
+Household help with meals, so I wouldn’t have to cook; this was critical and was only fulfilled for the first week.  (I exclusively breastfed for three years with my first and five years with my second. The first three months of breastfeeding were very taxing on my body and mind. Good food is paramount. The MOST critical thing needed for me was adequate nourishment at small intervals without my needing to prepare it.) 
+Being able to sleep and having someone take over watching the baby when I needed to rest. 
+Emotional support would have been helpful. 
+I needed more help with breastfeeding and pelvic floor therapy. I also struggled with maternity leave and having enough money to live. My time off was not clearly defined and my boss denied part of my leave while i was on maternity leave.
+Emotional support, lactation support, family/friend support 
+Food train
+My mother in law folding my laundry 
+Lactation consultant 
+Pelvic floor therapy, help from family with other kids/meals while healing
+Childcare, time for myself
+Family support, mental support, physical therapy, and lactation
+Child care and emotional support 
+Mental, feeding the family, emotional support
+Mental health/household support
+Lactation
+Having a postpartum doula / midwife home visits in first 8 weeks to identify and address jaundice & feeding issues between 2 week & 8 week baby wellness checks
+Lactation and emotional house
+Access to whatever mental health support I could receive, my PCP managing the aftereffects of my preeclampsia, my mom helping us 
+Lactation, pelvic floor, Pp follow up and family taking care of us when we returned home
+All of it. And more. 
+Support with finances and work. Would have liked more maternity leave 
+Lactation consultant and emotional support
+We Googled a lot
+Lactation support was helpful, but friends delivering meals was invaluable. Even having someone to wash dishes or hold the baby so I could shower 
+Physical and emotional support. 
+Family—childcare/relief, support with groceries or errands, cleaning and catching up on laundry, emotional support. 
+Lactation
+Time off and mental health care
+Picking a phenomenal partner with whom to have a child; resources to order anything we needed from Amazon; amazing pediatricians; high quality infant care 
+Support on transition back to work 
+Night nurse 
+Meals, emotional support, acupuncture 
+Breastfeeding support
+Help with meals
+Breastfeeding Support
+Childcare
+family coming to stay since support network locally isn’t great
+I wish we had more support for sleep. But the ability to not have to go back to work full time for myself and that my partner had a somewhat flexible job was the most crucial. As well was an online group I was part of and wished for an in person group. We had a very amazing lacatation counselor through pen bay we went to and she was so helpful and checked in alot
+Meals, pelvic floor therapy, encapsulated placenta
+My partner 
+Emotional support, body work
+Emotional support and the feeling of a community around us. It felt like we didn’t have that village everyone always bragged about. 
+My partner 
+Therapist and meal train 
+Help with meals and some housework, lactation consultant 
+Partner support, employer support
+Postpartum doula WOULD have been the most critical
+Postpartum doula WOULD have been the most critical
+4 months in first year, so TBD! So far family support to help have someone else's practical support during the day and having overnight doula so we can sleep one night a week
+Meal train
+Lactation support IMMEDIATELY and recurring, twin club meal train for some early days,  my mom visiting after 2 weeks helping round the clock, dad helping when he visited later, We hired a nanny at 3 months so I could go back to work, and eventually (rarely) going to a therapist for postpartum depression care.  
+
+This was not NEARLY enough support. 
+Family support for child care, food, etc. 
+Help from family
+the support from other moms
+Mealtrain in our first, acupuncture care in our second. My acupuncturist came to our home 
+Spouse assistance, blogs on sleep training and a nanny once I returned to work 
+Having my Mom close by was and is critical.
+Lactation and support from other moms via friends and my postpartum support group")
+
+corpus <- Corpus(VectorSource(comments_text))
+corpus_clean <- corpus %>%
+   tm_map(content_transformer(tolower)) %>% 
+  tm_map(removePunctuation) %>%
+  tm_map(removeNumbers) %>% 
+  tm_map(removeWords, stopwords("en")) %>%
+  tm_map(stripWhitespace) %>% 
+  tm_map(removeWords, c("none"))
+
+tdm <- TermDocumentMatrix(corpus_clean)
+
+m <- as.matrix(tdm)
+
+word_freqs <- sort(rowSums(m), decreasing = TRUE)
+
+word_freq_table <- data.frame(word = names(word_freqs), freq = word_freqs)
+
+colors <- viridis(nrow(word_freq_table), option = "D")
+
+wordcloud2(word_freq_table, size = 0.5, color = colors)
+
+#ggsave("critical-care-wordcloud.png", width = 4500, height = 3000)
+
 ```
 
 
