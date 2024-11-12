@@ -23,6 +23,7 @@ library(ggpattern)
 library(ggplot2)
 library(RColorBrewer)
 library(ggridges)
+library(visdat)
 ```
 
 ``` r
@@ -346,10 +347,63 @@ unique(Postpartum$critical)
     ## [48] "Help with meal"
 
 ``` r
-Postpartum <- Postpartum|>
+Postpartum <- Postpartum |>
   mutate(critical = ifelse(critical == " In-home help with care tasks", "In-home help with care tasks", critical)) |>
-  mutate(critical = ifelse(critical == " Lactation support", "Lactation support", critical))
+  mutate(critical = ifelse(critical == " Lactation support", "Lactation support", critical)) |>
+  mutate(critical = ifelse(critical ==  " Pelvic floor PT", "Pelvic floor PT", critical)) |>
+  mutate(critical = ifelse(critical ==  " Emotional support", "Emotional support", critical)) |>
+  mutate(critical = ifelse(critical ==  " Help with meals", "Help with meals", critical)) |>
+  mutate(critical = ifelse(critical ==  " Family support", "Family support", critical)) |>
+  mutate(critical = ifelse(critical ==  " Other", "Other", critical)) |>
+  mutate(critical = ifelse(critical ==  " New parent groups", "New parent groups", critical)) |>
+  mutate(critical = ifelse(critical ==  " In-home follow up appointments", "In-home follow up appointments", critical)) |>
+  mutate(critical = ifelse(critical ==  " Paid parental leave", "Paid parental leave", critical)) |>
+  mutate(critical = ifelse(critical ==  " Overnight help", "Overnight help", critical)) |>
+  mutate(critical = ifelse(critical ==  " Massage or chiropractic", "Massage or chiropractic", critical)) |>
+  mutate(critical = ifelse(critical ==  " Acupuncture", "Acupuncture", critical)) |>
+  mutate(critical = ifelse(critical ==  " family support", "Family support", critical)) |>
+  mutate(critical = ifelse(critical ==  " Hospital/office follow up appointments", "Hospital/office follow up appointments", critical)) |>
+  mutate(critical = ifelse(critical ==  " New parent group", "New parent group", critical)) |>
+  mutate(critical = ifelse(critical ==  "Pelvice floor PT", "Pelvic floor PT", critical)) |>
+  mutate(critical = ifelse(critical ==  " Pelvic floor rehab", "Pelvic floor PT", critical)) |>
+  mutate(critical = ifelse(critical ==  " Unpaid parental leave", "Unpaid parental leave", critical)) |>
+  mutate(critical = ifelse(critical ==  " in-home help with care tasks", "In-home help with care tasks", critical)) |>
+  mutate(critical = ifelse(critical ==  "Pelvic floor rehab", "Pelvic floor PT", critical)) |>
+  mutate(critical = ifelse(critical ==  "Emotial support", "Emotional support", critical)) |>
+  mutate(critical = ifelse(critical ==  "Help with meal", "Help with meals", critical)) |>
+  mutate(critical = ifelse(critical ==  "Lactation", "Lactation support", critical)) |>
+  mutate(critical = ifelse(critical ==  "Lactatiom support", "Lactation support", critical)) |>
+  mutate(critical = ifelse(critical ==  "Emototional support", "Emotional support", critical)) |>
+  mutate(critical = ifelse(critical ==  "In-home help with child care", "In-home help with care tasks", critical)) |>
+  mutate(critical = ifelse(critical ==  "In-home help wih care tasks", "In-home help with care tasks", critical)) |>
+  mutate(critical = ifelse(critical ==  "Help with care tasks", "In-home help with care tasks", critical)) |>
+  mutate(critical = ifelse(critical ==  "New parent group", "New parent groups", critical)) |>
+  mutate(critical = ifelse(critical ==  "Child care", "In-home help with care tasks", critical)) |>
+  mutate(critical = ifelse(critical ==  "Lacation support", "Lactation support", critical))
 ```
+
+``` r
+unique(Postpartum$critical)
+```
+
+    ##  [1] "Help with meals"                       
+    ##  [2] "In-home help with care tasks"          
+    ##  [3] "Lactation support"                     
+    ##  [4] "Unpaid parental leave"                 
+    ##  [5] "Pelvic floor PT"                       
+    ##  [6] "Emotional support"                     
+    ##  [7] NA                                      
+    ##  [8] "Duplicate entry"                       
+    ##  [9] "Family support"                        
+    ## [10] "New parent groups"                     
+    ## [11] "Hospital/office follow up appointments"
+    ## [12] "Other"                                 
+    ## [13] "Sleep support"                         
+    ## [14] "In-home follow up appointments"        
+    ## [15] "Paid parental leave"                   
+    ## [16] "Overnight help"                        
+    ## [17] "Massage or chiropractic"               
+    ## [18] "Acupuncture"
 
 ### Move to extra file??
 
@@ -588,22 +642,44 @@ cost_not_applicable <- c("Did not know post partum services other than the follo
 ### Plot 4
 
 ``` r
+Postpartum <- Postpartum |>
+  filter(critical != "NA") |>
+  filter(critical != "Duplicate entry")
+
 ggplot(Postpartum, 
        aes(x = first_age, 
            y = critical,
            color = critical, 
            fill = critical)) +
+  # add facet by age group or care type or ??
   geom_density_ridges(alpha = .8) +
   scale_color_viridis_d() +
   scale_fill_viridis_d() +
   theme_minimal() +
   theme(legend.position = "none") +
-  labs (title = "Critical Postpartum Care by Age of Birthing Person", x ="Age during first birth", y = "Care Type")
+  labs (title = "Critical Postpartum Care by Age of Birthing Person", x ="Age During First Birth", y = "Care Type")
 ```
 
-    ## Picking joint bandwidth of 8.35
+    ## Picking joint bandwidth of 2.35
 
 ![](memo_files/figure-gfm/critical-ridge-plot-1.png)<!-- -->
+
+### Plot 6 Missing Data
+
+``` r
+Postpartum <- Postpartum %>%
+  select(respondent, state, age, birth_location, informed_by, other_info_sources, support_type, provider, ins_covered_services, cost_factor, if_insurance, critical_support, ideal_support, comments, emails)
+```
+
+``` r
+vis_miss(Postpartum)
+```
+
+![](memo_files/figure-gfm/unnamed-chunk-1-1.png)<!-- -->
+
+``` r
+ggsave(filename = "Missingdataplot.png", width = 8, height = 4)
+```
 
 #### Final Plot 1
 
