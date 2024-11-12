@@ -10,12 +10,10 @@ This document should contain a detailed account of the data clean up for your da
 library(tidyverse)
 library(broom)
 library(readxl)
-
 library(stringr)
 library(forcats)
 library(gridExtra)
-
-
+library(dplyr)
 library(openintro)
 library(countrycode)
 library(ggpattern)
@@ -235,6 +233,27 @@ Postpartum <- Postpartum |>
   
 ```
 
+### Step 5: Cleaning `critical`
+
+```{r rename-critical-clean}
+
+Postpartum <- rename(Postpartum, "critical" = "critial_clean")
+
+```
+
+```{r relocate-new-critical-variable}
+Postpartum <- relocate(Postpartum, critical, .after = critical_support)
+
+```
+
+```{r critical-separate-longer}
+
+Postpartum <- Postpartum |>
+   separate_longer_delim(critical, delim = ",")
+   
+```
+
+### Move to extra file??
 ```{r baseline}
 
 #baseline <- c("Lactation support", "Pelvic floor rehabilitation",  "Emotional support",  "Hospital or office based wellness services and postpartum follow up appointments")
@@ -270,7 +289,6 @@ Postpartum <- Postpartum |>
 #  distinct(baseline_score)
 
 ```
-
 
 
 
@@ -343,7 +361,7 @@ Postpartum |>
 
 #we could add text on graph with geom_text() to indicate pink = higher quality services
 
-#ggsave("example-postpartum-wide.png", width = 10, height = 4)
+#ggsave("example-postpartum-wide-2.png", width = 10, height = 4)
 ```
 ```{r care-type-frequency-bar-chart-V2}
 #p2 <- 
