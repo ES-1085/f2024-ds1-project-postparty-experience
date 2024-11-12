@@ -19,6 +19,7 @@ library(countrycode)
 library(ggpattern)
 library(ggplot2)
 library(RColorBrewer)
+library(ggridges)
 ```
 
 ```{r read-in-data}
@@ -205,7 +206,6 @@ Postpartum <- Postpartum|>
 unique(Postpartum$support_type)
 ```
 
-
 ### Step 4: Cleaning `birth_location`
 
 ```{r birth-location-cleanup}
@@ -253,6 +253,17 @@ Postpartum <- Postpartum |>
    
 ```
 
+```{r critical-unique}
+unique(Postpartum$critical)
+```
+
+```{r critical-clean-up}
+Postpartum <- Postpartum|>
+  mutate(critical = ifelse(critical == " In-home help with care tasks", "In-home help with care tasks", critical)) |>
+  mutate(critical = ifelse(critical == " Lactation support", "Lactation support", critical))
+```
+
+
 ### Move to extra file??
 ```{r baseline}
 
@@ -289,9 +300,6 @@ Postpartum <- Postpartum |>
 #  distinct(baseline_score)
 
 ```
-
-
-
 
 
 ## Plots
@@ -363,6 +371,7 @@ Postpartum |>
 
 #ggsave("example-postpartum-wide-2.png", width = 10, height = 4)
 ```
+
 ```{r care-type-frequency-bar-chart-V2}
 #p2 <- 
 Postpartum |>
@@ -396,6 +405,7 @@ Postpartum |>
        health outcomes for the birthing parent and baby."
        ) 
 
+#ggsave("example-postpartum-wide-2.png", width = 10, height = 4)
 ```
 
 
@@ -451,7 +461,6 @@ ggsave("example-tile-heatmap-wide.png", width = 10, height = 5)
 ```
 
 
-
 ### Plot X: _________
 
 #### Data cleanup steps specific to plot X
@@ -474,7 +483,6 @@ cost_not_applicable <- c("Did not know post partum services other than the follo
 ```
 
 
-
 ### Plot Y
 ```{r quality-bar-chart-test}
 # try mutating the group of care types into baseline/good, better, best with | between each care type
@@ -487,6 +495,23 @@ cost_not_applicable <- c("Did not know post partum services other than the follo
 ```
 
 
+### Plot 4
+
+```{r critical-ridge-plot}
+
+ggplot(Postpartum, 
+       aes(x = first_age, 
+           y = critical,
+           color = critical, 
+           fill = critical)) +
+  geom_density_ridges(alpha = .8) +
+  scale_color_viridis_d() +
+  scale_fill_viridis_d() +
+  theme_minimal() +
+  theme(legend.position = "none") +
+  labs (title = "Critical Postpartum Care by Age of Birthing Person", x ="Age during first birth", y = "Care Type")
+
+```
 
 
 #### Final Plot 1
