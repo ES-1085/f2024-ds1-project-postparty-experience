@@ -466,7 +466,7 @@ ggplot(Postpartum,
   theme_minimal() +
   theme(legend.position = "none") +
   # need to re-order care types and potentially break it up by quality or formal/informal
-  labs (title = "Most Critical Postpartum Care by Age of Birthing Person", subtitle = "what is the takeaway?" x ="Age During First Birth", y = "Care Type")
+  labs (title = "Most Critical Postpartum Care by Age of Birthing Person", subtitle = "what is the takeaway?", x ="Age During First Birth", y = "Care Type")
 
 ```
 
