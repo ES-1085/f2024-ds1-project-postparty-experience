@@ -26,8 +26,6 @@ library(visdat)
 ```
 
 ```{r read-in-data}
-# use this part in the proposal
-
 
 Postpartum <- read.csv("Postpartum.csv")
 ```
@@ -35,7 +33,46 @@ Postpartum <- read.csv("Postpartum.csv")
 
 ## Data Clean Up Steps for Overall Data
 
-### Step 1: Cleaning `age`
+### Step 1: Rename variables
+
+```{r rename-variables}
+
+# This step occurred in the proposal, but we wanted to ensure all clean up steps were included in the memo.
+
+# Postpartum_Experience_renamed_variables <- as_tibble(Postpartum_Experience_Survey_Responses_raw_data) %>% 
+ # rename( 
+    #  `respondent` = `Timestamp`,
+     # `state` = `Which US state or country did you give birth in?`,
+     # `age` = `What was your age when you gave birth?`, 
+     # `birth_location` = `Where did you give birth?`,
+    #  `informed_by` = `When you were pregnant, did your care provider give you information about postpartum care services?`,
+    #  `other_info_sources` = `Did you learn about postpartum care services from any other sources?`, 
+    #  `support_type`= `What types of support did you have access to postpartum?`,
+    #  `provider` = `Who provided this support for you?`,
+    #  `ins_covered_services` = `What postpartum care services did your insurance cover?`,
+    #  `cost_factor` = `Was cost a factor in how much support you received?`,
+    # `if_insurance` = `If insurance covered postpartum care services, would you take advantage of it?`,
+    # `critical_support` = `What support was most critical to you/your household in first year following birth?`,
+    # `ideal_support` = `In a best case scenario, list all types of care and support you would need or want in the first year postpartum.`,
+    # `comments` = `Is there anything else you want to share about your postpartum experience?`,
+    # `emails` = `If you are open to follow up questions or want the results from this research project, please enter your email below.`)
+```
+
+### Step 2: Manual translation of 'critical_care`
+
+Each entry in `critical_care` was manually translated to match the terminology used in the multiple choice answers listed in the `support_type` variable. This resulted in a new "clean" version of `critical_care` variable called `critical`. The purpose of this cleaning step was to make the open ended answers easier to graph and compare to other variables. Consistent language allows for clearer and more meaningful visualizations.
+
+```{r add-critical-column-to-dataset}
+
+# This step occurred in the proposal, but we wanted to ensure all clean up steps were included in the memo.
+
+# Postpartum_combined <- bind_cols(Postpartum_Experience_renamed_variables, Clean_critical_care)
+
+# head(Postpartum_combined)
+
+```
+
+### Step 3: Clean `age`
 
 ```{r first-birth-age}
 Postpartum <- Postpartum |> 
@@ -48,13 +85,13 @@ relocate(first_age, .after = age)
 
 ```
 
-### Step 2: Cleaning `state`
+### Step 4: Clean `state`
 
 ```{r state-clean-up-names}
 Postpartum <- Postpartum |>
   mutate(state = str_replace(state, "CO", "Colorado")) |>
   mutate(state = str_replace(state, "IA", "Iowa")) |>
-  mutate(state = str_replace(state, "DC", "District of Columbia")) |>
+  mutate(state = str_replace(state, "DC", "Washington, D.C.")) |>
   mutate(state = str_replace(state, "TN", "Tennessee")) |>
   mutate(state = str_replace(state, "MS", "Mississippi")) |>
   mutate(state = str_replace(state, "Mass", "Massachusetts")) |>
@@ -72,6 +109,8 @@ Postpartum <- Postpartum |>
          state != "USA")
 ```
 
+
+
 ```{r state-clean-up-first-entry}
 
 Postpartum <- Postpartum |> 
@@ -88,6 +127,7 @@ Postpartum <- Postpartum |>
   mutate(first_state = str_replace(first_state, "california", "California")) |>
   mutate(first_state = str_replace(first_state, "Colorado ", "Colorado")) |>
   mutate(first_state = str_replace(first_state, "First", "Tennessee")) |>
+  mutate(first_state = str_replace(first_state, "Tennessee ", "Tennessee")) |>
   mutate(first_state = str_replace(first_state, "Indiana ", "Indiana")) |>
   mutate(first_state = str_replace(first_state, "Kentcky", "Kentucky")) |>
   mutate(first_state = str_replace(first_state, "Massachusetts ", "Massachusetts")) |>
@@ -116,14 +156,12 @@ Postpartum <- Postpartum |>
 
 ```
 
-
-### Step 3: Cleaning `support_type`
+### Step 5: Clean `support_type`
 
 ```{r rename-answer-with-commas}
 Postpartum <- Postpartum |>
   mutate(support_type = str_replace(support_type, pattern = "In-home help with tasks like laundry, cooking, cleaning, and child care", "In-home help with care tasks")) 
 ```
-
 
 ```{r support-type-separate-longer}
 Postpartum <- Postpartum |>
@@ -209,7 +247,7 @@ Postpartum <- Postpartum|>
 unique(Postpartum$support_type)
 ```
 
-### Step 4: Cleaning `birth_location`
+### Step 6: Clean `birth_location`
 
 ```{r birth-location-cleanup}
 
@@ -236,7 +274,7 @@ Postpartum <- Postpartum |>
   
 ```
 
-### Step 5: Cleaning `critical`
+### Step 7: Clean `critical`
 
 ```{r rename-critical-clean}
 
@@ -293,12 +331,14 @@ Postpartum <- Postpartum |>
   mutate(critical = ifelse(critical ==  "Help with care tasks", "In-home help with care tasks", critical)) |>
   mutate(critical = ifelse(critical ==  "New parent group", "New parent groups", critical)) |>
   mutate(critical = ifelse(critical ==  "Child care", "In-home help with care tasks", critical)) |>
-  mutate(critical = ifelse(critical ==  "Lacation support", "Lactation support", critical))
+  mutate(critical = ifelse(critical ==  "Lacation support", "Lactation support", critical)) |>
+  mutate(critical = ifelse(critical ==  "Sleep support", "Overnight help", critical))
 ```
 
 ```{r recheck-critical-entries}
 
 unique(Postpartum$critical)
+
 ```
 
 
@@ -342,35 +382,7 @@ unique(Postpartum$critical)
 
 ## Plots
 
-### ggsave example for saving plots
-
-```{r starwars ggsave example}
-p1 <- starwars |>
-  filter(mass < 1000, 
-         species %in% c("Human", "Cerean", "Pau'an", "Droid", "Gungan")) |>
-  ggplot() +
-  geom_point(aes(x = mass, 
-                 y = height, 
-                 color = species)) +
-  labs(x = "Weight (kg)", 
-       y = "Height (m)",
-       color = "Species",
-       title = "Weight and Height of Select Starwars Species",
-       caption = paste("This data comes from the starwars api: https://swapi.py43.com"))
-
-
-ggsave("example-starwars.png", width = 4, height = 4)
-
-ggsave("example-starwars-wide.png", width = 6, height = 4)
-```
-
-
-
-### Plot 1: Bar chart 
-
-#### Data cleanup steps specific to plot 1
-
-These data cleaning sections are optional and depend on if you have some data cleaning steps specific to a particular plot
+### Plot 1: Bar chart
 
 ```{r care-type-frequency-bar-chart }
 
@@ -469,10 +481,63 @@ ggplot(Postpartum,
   labs (title = "Most Critical Postpartum Care by Age of Birthing Person", subtitle = "what is the takeaway?", x ="Age During First Birth", y = "Care Type")
 
 ```
+### Plot 3: Leaflet map
 
-
-### Plot 3: Wordcloud
 #### Data cleanup steps specific to plot 3
+
+```{r create-quality-variable}
+# try mutating the group of care types into baseline/good, better, best with | between each care type
+
+Postpartum <- Postpartum |>
+  mutate(quality = case_when(
+    critical %in% c("Lactation support", "Pelvic floor PT", "Emotional support", 
+                    "Hospital/office follow up appointments", "Unpaid parental leave") ~                      "baseline",
+    critical %in% c("Paid parental leave", "In-home follow up appointments", 
+                    "In-home help with care tasks", "Massage or chiropractic", 
+                    "Acupuncture", "Overnight help") ~ "better wellbeing",
+    critical %in% c("Help with meals", "New parent groups", "Paid parental leave", 
+                    "Family support") ~ "community and long term support",
+    TRUE ~ NA_character_
+  ))
+
+unique(Postpartum$quality)
+```
+
+```{r relocate-quality-variable}
+Postpartum <- relocate(Postpartum, quality, .after = critical)
+```
+
+
+```{r create-region-variable}
+
+Postpartum <- Postpartum |>
+  mutate(regions = case_when(
+    first_state %in% c("Connecticut", "Maine", "Massachusetts", "New Hampshire", 
+                       "New Jersey", "New York", "Pennsylvania", "Rhode Island",
+                       "Vermont", "Delaware") ~ "Northeast",
+    first_state %in% c("Illinois", "Indiana", "Iowa", "Kansas", "Michigan", "Minnesota",
+                       "Missouri", "Nebraska", "North Dakota", "Ohio", "South Dakota",
+                       "Wisconsin") ~ "Midwest",
+    first_state %in% c("Alabama", "Arkansas", "Florida", "Georgia", "Kentucky",
+                       "Louisiana", "Maryland", "Mississippi", "North Carolina", 
+                       "South Carolina", "Tennessee", "Virginia", "West Virginia", 
+                       "Washington, D.C.") ~ "Southeast",
+    first_state %in% c("Texas", "Oklahoma", "Arizona", "New Mexico") ~ "Southwest",
+    first_state %in% c("Alaska", "California", "Colorado", "Hawaii", "Idaho", "Montana",
+                       "Nevada", "Utah", "Wyoming") ~ "West",
+    first_state %in% c("Oregon", "Washington", "Idaho") ~ "Northwest",
+    TRUE ~ NA_character_
+  ))
+
+unique(Postpartum$regions)
+
+```
+
+```{r relocate-regions-variable}
+Postpartum <- relocate(Postpartum, regions, .after = first_state)
+```
+
+### Plot 4: Wordcloud
 
 ``` {r wordcloud-critical-care}
 
@@ -2250,8 +2315,8 @@ wordcloud2(word_freq_table, size = 0.5, color = colors)
 ```
 
 
-### Plot 3: Heat map
-#### Data cleanup steps specific to plot 3
+### Plot 5: Heat map
+#### Data cleanup steps specific to plot 4
 
 ```{r heatmap-like-for-plot-critique}
 # comparing states and support_type
@@ -2275,9 +2340,9 @@ ggsave("example-tile-heatmap-wide.png", width = 10, height = 5)
 ```
 
 
-### Plot X: _________
+### Plot 6: TBD
 
-#### Data cleanup steps specific to plot X
+#### Data cleanup steps specific to plot 5
 
 ```{r cost-factor-cleanup}
 
@@ -2297,20 +2362,7 @@ cost_not_applicable <- c("Did not know post partum services other than the follo
 ```
 
 
-### Plot Y
-```{r quality-bar-chart-test}
-# try mutating the group of care types into baseline/good, better, best with | between each care type
-
-#baseline <- c("Lactation support", "Pelvic floor rehabilitation",  "Emotional support",  "Hospital or office based wellness services and postpartum follow up appointments")
-
-#better <- c("")
-
-#best <- c("")
-```
-
-
-
-### Plot 6 Missing Data
+### Plot 7: Missing Data
 
 ```{r missing data plot}
 Postpartum <- Postpartum %>%
