@@ -1380,6 +1380,8 @@ wordcloud2(word_freq_table, size = 0.5, color = colors)
 
 ```{r wordcloud-ideal-care}
 
+install.packages("reshape2")
+install.packages("RWeka")
 install.packages("wordcloud2")
 install.packages("dplyr")
 install.packages("tm", dependencies = TRUE, repos = "http://cran.rstudio.com/")
@@ -1387,7 +1389,8 @@ install.packages("viridis")
 install.packages("htmlwidgets")
 install.packages("webshot")
 
-
+library(reshape2)
+library(RWeka)
 library(wordcloud2)
 library(dplyr)
 library(tm) 
