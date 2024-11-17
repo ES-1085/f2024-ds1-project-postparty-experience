@@ -556,30 +556,10 @@ library("viridis")
 library("htmlwidgets")
 library("webshot")
 
-comments_text <- paste("Help with little things so I can nap while baby naps
-Help with meals and housework 
-Help with cooking and cleaning, emotional support, trusted advice, chiropractic care 
-Help with meals
-Lactation help
-New parents group & in home support
-Help with household tasks
-Hands on in house support in the initial weeks (with baby care and household tasks)
-I would have benefitted from therapy and grief support, help with household tasks, better lactation support - instead I just ended up with postpartum depression 
-Hands-down, having my parents retired and able to come over to help whenever I needed it. Close second was having quality, affordable child care available starting when my daughter was six weeks old, though we started her later. 
-Childcare 
-Help in the home
-Pelvic floor PT, lactation consultants 
-IBLC - I waited far too long to access because I didn't realize insurance would cover LC outside a hospital setting 
-I could have used mental health support, and pelvic floor therapy that was covered by insurance. Help overnight occasionally would have been amazing, or with the house, I felt like i was drowning.
-Childcare
-Overnights during the first few weeks, my partner being able to take leave for the first 5 weeks, friends and neighbors who helped with childcare, pet care, meals, and more, since we have no family in the area 
-Lactation support 
-People coming to visit, providing food and giving advice 
-help with household tasks
-Postpartum doula 
-Helping with meals and cleaning in the first few months, lactation support (I would’ve had more than one visit with my second child of insurance covered it)
-Lactation support, mental health screening, pelvic floor therapy (but I didn’t receive them)
-The meal train made such a difference, but feeling more connected to more moms would have been helpful. It took me a while to attend an inperson support group and felt challenging, but I think that could have been made easier with prompting/encouragement.
+comments_text <- paste("Help with little things so I can nap while baby naps Help with meals and housework Help with cooking and cleaning, emotional support, trusted advice, chiropractic care Help with meals Lactation help New parents group & in home support Help with household tasks Hands on in house support in the initial weeks (with baby care and household tasks)
+I would have benefitted from therapy and grief support, help with household tasks, better lactation support - instead I just ended up with postpartum depression Hands-down, having my parents retired and able to come over to help whenever I needed it. Close second was having quality, affordable child care available starting when my daughter was six weeks old, though we started her later. Childcare Help in the home Pelvic floor PT, lactation consultants IBLC - I waited far too long to access because I didn't realize insurance would cover LC outside a hospital setting I could have used mental health support, and pelvic floor therapy that was covered by insurance. Help overnight occasionally would have been amazing, or with the house, I felt like i was drowning. Childcare Overnights during the first few weeks, my partner being able to take leave for the first 5 weeks, friends and neighbors who helped with childcare, pet care, meals, and more, since we have no family in the area 
+Lactation support People coming to visit, providing food and giving advice help with household tasks
+Postpartum doula Helping with meals and cleaning in the first few months, lactation support (I would’ve had more than one visit with my second child of insurance covered it) Lactation support, mental health screening, pelvic floor therapy (but I didn’t receive them) The meal train made such a difference, but feeling more connected to more moms would have been helpful. It took me a while to attend an inperson support group and felt challenging, but I think that could have been made easier with prompting/encouragement.
 Lactation support, meals and laundry
 I got some support from my doula but not nearly enough! The one home visit was nice. One conversation with a lactation consultants. Definitely needed more support from family and friends, but everyone was scared of Covid and thought I should be too…
 Lactation support, support with cooking, and a community to connect with for emotional support. 
@@ -2295,10 +2275,11 @@ corpus <- Corpus(VectorSource(comments_text))
 corpus_clean <- corpus %>%
    tm_map(content_transformer(tolower)) %>% 
   tm_map(removePunctuation) %>%
+  
   tm_map(removeNumbers) %>% 
   tm_map(removeWords, stopwords("en")) %>%
   tm_map(stripWhitespace) %>% 
-  tm_map(removeWords, c("none"))
+  tm_map(removeWords, c("support", "postpartum"))
 
 tdm <- TermDocumentMatrix(corpus_clean)
 
