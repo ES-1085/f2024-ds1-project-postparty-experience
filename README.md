@@ -4,6 +4,18 @@ by Emmy Wahlström, Tikyra Downs, and Willow Gibson
 
 ## Summary
 
+Overview of the data and what we hoped to explore / what we did explore.
+
+
+## Analysis
+
+What plots we used and what we learned from them
+
+## Methods
+
+Notes here about the way the data was collected and that it can only be considered "preliminary data".
+
+## Conclusions
 
 Many people noted that their partner's help was most critical to them. While we recognize how vital a supportive partnership is in the journey of parenting, particularly in the early postpartum period, this survey was focused on postpartum support beyond the parents of the child.
 
