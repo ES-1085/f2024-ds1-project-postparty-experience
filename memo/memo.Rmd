@@ -573,8 +573,8 @@ library(wordcloud2)
 library(dplyr)
 library(tm) 
 library("viridis")
-library("htmlwidgets")
-library("webshot")
+library(htmlwidgets)
+library(webshot)
 
 comments_text <- paste("Help with little things so I can nap while baby naps Help with meals and housework Help with cooking and cleaning, emotional support, trusted advice, chiropractic care Help with meals Lactation help New parents group & in home support Help with household tasks Hands on in house support in the initial weeks (with baby care and household tasks)
 I would have benefitted from therapy and grief support, help with household tasks, better lactation support - instead I just ended up with postpartum depression Hands-down, having my parents retired and able to come over to help whenever I needed it. Close second was having quality, affordable child care available starting when my daughter was six weeks old, though we started her later. Childcare Help in the home Pelvic floor PT, lactation consultants IBLC - I waited far too long to access because I didn't realize insurance would cover LC outside a hospital setting I could have used mental health support, and pelvic floor therapy that was covered by insurance. Help overnight occasionally would have been amazing, or with the house, I felt like i was drowning. Childcare Overnights during the first few weeks, my partner being able to take leave for the first 5 weeks, friends and neighbors who helped with childcare, pet care, meals, and more, since we have no family in the area 
@@ -1381,8 +1381,6 @@ wordcloud2(word_freq_table, size = 0.5, color = colors)
 
 ```{r wordcloud-ideal-care}
 
-install.packages("reshape2")
-install.packages("RWeka")
 install.packages("wordcloud2")
 install.packages("dplyr")
 install.packages("tm", dependencies = TRUE, repos = "http://cran.rstudio.com/")
@@ -1390,8 +1388,6 @@ install.packages("viridis")
 install.packages("htmlwidgets")
 install.packages("webshot")
 
-library(reshape2)
-library(RWeka)
 library(wordcloud2)
 library(dplyr)
 library("viridis")
@@ -2307,10 +2303,6 @@ corpus_clean <- corpus %>%
 tdm <- TermDocumentMatrix(corpus_clean)
 
 m <- as.matrix(tdm)
-
-TrigramTokenizer <- function(x) NGramTokenizer(x, Weka_control(min = 1, max = 3))
-tdm.trigram = TermDocumentMatrix(corpus.ng,
-control = list(tokenize = TrigramTokenizer))
 
 word_freqs <- sort(rowSums(m), decreasing = TRUE)
 
