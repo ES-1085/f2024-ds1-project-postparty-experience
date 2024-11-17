@@ -29,14 +29,27 @@ A link to the code and how we created our graphics in our memo can be found [her
 
 ## Data
 
-Include a citation for your data here. See
-<http://libraryguides.vu.edu.au/c.php?g=386501&p=4347840> for guidance
-on proper citation for datasets. If you got your data off the web, make
-sure to note the retrieval date.
-
 Gibson, W 2022. Postpartum Experience Survey Data 2022, Unpublished raw data. November 22 2023. https://docs.google.com/spreadsheets/d/1lyA-MwFnF-uMN81ntOT_NAy-QoqueXNLb0CPFXzth3w/edit?usp=sharing
 
 ## References
 
-List any references here. You should, at a minimum, list your data
-source.
+“ACOG Committee Opinion No. 736.” Obstetrics & Gynecology, vol. 131, no. 5, May 2018, pp.
+    e140–50, https://doi.org/10.1097/aog.0000000000002633.
+
+Gibson, Willow. “Postpartum Care in the US.” 17 March 2022. History of Midwifery and Women's
+    Health Care in the US, College of the Atlantic, student paper.
+
+João Paulo Souza, et al. “A Global Analysis of the Determinants of Maternal Health and
+    Transitions in Maternal Mortality.” The Lancet Global Health, vol. 12, no. 2, Elsevier
+    BV, Dec. 2023, https://doi.org/10.1016/s2214-109x(23)00468-0.
+
+Lopez-Gonzalez, Diorella M., and Anil K. Kopparapu. “Postpartum Care of the New Mother.”
+   National Library of Medicine, StatPearls Publishing, 11 Dec. 2022,
+   www.ncbi.nlm.nih.gov/books/NBK565875/.
+
+Postpartum Experience Survey. “Postpartum Experience Survey.” Google Docs, 2023, forms.gle/9pfqZpnCXq5RstCB7. Accessed 17 Nov. 2024.
+
+World Health Organization. “More than a Third of Women Experience Lasting Health Problems
+    after Childbirth, New Research Shows.” Www.who.int, 7 Dec. 2023,
+    www.who.int/news/item/07-12-2023-more-than-a-third-of-women-experience-lasting-health-problems-after-childbirth.
+
