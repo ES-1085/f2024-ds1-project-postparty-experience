@@ -2330,18 +2330,19 @@ wordcloud2(word_freq_table, size = 0.5, color = colors)
 # comparing states and support_type
 
 p2 <- Postpartum <- Postpartum |>
-  filter(support_type != "NA")
+  filter(support_type != "NA") |>
+  filter(regions != "NA")
   
-ggplot(Postpartum, aes(x = support_type, y = state, fill = support_type)) +
+ggplot(Postpartum, aes(x = support_type, y = regions, fill = support_type)) +
    geom_tile(alpha = .7) +
   scale_fill_viridis_d() +
   theme_minimal() +
    theme(axis.title.x=element_blank(),
         axis.text.x=element_blank(),
         axis.ticks.x=element_blank()) +
-  theme(axis.text.y=element_blank(),
-        axis.ticks.y=element_blank()) +
-  labs(title = "Heatmap-Like Plot Example", y = "US State", fill = "Support Type")
+ # theme(axis.text.y=element_blank(),
+       # axis.ticks.y=element_blank()) +
+  labs(title = "Heatmap-Like Plot Example", y = "US Regions", fill = "Support Type")
 
 ggsave("example-tile-heatmap-wide.png", width = 10, height = 5)
 
