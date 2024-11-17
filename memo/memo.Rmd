@@ -401,12 +401,17 @@ Postpartum |>
   geom_bar() +
   scale_fill_manual(
     values = c(
-      "In-home follow up appointments" = "pink",
-      "Massage or chiropractic" = "pink",
-      "Acupuncture" = "pink",
-      "default" = "darkblue"
-    )
-    ) +
+      "In-home follow up appointments" = "#d95f02",
+      "Massage or chiropractic" = "#d95f02",
+      "Acupuncture" = "#d95f02",
+      "default" = "#66c2a5")) +
+  #scale_fill_manual(
+   # values = c(
+    #  "Lactation support" = "#66c2a5",
+     # "Emotional support" = "#66c2a5",
+      #"Pelvic floor PT" = "#66c2a5",
+    #  "Hospital/office follow up appointments" = "#66c2a5"))
+     #  "default" = "darkblue")) +
   theme_bw() +
   theme(legend.position = 'none') + 
   coord_flip() +
