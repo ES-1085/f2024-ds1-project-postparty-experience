@@ -4,6 +4,12 @@ by Emmy Wahlström, Tikyra Downs, and Willow Gibson
 
 ## Summary
 
+
+Many people noted that their partner's help was most critical to them. While we recognize how vital a supportive partnership is in the journey of parenting, particularly in the early postpartum period, this survey was focused on postpartum support beyond the parents of the child.
+
+There were also a number of responses that mentioned what "would" have been most critical to them. We excluded these answers from our analysis of critical care, but think it's important to mention that there are families who endure the postpartum experience with zero outside support.
+
+## Notes from Laurie about summary
 Write-up of your project and findings go here. Think of this as the text
 of your handout. The length should be roughly 5 minutes when read
 out loud. Although pacing varies, a 5-minute speech is roughly 750

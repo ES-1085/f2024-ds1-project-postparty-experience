@@ -23,6 +23,7 @@ library(ggplot2)
 library(RColorBrewer)
 library(ggridges)
 library(visdat)
+library(corpustools)
 ```
 
 ```{r read-in-data}
@@ -1393,10 +1394,10 @@ library(reshape2)
 library(RWeka)
 library(wordcloud2)
 library(dplyr)
-library(tm) 
 library("viridis")
 library("htmlwidgets")
 library("webshot")
+library(tm)
 
 comments_text <- paste("Chiro, massage a portion of hours per week of nanny coverage, gym, etc Chiropractor, house help Lactation consultant, household help, childcare help, emotional support, chiropractic care/craniosacral therapy if needed, meal train for for the first few weeks 6+ months family bonding time, easier access to pelvic floor PT and suggested by provider, social groups with similarly aged kids for both mom and dad, pumping/lactation support, closer postpartum fu, massage. Lactation support, in home post Partum visits.
 Pelvic floor, lactation consultant, sleep consultant, new parents group, night nurse
@@ -2306,6 +2307,10 @@ corpus_clean <- corpus %>%
 tdm <- TermDocumentMatrix(corpus_clean)
 
 m <- as.matrix(tdm)
+
+TrigramTokenizer <- function(x) NGramTokenizer(x, Weka_control(min = 1, max = 3))
+tdm.trigram = TermDocumentMatrix(corpus.ng,
+control = list(tokenize = TrigramTokenizer))
 
 word_freqs <- sort(rowSums(m), decreasing = TRUE)
 
