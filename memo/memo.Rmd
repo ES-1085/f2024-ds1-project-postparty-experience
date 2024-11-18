@@ -634,6 +634,13 @@ unique(Postpartum$regions)
 
 ```
 
+```{r testing thing}
+install.packages("tm")
+library(tm)
+```
+
+
+
 ```{r relocate-regions-variable}
 Postpartum <- relocate(Postpartum, regions, .after = first_state)
 ```
@@ -642,12 +649,12 @@ Postpartum <- relocate(Postpartum, regions, .after = first_state)
 
 ``` {r wordcloud-critical-care}
 
-install.packages("wordcloud2")
-install.packages("dplyr")
-install.packages("tm", dependencies = TRUE, repos = "http://cran.rstudio.com/")
-install.packages("viridis")
-install.packages("htmlwidgets")
-install.packages("webshot")
+# install.packages("wordcloud2")
+# install.packages("dplyr")
+install.packages("tm", version = "0.7-13", dependencies = TRUE, repos = "http://cran.rstudio.com/")
+# install.packages("viridis")
+# install.packages("htmlwidgets")
+# install.packages("webshot")
 
 
 library(wordcloud2)
@@ -2370,7 +2377,9 @@ Body work
 In home household support (cooking, laundry, cleaning, childcare)
 Minimum six months fully paid leave for both parents—longer better
 Postpartum prep class with partner")
+```
 
+```{r}
 corpus <- Corpus(VectorSource(comments_text))
 corpus_clean <- corpus %>%
    tm_map(content_transformer(tolower)) %>% 
