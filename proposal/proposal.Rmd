@@ -172,6 +172,12 @@ Postpartum_renamed_variables_US <- Postpartum_renamed_variables_US |>
 #`which` for identifying rows of a dataset.
 ```
 
+```{r read-in-data}
+
+Postpartum <- read.csv("Postpartum (1).csv")
+
+```
+
 ```{r some-ages-california-distribution}
 #Postpartum_renamed_variables_US %>%
 #  filter(state == "California") %>%
