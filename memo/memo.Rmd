@@ -607,6 +607,11 @@ unique(Postpartum$regions)
 Postpartum <- relocate(Postpartum, regions, .after = first_state)
 ```
 
+```{r temporary to delete}
+write.csv(Postpartum, "Postpartum.csv", row.names = FALSE)
+```
+
+
 ### Plot 4: Wordcloud
 
 ``` {r wordcloud-critical-care}
