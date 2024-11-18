@@ -565,6 +565,7 @@ Postpartum <- relocate(Postpartum, quality_access, .after = support_type)
 ```
 
 ```{r leaflet}
+
 library(leaflet) ## For leaflet interactive maps
 library(sf) ## For spatial data
 library(RColorBrewer) ## For colour palettes
@@ -572,8 +573,18 @@ library(htmltools) ## For html
 library(leafsync) ## For placing plots side by side
 library(kableExtra) ## Table  output (in slides)
 library(maps)
+library(mapview)
+library(tigris)
 
-leaflet(Postpartum) |>
+states <- states(cb = TRUE)
+
+leaflet(states) %>%
+  addProviderTiles(providers$OpenStreetMap) |>
+  addProviderTiles(providers$geo region) |>
+  addPolygons() 
+
+#lines above make base map
+  
   addProviderTiles(provider = providers$OpenStreetMap) |>
   setView(lng = -80,
           lat = 34.5,
