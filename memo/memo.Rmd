@@ -476,28 +476,17 @@ Postpartum |>
          support_type != "In-home follow up appointments",
          support_type != "Acupuncture",
          support_type != "None of the above") |>
+  #count(respondent) +
+  #mutate(percentage = n / sum(n) *100) |>
   ggplot(mapping = aes(x = fct_rev(fct_infreq(support_type)), fill = support_type)) +
-  geom_bar() +
-  scale_fill_manual(
-    values = c(
-      "In-home follow up appointments" = "#d95f02",
-      "Massage or chiropractic" = "#d95f02",
-      "Acupuncture" = "#d95f02",
-      "default" = "#66c2a5")) +
-  #scale_fill_manual(
-   # values = c(
-    #  "Lactation support" = "#66c2a5",
-     # "Emotional support" = "#66c2a5",
-      #"Pelvic floor PT" = "#66c2a5",
-    #  "Hospital/office follow up appointments" = "#66c2a5"))
-     #  "default" = "darkblue")) +
+ # geom_bar(stat = "identity") +
   theme_bw() +
   theme(legend.position = 'none') + 
   coord_flip() +
   labs(title = "Informal types of Postpartum Care Accessed", 
        subtitle = "In the US Between 2013-2023 by Survey Respondents", 
        x = "Support Type", 
-       y = "Number of Survey Respondents",
+       y = "Percentage of Survey Respondents",
      #  caption = "The highlighted care types have been defined as care that increases the birthing parent and baby’s  physical and emotional wellbeing beyond baseline services."
        ) 
 
