@@ -598,7 +598,7 @@ ggplot(Postpartum,
 # try mutating the group of care types into baseline/good, better, best with | between each care type
 
 Postpartum <- Postpartum |>
-  mutate(quality = case_when(
+  mutate(quality_critical = case_when(
     critical %in% c("Lactation support", "Pelvic floor PT", "Emotional support", 
                     "Hospital/office follow up appointments", "Unpaid parental leave") ~                      "baseline",
     critical %in% c("Paid parental leave", "In-home follow up appointments", 
@@ -609,14 +609,37 @@ Postpartum <- Postpartum |>
     TRUE ~ NA_character_
   ))
 
-unique(Postpartum$quality)
+unique(Postpartum$quality_critical)
 ```
 
     ## [1] "community and long term support" "better wellbeing"               
     ## [3] "baseline"                        NA
 
 ``` r
-Postpartum <- relocate(Postpartum, quality, .after = critical)
+Postpartum <- relocate(Postpartum, quality_critical, .after = critical)
+```
+
+``` r
+Postpartum <- Postpartum |>
+  mutate(quality_access = case_when(
+    support_type %in% c("Lactation support", "Pelvic floor PT", "Emotional support", 
+                    "Hospital/office follow up appointments", "Unpaid parental leave") ~                      "baseline",
+    support_type %in% c("Paid parental leave", "In-home follow up appointments", 
+                    "In-home help with care tasks", "Massage or chiropractic", 
+                    "Acupuncture", "Overnight help") ~ "better wellbeing",
+    support_type %in% c("Help with meals", "New parent groups", "Paid parental leave", 
+                    "Family support") ~ "community and long term support",
+    TRUE ~ NA_character_
+  ))
+
+unique(Postpartum$quality_access)
+```
+
+    ## [1] "community and long term support" "baseline"                       
+    ## [3] "better wellbeing"                NA
+
+``` r
+Postpartum <- relocate(Postpartum, quality_access, .after = support_type)
 ```
 
 ``` r
@@ -674,6 +697,12 @@ install.packages("tm", dependencies = TRUE, repos = "http://cran.rstudio.com/")
 
     ## Warning: dependencies 'Rcampdf', 'Rgraphviz', 'tm.lexicon.GeneralInquirer' are
     ## not available
+
+    ## also installing the dependency 'testthat'
+
+    ## Warning in install.packages("tm", dependencies = TRUE, repos =
+    ## "http://cran.rstudio.com/"): installation of package 'testthat' had non-zero
+    ## exit status
 
 ``` r
 install.packages("viridis")
@@ -1540,7 +1569,7 @@ colors <- viridis(nrow(word_freq_table), option = "D")
 wordcloud2(word_freq_table, size = 0.5, color = colors)
 ```
 
-    ## QStandardPaths: XDG_RUNTIME_DIR not set, defaulting to '/tmp/runtime-r2808552'
+    ## QStandardPaths: XDG_RUNTIME_DIR not set, defaulting to '/tmp/runtime-r2808553'
     ## TypeError: Attempting to change the setter of an unconfigurable property.
     ## TypeError: Attempting to change the setter of an unconfigurable property.
 
@@ -1573,6 +1602,12 @@ install.packages("tm", dependencies = TRUE, repos = "http://cran.rstudio.com/")
 
     ## Warning: dependencies 'Rcampdf', 'Rgraphviz', 'tm.lexicon.GeneralInquirer' are
     ## not available
+
+    ## also installing the dependency 'testthat'
+
+    ## Warning in install.packages("tm", dependencies = TRUE, repos =
+    ## "http://cran.rstudio.com/"): installation of package 'testthat' had non-zero
+    ## exit status
 
 ``` r
 install.packages("viridis")
@@ -2541,7 +2576,7 @@ colors <- viridis(nrow(word_freq_table), option = "D")
 wordcloud2(word_freq_table, size = 0.5, color = colors)
 ```
 
-    ## QStandardPaths: XDG_RUNTIME_DIR not set, defaulting to '/tmp/runtime-r2808552'
+    ## QStandardPaths: XDG_RUNTIME_DIR not set, defaulting to '/tmp/runtime-r2808553'
     ## TypeError: Attempting to change the setter of an unconfigurable property.
     ## TypeError: Attempting to change the setter of an unconfigurable property.
 
