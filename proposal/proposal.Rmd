@@ -235,8 +235,16 @@ library(htmltools) ## For html
 library(leafsync) ## For placing plots side by side
 library(kableExtra) ## Table  output (in slides)
 library(maps)
+library(mapview)
+library(tigris)
 
-leaflet(Postpartum) |>
+states <- states(cb = TRUE)
+
+leaflet(states) %>%
+  addProviderTiles(provider = providers$OpenStreetMap) |>
+  addPolygons() 
+
+  
   addProviderTiles(provider = providers$OpenStreetMap) |>
   setView(lng = -80,
           lat = 34.5,
@@ -266,10 +274,5 @@ leaflet(Postpartum) |>
 
 ```
 
-```{r states-map}
-map('state', fill = TRUE, col = palette())
-```
-
-```
 
 
