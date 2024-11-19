@@ -3,6 +3,45 @@
 Any extra documents you might have go here. This might include Rmd files you're using to develop your project, any notes, or anything else. The contents of this folder will **not** be marked, it's just a convenient place to store documents and collaborate with teammates without cluttering the rest of your repo.
 
 
+StringR code for assigning a number value to the quality variable
+
+```{r baseline}
+
+#baseline <- c("Lactation support", "Pelvic floor rehabilitation",  "Emotional support",  "Hospital or office based wellness services and postpartum follow up appointments")
+
+#better <- c("")
+
+#best <- c("")
+
+#baseline_pattern <- "lact|pelv|"
+
+#Postpartum_support_type_clean <- Postpartum_support_type_clean |>
+  #mutate(baseline = case_when(str_detect(support_type, pattern = regex(baseline_pattern, ignore_case = T)) ~ 1,
+                         #    TRUE ~ 0)) 
+
+#Postpartum_support_type_clean <- Postpartum_support_type_clean |>
+  #mutate(baseline = case_when(support_type %in% baseline ~ 1,
+                          #    TRUE ~ 0)) |>
+  #mutate(service_category = case_when(support_type %in% baseline ~ "baseline",
+                            #  TRUE ~ 0)) |>
+  
+ # relocate(baseline, .after = support_type)
+
+#  Postpartum_support_type_clean |>
+ # group_by(respondent, birth_age) |>
+#  mutate(support_type_all = str_flatten(support_type, collapse = ", ")) |>
+#  summarize(baseline_score = sum(baseline, na.rm = TRUE))
+#  distinct(respondent, birth_age, .keep_all = TRUE) # we don't need this line, example only
+
+#Postpartum_support_type_clean |>
+# group_by(respondent, birth_age) |>
+#  summarize(baseline_score = sum(baseline, na.rm = TRUE))|>
+#  ungroup() |>
+#  distinct(baseline_score)
+
+```
+
+
 
 
 ## Plot critique 1

@@ -279,7 +279,7 @@ Postpartum <- Postpartum |>
 
 ```{r rename-critical-clean}
 
-Postpartum <- rename(Postpartum, "critical" = "critial_clean")
+# Postpartum <- rename(Postpartum, "critical" = "critial_clean")
 
 ```
 
@@ -341,45 +341,6 @@ Postpartum <- Postpartum |>
 unique(Postpartum$critical)
 
 ```
-
-
-### Move to extra file??
-```{r baseline}
-
-#baseline <- c("Lactation support", "Pelvic floor rehabilitation",  "Emotional support",  "Hospital or office based wellness services and postpartum follow up appointments")
-
-#better <- c("")
-
-#best <- c("")
-
-#baseline_pattern <- "lact|pelv|"
-
-#Postpartum_support_type_clean <- Postpartum_support_type_clean |>
-  #mutate(baseline = case_when(str_detect(support_type, pattern = regex(baseline_pattern, ignore_case = T)) ~ 1,
-                         #    TRUE ~ 0)) 
-
-#Postpartum_support_type_clean <- Postpartum_support_type_clean |>
-  #mutate(baseline = case_when(support_type %in% baseline ~ 1,
-                          #    TRUE ~ 0)) |>
-  #mutate(service_category = case_when(support_type %in% baseline ~ "baseline",
-                            #  TRUE ~ 0)) |>
-  
- # relocate(baseline, .after = support_type)
-
-#  Postpartum_support_type_clean |>
- # group_by(respondent, birth_age) |>
-#  mutate(support_type_all = str_flatten(support_type, collapse = ", ")) |>
-#  summarize(baseline_score = sum(baseline, na.rm = TRUE))
-#  distinct(respondent, birth_age, .keep_all = TRUE) # we don't need this line, example only
-
-#Postpartum_support_type_clean |>
-# group_by(respondent, birth_age) |>
-#  summarize(baseline_score = sum(baseline, na.rm = TRUE))|>
-#  ungroup() |>
-#  distinct(baseline_score)
-
-```
-
 
 ## Plots
 
@@ -496,25 +457,38 @@ Postpartum |>
 
 ### Plot 2: Ridge plot
 
+```{r critical-count}
+Postpartum |>
+  count(critical) |>
+  arrange(desc(n))
+```
+
+
 ```{r critical-ridge-plot}
 
 Postpartum <- Postpartum |>
   filter(critical != "NA") |>
-  filter(critical != "Duplicate entry")
+  filter(critical != "Duplicate entry") |>
+  filter(!critical %in% c("Family support", "Help with meals",	"Pelvic floor PT", "New parent groups", "In-home follow up appointments", "Other", "Overnight help", "Paid parental leave", "Massage or chiropractic", "Hospital/office follow up appointments", "Acupuncture",	"Unpaid parental leave"))
 
 ggplot(Postpartum, 
        aes(x = first_age, 
            y = critical,
            color = critical, 
            fill = critical)) +
+  facet_wrap(~ regions) +
   geom_density_ridges(alpha = .6) +
   scale_color_viridis_d(alpha = .6) +
   scale_fill_viridis_d() +
-  scale_x_continuous(breaks = seq(from = 18, to = 44, by = 2)) +
-  theme_minimal() +
+ # scale_x_continuous(breaks = seq(from = 18, to = 44, by = 2)) +
+  theme_ridges() +
   theme(legend.position = "none") +
+  theme(axis.title.x = element_blank(),
+       axis.text.x = element_blank(),
+       axis.ticks.x = element_blank()) +
+  theme(axis.title.y = element_blank()) +
   # need to re-order care types and potentially break it up by quality or formal/informal
-  labs (title = "Most Critical Postpartum Care by Age of Birthing Person", subtitle = "what is the takeaway?", x ="Age During First Birth", y = "Care Type")
+  labs (title = "Most Critical Postpartum Care Types by US Region", subtitle = "what is the takeaway?")
 
 ```
 ### Plot 3: Leaflet map
@@ -564,61 +538,6 @@ unique(Postpartum$quality_access)
 Postpartum <- relocate(Postpartum, quality_access, .after = support_type)
 ```
 
-```{r leaflet}
-
-library(leaflet) ## For leaflet interactive maps
-library(sf) ## For spatial data
-library(RColorBrewer) ## For colour palettes
-library(htmltools) ## For html
-library(leafsync) ## For placing plots side by side
-library(kableExtra) ## Table  output (in slides)
-library(maps)
-library(mapview)
-library(tigris)
-
-states <- states(cb = TRUE)
-
-leaflet(states) %>%
-  addProviderTiles(providers$OpenStreetMap) |>
-  addProviderTiles(providers$geo region) |>
-  addPolygons() 
-
-#lines above make base map
-  
-  addProviderTiles(provider = providers$OpenStreetMap) |>
-  setView(lng = -80,
-          lat = 34.5,
-          zoom = 5) |>
-  addPolygons(
-    fillColor = ~pal74(Postpartum$regions),
-    fillOpacity = 0.7,
-    color = "white",
-    opacity = 1,
-    weight = 2)
-
-
-#Postpartum |>
-#ggplot(state_stats) +
- # geom_sf(aes(fill = "regions")) +
-  #labs(title = "map",
-   #    x = "Longitude",
-    #   y = "Latitude",
-     #  fill = "regions")
-
-
-#ADD thingie to show stats
-#labels <- sprintf("<strong>%s</strong><br/>%g births", 
-               #   nc$county, nc$births1974) %>% lapply(htmltools::HTML)
-#head(labels, 1)
-
-
-```
-
-
-```{r states-map}
-map('state', fill = TRUE, col = palette())
-```
-
 
 ```{r create-region-variable}
 
@@ -645,23 +564,92 @@ unique(Postpartum$regions)
 
 ```
 
-```{r testing thing}
-install.packages("tm")
-library(tm)
-```
-
-
-
 ```{r relocate-regions-variable}
 Postpartum <- relocate(Postpartum, regions, .after = first_state)
 ```
 
-```{r temporary to delete}
-write.csv(Postpartum, "Postpartum.csv", row.names = FALSE)
+```{r leaflet}
+
+library(leaflet) ## For leaflet interactive maps
+library(sf) ## For spatial data
+library(RColorBrewer) ## For colour palettes
+library(htmltools) ## For html
+library(leafsync) ## For placing plots side by side
+library(kableExtra) ## Table  output (in slides)
+library(maps)
+library(mapdata)
+library(tigris)
+#library(ggiraph) 
+#install.packages('ggiraph')
+
+
+
+states <- states(cb = TRUE)
+
+
+leaflet(states) %>%
+  addProviderTiles(providers$OpenStreetMap) |>
+  #addProviderTiles(providers$georegion) |>
+  addPolygons()
+  
+
+#lines above make base map
+  
+  addProviderTiles(provider = providers$OpenStreetMap) |>
+  setView(lng = -80,
+          lat = 34.5,
+          zoom = 5) |>
+  addPolygons(
+    
+
+
+#Postpartum |>
+#ggplot(state_stats) +
+ # geom_sf(aes(fill = "regions")) +
+  #labs(title = "map",
+   #    x = "Longitude",
+    #   y = "Latitude",
+     #  fill = "regions")
+
+
+#ADD thingie to show stats
+#labels <- sprintf("<strong>%s</strong><br/>%g births", 
+               #   nc$county, nc$births1974) %>% lapply(htmltools::HTML)
+#head(labels, 1)
+
+
 ```
 
+```{r states-map}
+map('state', fill = TRUE, col = palette())
+```
 
-### Plot 4: Wordcloud
+### Plot 4: Heat map
+
+```{r heatmap-like-for-plot-critique}
+# comparing states and support_type
+
+p2 <- Postpartum <- Postpartum |>
+  filter(support_type != "NA") |>
+  filter(regions != "NA") |>
+  filter(support_type != "Family support")
+  
+ggplot(Postpartum, aes(x = regions, y = support_type, fill = regions)) +
+   geom_tile(alpha = .3) +
+ scale_fill_viridis_d() +
+  theme_minimal() +
+   theme(axis.title.x=element_blank(),
+        axis.text.x=element_blank(),
+        axis.ticks.x=element_blank()) +
+ # theme(axis.text.y=element_blank(),
+       # axis.ticks.y=element_blank()) +
+  labs(title = "Heatmap-Like Plot Example", y = "Care Type", fill = "US Region")
+
+ggsave("example-tile-heatmap-wide.png", width = 10, height = 5)
+
+``` 
+
+### Plot 5: Wordcloud
 
 ``` {r wordcloud-critical-care}
 
@@ -2421,35 +2409,9 @@ wordcloud2(word_freq_table, size = 0.5, color = colors)
 ```
 
 
-### Plot 5: Heat map
-#### Data cleanup steps specific to plot 4
-
-```{r heatmap-like-for-plot-critique}
-# comparing states and support_type
-
-p2 <- Postpartum <- Postpartum |>
-  filter(support_type != "NA") |>
-  filter(regions != "NA")
-  
-ggplot(Postpartum, aes(x = support_type, y = regions, fill = support_type)) +
-   geom_tile(alpha = .7) +
-  scale_fill_viridis_d() +
-  theme_minimal() +
-   theme(axis.title.x=element_blank(),
-        axis.text.x=element_blank(),
-        axis.ticks.x=element_blank()) +
- # theme(axis.text.y=element_blank(),
-       # axis.ticks.y=element_blank()) +
-  labs(title = "Heatmap-Like Plot Example", y = "US Regions", fill = "Support Type")
-
-ggsave("example-tile-heatmap-wide.png", width = 10, height = 5)
-
-```
-
-
 ### Plot 6: TBD
 
-#### Data cleanup steps specific to plot 5
+#### Data cleanup steps specific to plot 6
 
 ```{r cost-factor-cleanup}
 
