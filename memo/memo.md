@@ -502,7 +502,7 @@ Postpartum |>
 
 ``` r
 Postpartum |>
-  filter(!is.na(support_type)) |>
+  drop_na(support_type) |>
   filter(support_type != "Lactation support",
          support_type != "Hospital/office follow up appointments",
          support_type != "Emotional support",
@@ -511,10 +511,11 @@ Postpartum |>
          support_type != "In-home follow up appointments",
          support_type != "Acupuncture",
          support_type != "None of the above") |>
-  #count(respondent) +
-  #mutate(percentage = n / sum(n) *100) |>
-  ggplot(mapping = aes(x = fct_rev(fct_infreq(support_type)), fill = support_type)) +
- # geom_bar(stat = "identity") +
+  select(respondent, support_type) |>
+  count(support_type) |>
+  mutate(percentage = n / 784 *100) |>
+ggplot(mapping = aes(x = fct_rev(fct_infreq(support_type)), y = percentage, fill = support_type)) +
+  geom_col() +
   theme_bw() +
   theme(legend.position = 'none') + 
   coord_flip() +
@@ -527,6 +528,10 @@ Postpartum |>
 ```
 
 ![](memo_files/figure-gfm/informal-care-type-bar-chart-1.png)<!-- -->
+
+``` r
+# Knowing the number of total respondents (in the US) made it easier to calculate percentage based on this set number.
+```
 
 ### Plot 2: Leaflet map
 
