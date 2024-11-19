@@ -5,7 +5,23 @@ by Emmy Wahlström, Tikyra Downs, and Willow Gibson
 ## Summary
 
 Overview of the data and what we hoped to explore / what we did explore.
-In this project we were focused on identifying the quality of care that survey respondents had access to. Were also curious about 
+
+In this project we were focused on identifying the quality of care that survey respondents had access to. Were also curious about how what care was accessible vs what care were cited as most critical. We initially thought about assigning numerical values to the quality categories and looking at them through a lens of "good/better/best" types of care. Each category would have been additive moving through the scale. We planned to look at that data on on a leaflet map in order to display quality of care across the US.
+
+BASELINE SUPPORT: Care needed to prevent the worst long term health outcomes (i.e. organ prolapse, long term depression, etc.)
+Lactation support, pelvic floor PT, emotional support, hospital/office follow up appointments, unpaid parental leave
+
+PHYSICAL SUPPORT: Care that increases the birthing parent and baby’s physical wellbeing beyond baseline support
+In-home help with care tasks, in-home follow up appointments, bodywork like massage or chiropractic, acupuncture, or overnight help
+
+COMMUNITY SUPPORT: Care that builds and maintains community around the birthing parent/family for long term support
+Help with meals (meal train or meal service), new parent groups (online and in-person), family & friend support, paid parental leave
+
+CARE TASKS: As defined by the author KC Davis, LPC: 
+                     “Care tasks describes any task, chore, or errand that is required to care for self and keep life going. Typically, these tasks are recurring, never-ending, and are required to be completed in order to "get on with living."
+In the context of the postpartum experience, this might include childcare of other children, help with cleaning, cooking, or laundry, holding the baby while the parent sleeps or bathes, picking up groceries, or other helpful tasks around the home.
+
+EMOTIONAL SUPPORT: Formal and informal mental health treatment - therapy, PPD/PPA medications, advice from loved ones or doulas, etc.
 
 For this project, our research question concerns the state of postpartum care in the US. We want to look more deeply at several of the relationships between variables in this dataset to evaluate some key aspects of the postpartum experience. Some of the questions we hope to explore are:
 
@@ -28,7 +44,7 @@ The Postpartum Experience Survey was created by Willow Gibson for a research pro
 
 ## Analysis
 
-We experimented with many
+In the process of cleaning our data we came to understand how important survey design is. It is a balancing act to elicit authentic responses from survey respondents while simultaneously ensuring the data collected is tidy enough to use for creating plots. We found that this survey may have offered too many opportunities for open ended responses. It was necessary to standardize answers in order to create meaningful and readable plots. We found that a bar chart was effective for displaying the percent of respondents that had access to different types of care, while a ridge plot 
 
 What plots we used and what we learned from them
 
