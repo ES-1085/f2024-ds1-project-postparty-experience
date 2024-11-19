@@ -318,98 +318,6 @@ Postpartum <- Postpartum |>
   mutate(birth_location = ifelse(birth_location ==  "Hospital, Car", "NA", birth_location))
 ```
 
-### Step 7: Clean `critical`
-
-``` r
-# Postpartum <- rename(Postpartum, "critical" = "critial_clean")
-```
-
-``` r
-Postpartum <- relocate(Postpartum, critical, .after = critical_support)
-```
-
-``` r
-Postpartum <- Postpartum |>
-   separate_longer_delim(critical, delim = ",")
-```
-
-``` r
-unique(Postpartum$critical)
-```
-
-    ##  [1] "Help with meals"                       
-    ##  [2] "In-home help with care tasks"          
-    ##  [3] "Lactation support"                     
-    ##  [4] "Unpaid parental leave"                 
-    ##  [5] "Pelvic floor PT"                       
-    ##  [6] "Emotional support"                     
-    ##  [7] "Family support"                        
-    ##  [8] "New parent groups"                     
-    ##  [9] "Hospital/office follow up appointments"
-    ## [10] "Other"                                 
-    ## [11] "Overnight help"                        
-    ## [12] "In-home follow up appointments"        
-    ## [13] "Paid parental leave"                   
-    ## [14] "Massage or chiropractic"               
-    ## [15] "Acupuncture"
-
-``` r
-Postpartum <- Postpartum |>
-  mutate(critical = ifelse(critical == " In-home help with care tasks", "In-home help with care tasks", critical)) |>
-  mutate(critical = ifelse(critical == " Lactation support", "Lactation support", critical)) |>
-  mutate(critical = ifelse(critical ==  " Pelvic floor PT", "Pelvic floor PT", critical)) |>
-  mutate(critical = ifelse(critical ==  " Emotional support", "Emotional support", critical)) |>
-  mutate(critical = ifelse(critical ==  " Help with meals", "Help with meals", critical)) |>
-  mutate(critical = ifelse(critical ==  " Family support", "Family support", critical)) |>
-  mutate(critical = ifelse(critical ==  " Other", "Other", critical)) |>
-  mutate(critical = ifelse(critical ==  " New parent groups", "New parent groups", critical)) |>
-  mutate(critical = ifelse(critical ==  " In-home follow up appointments", "In-home follow up appointments", critical)) |>
-  mutate(critical = ifelse(critical ==  " Paid parental leave", "Paid parental leave", critical)) |>
-  mutate(critical = ifelse(critical ==  " Overnight help", "Overnight help", critical)) |>
-  mutate(critical = ifelse(critical ==  " Massage or chiropractic", "Massage or chiropractic", critical)) |>
-  mutate(critical = ifelse(critical ==  " Acupuncture", "Acupuncture", critical)) |>
-  mutate(critical = ifelse(critical ==  " family support", "Family support", critical)) |>
-  mutate(critical = ifelse(critical ==  " Hospital/office follow up appointments", "Hospital/office follow up appointments", critical)) |>
-  mutate(critical = ifelse(critical ==  " New parent group", "New parent group", critical)) |>
-  mutate(critical = ifelse(critical ==  "Pelvice floor PT", "Pelvic floor PT", critical)) |>
-  mutate(critical = ifelse(critical ==  " Pelvic floor rehab", "Pelvic floor PT", critical)) |>
-  mutate(critical = ifelse(critical ==  " Unpaid parental leave", "Unpaid parental leave", critical)) |>
-  mutate(critical = ifelse(critical ==  " in-home help with care tasks", "In-home help with care tasks", critical)) |>
-  mutate(critical = ifelse(critical ==  "Pelvic floor rehab", "Pelvic floor PT", critical)) |>
-  mutate(critical = ifelse(critical ==  "Emotial support", "Emotional support", critical)) |>
-  mutate(critical = ifelse(critical ==  "Help with meal", "Help with meals", critical)) |>
-  mutate(critical = ifelse(critical ==  "Lactation", "Lactation support", critical)) |>
-  mutate(critical = ifelse(critical ==  "Lactatiom support", "Lactation support", critical)) |>
-  mutate(critical = ifelse(critical ==  "Emototional support", "Emotional support", critical)) |>
-  mutate(critical = ifelse(critical ==  "In-home help with child care", "In-home help with care tasks", critical)) |>
-  mutate(critical = ifelse(critical ==  "In-home help wih care tasks", "In-home help with care tasks", critical)) |>
-  mutate(critical = ifelse(critical ==  "Help with care tasks", "In-home help with care tasks", critical)) |>
-  mutate(critical = ifelse(critical ==  "New parent group", "New parent groups", critical)) |>
-  mutate(critical = ifelse(critical ==  "Child care", "In-home help with care tasks", critical)) |>
-  mutate(critical = ifelse(critical ==  "Lacation support", "Lactation support", critical)) |>
-  mutate(critical = ifelse(critical ==  "Sleep support", "Overnight help", critical))
-```
-
-``` r
-unique(Postpartum$critical)
-```
-
-    ##  [1] "Help with meals"                       
-    ##  [2] "In-home help with care tasks"          
-    ##  [3] "Lactation support"                     
-    ##  [4] "Unpaid parental leave"                 
-    ##  [5] "Pelvic floor PT"                       
-    ##  [6] "Emotional support"                     
-    ##  [7] "Family support"                        
-    ##  [8] "New parent groups"                     
-    ##  [9] "Hospital/office follow up appointments"
-    ## [10] "Other"                                 
-    ## [11] "Overnight help"                        
-    ## [12] "In-home follow up appointments"        
-    ## [13] "Paid parental leave"                   
-    ## [14] "Massage or chiropractic"               
-    ## [15] "Acupuncture"
-
 ## Plots
 
 ### Plot 1: Bar chart
@@ -530,7 +438,7 @@ ggplot(mapping = aes(x = fct_rev(fct_infreq(support_type)), y = percentage, fill
 ![](memo_files/figure-gfm/informal-care-type-bar-chart-1.png)<!-- -->
 
 ``` r
-# Knowing the number of total respondents (in the US) made it easier to calculate percentage based on this set number.
+# Knowing the number of total respondents (in the US) made it easier to calculate percentage based on this set number 
 ```
 
 ### Plot 2: Leaflet map
@@ -667,6 +575,100 @@ Postpartum <- relocate(Postpartum, regions, .after = first_state)
 ``` r
 #map('state', fill = TRUE, col = palette())
 ```
+
+### Plot 3 Clean up
+
+## Cleaning `critical`
+
+``` r
+# Postpartum <- rename(Postpartum, "critical" = "critial_clean")
+```
+
+``` r
+Postpartum <- relocate(Postpartum, critical, .after = critical_support)
+```
+
+``` r
+Postpartum <- Postpartum |>
+   separate_longer_delim(critical, delim = ",")
+```
+
+``` r
+unique(Postpartum$critical)
+```
+
+    ##  [1] "Help with meals"                       
+    ##  [2] "In-home help with care tasks"          
+    ##  [3] "Lactation support"                     
+    ##  [4] "Unpaid parental leave"                 
+    ##  [5] "Pelvic floor PT"                       
+    ##  [6] "Emotional support"                     
+    ##  [7] "Family support"                        
+    ##  [8] "New parent groups"                     
+    ##  [9] "Hospital/office follow up appointments"
+    ## [10] "Other"                                 
+    ## [11] "Overnight help"                        
+    ## [12] "In-home follow up appointments"        
+    ## [13] "Paid parental leave"                   
+    ## [14] "Massage or chiropractic"               
+    ## [15] "Acupuncture"
+
+``` r
+Postpartum <- Postpartum |>
+  mutate(critical = ifelse(critical == " In-home help with care tasks", "In-home help with care tasks", critical)) |>
+  mutate(critical = ifelse(critical == " Lactation support", "Lactation support", critical)) |>
+  mutate(critical = ifelse(critical ==  " Pelvic floor PT", "Pelvic floor PT", critical)) |>
+  mutate(critical = ifelse(critical ==  " Emotional support", "Emotional support", critical)) |>
+  mutate(critical = ifelse(critical ==  " Help with meals", "Help with meals", critical)) |>
+  mutate(critical = ifelse(critical ==  " Family support", "Family support", critical)) |>
+  mutate(critical = ifelse(critical ==  " Other", "Other", critical)) |>
+  mutate(critical = ifelse(critical ==  " New parent groups", "New parent groups", critical)) |>
+  mutate(critical = ifelse(critical ==  " In-home follow up appointments", "In-home follow up appointments", critical)) |>
+  mutate(critical = ifelse(critical ==  " Paid parental leave", "Paid parental leave", critical)) |>
+  mutate(critical = ifelse(critical ==  " Overnight help", "Overnight help", critical)) |>
+  mutate(critical = ifelse(critical ==  " Massage or chiropractic", "Massage or chiropractic", critical)) |>
+  mutate(critical = ifelse(critical ==  " Acupuncture", "Acupuncture", critical)) |>
+  mutate(critical = ifelse(critical ==  " family support", "Family support", critical)) |>
+  mutate(critical = ifelse(critical ==  " Hospital/office follow up appointments", "Hospital/office follow up appointments", critical)) |>
+  mutate(critical = ifelse(critical ==  " New parent group", "New parent group", critical)) |>
+  mutate(critical = ifelse(critical ==  "Pelvice floor PT", "Pelvic floor PT", critical)) |>
+  mutate(critical = ifelse(critical ==  " Pelvic floor rehab", "Pelvic floor PT", critical)) |>
+  mutate(critical = ifelse(critical ==  " Unpaid parental leave", "Unpaid parental leave", critical)) |>
+  mutate(critical = ifelse(critical ==  " in-home help with care tasks", "In-home help with care tasks", critical)) |>
+  mutate(critical = ifelse(critical ==  "Pelvic floor rehab", "Pelvic floor PT", critical)) |>
+  mutate(critical = ifelse(critical ==  "Emotial support", "Emotional support", critical)) |>
+  mutate(critical = ifelse(critical ==  "Help with meal", "Help with meals", critical)) |>
+  mutate(critical = ifelse(critical ==  "Lactation", "Lactation support", critical)) |>
+  mutate(critical = ifelse(critical ==  "Lactatiom support", "Lactation support", critical)) |>
+  mutate(critical = ifelse(critical ==  "Emototional support", "Emotional support", critical)) |>
+  mutate(critical = ifelse(critical ==  "In-home help with child care", "In-home help with care tasks", critical)) |>
+  mutate(critical = ifelse(critical ==  "In-home help wih care tasks", "In-home help with care tasks", critical)) |>
+  mutate(critical = ifelse(critical ==  "Help with care tasks", "In-home help with care tasks", critical)) |>
+  mutate(critical = ifelse(critical ==  "New parent group", "New parent groups", critical)) |>
+  mutate(critical = ifelse(critical ==  "Child care", "In-home help with care tasks", critical)) |>
+  mutate(critical = ifelse(critical ==  "Lacation support", "Lactation support", critical)) |>
+  mutate(critical = ifelse(critical ==  "Sleep support", "Overnight help", critical))
+```
+
+``` r
+unique(Postpartum$critical)
+```
+
+    ##  [1] "Help with meals"                       
+    ##  [2] "In-home help with care tasks"          
+    ##  [3] "Lactation support"                     
+    ##  [4] "Unpaid parental leave"                 
+    ##  [5] "Pelvic floor PT"                       
+    ##  [6] "Emotional support"                     
+    ##  [7] "Family support"                        
+    ##  [8] "New parent groups"                     
+    ##  [9] "Hospital/office follow up appointments"
+    ## [10] "Other"                                 
+    ## [11] "Overnight help"                        
+    ## [12] "In-home follow up appointments"        
+    ## [13] "Paid parental leave"                   
+    ## [14] "Massage or chiropractic"               
+    ## [15] "Acupuncture"
 
 ### Plot 3: Ridge plot
 
