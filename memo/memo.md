@@ -821,11 +821,88 @@ ggsave(filename = "Missingdataplot.png", width = 8, height = 4)
 
 #### Final Plot 1
 
+``` r
+Postpartum |>
+  filter(!is.na(support_type)) |>
+  filter(support_type != "New parent groups - in person",
+         support_type != "NA",
+         support_type != "Overnight help",
+         support_type != "Family support",
+         support_type != "New parent groups",
+         support_type != "In-home help with care tasks",
+         support_type != "Other",
+         support_type != "Help with meals") |>
+  ggplot(mapping = aes(x = fct_rev(fct_infreq(support_type)), fill = support_type)) +
+  geom_bar() +
+  scale_fill_manual(
+    values = c(
+      "In-home follow up appointments" = "#d95f02",
+      "Massage or chiropractic" = "#d95f02",
+      "Acupuncture" = "#d95f02",
+      "default" = "#66c2a5")) +
+  #scale_fill_manual(
+   # values = c(
+    #  "Lactation support" = "#66c2a5",
+     # "Emotional support" = "#66c2a5",
+      #"Pelvic floor PT" = "#66c2a5",
+    #  "Hospital/office follow up appointments" = "#66c2a5"))
+     #  "default" = "darkblue")) +
+  theme_bw() +
+  theme_ridges() +
+  theme(legend.position = 'none') + 
+  coord_flip() +
+  labs(title = "Formal types of Postpartum Care Accessed", 
+       subtitle = "In the US Between 2013-2023 by Survey Respondents", 
+       x = "Support Type", 
+       y = "Number of Survey Respondents",
+       caption = "The highlighted care types have been defined as care that increases the birthing parent and baby’s 
+       physical and emotional wellbeing beyond baseline services."
+       ) 
+```
+
+![](memo_files/figure-gfm/formal-plot-1.png)<!-- -->
+
+``` r
+#ggsave("example-postpartum-wide-2.png", width = 10, height = 4)
+```
+
+``` r
+Postpartum |>
+  drop_na(support_type) |>
+  filter(support_type != "Lactation support",
+         support_type != "Hospital/office follow up appointments",
+         support_type != "Emotional support",
+         support_type != "Pelvic floor PT",
+         support_type != "Massage or chiropractic",
+         support_type != "In-home follow up appointments",
+         support_type != "Acupuncture",
+         support_type != "None of the above") |>
+  select(respondent, support_type) |>
+  count(support_type) |>
+  mutate(percentage = n / 784 *100) |>
+ggplot(mapping = aes(x = fct_rev(fct_infreq(support_type)), y = percentage, fill = support_type)) +
+  geom_col() +
+  theme_bw() +
+  theme_ridges() +
+  theme(legend.position = 'none') + 
+  coord_flip() +
+  labs(title = "Informal types of Postpartum Care Accessed", 
+       subtitle = "In the US Between 2013-2023 by Survey Respondents", 
+       x = "Support Type", 
+       y = "Percentage of Survey Respondents",
+     #  caption = "The highlighted care types have been defined as care that increases the birthing parent and baby’s  physical and emotional wellbeing beyond baseline services."
+       ) 
+```
+
+![](memo_files/figure-gfm/informal-bar-chart-1.png)<!-- -->
+
+``` r
+# Knowing the number of total respondents (in the US) made it easier to calculate percentage based on this set number 
+```
+
 ### Plot 2: \_\_\_\_\_\_\_\_\_
 
 ### Plot 3: \_\_\_\_\_\_\_\_\_\_\_
 
 Add more plot sections as needed. Each project should have at least 3
 plots, but talk to me if you have fewer than 3.
-
-### Plot 4: \_\_\_\_\_\_\_\_\_\_\_
