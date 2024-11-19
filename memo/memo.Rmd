@@ -527,12 +527,12 @@ ggplot(Postpartum,
 Postpartum <- Postpartum |>
   mutate(quality_critical = case_when(
     critical %in% c("Lactation support", "Pelvic floor PT", "Emotional support", 
-                    "Hospital/office follow up appointments", "Unpaid parental leave") ~                      "baseline",
+                    "Hospital/office follow up appointments", "Unpaid parental leave") ~                      "baseline support",
     critical %in% c("Paid parental leave", "In-home follow up appointments", 
                     "In-home help with care tasks", "Massage or chiropractic", 
-                    "Acupuncture", "Overnight help") ~ "better wellbeing",
+                    "Acupuncture", "Overnight help") ~ "physical support",
     critical %in% c("Help with meals", "New parent groups", "Paid parental leave", 
-                    "Family support") ~ "community and long term support",
+                    "Family support") ~ "community support",
     TRUE ~ NA_character_
   ))
 
@@ -547,12 +547,12 @@ Postpartum <- relocate(Postpartum, quality_critical, .after = critical)
 Postpartum <- Postpartum |>
   mutate(quality_access = case_when(
     support_type %in% c("Lactation support", "Pelvic floor PT", "Emotional support", 
-                    "Hospital/office follow up appointments", "Unpaid parental leave") ~                      "baseline",
+                    "Hospital/office follow up appointments", "Unpaid parental leave") ~                      "baseline support",
     support_type %in% c("Paid parental leave", "In-home follow up appointments", 
                     "In-home help with care tasks", "Massage or chiropractic", 
-                    "Acupuncture", "Overnight help") ~ "better wellbeing",
+                    "Acupuncture", "Overnight help") ~ "physical support",
     support_type %in% c("Help with meals", "New parent groups", "Paid parental leave", 
-                    "Family support") ~ "community and long term support",
+                    "Family support") ~ "community support",
     TRUE ~ NA_character_
   ))
 
