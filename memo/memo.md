@@ -349,6 +349,7 @@ Postpartum |>
     #  "Hospital/office follow up appointments" = "#66c2a5"))
      #  "default" = "darkblue")) +
   theme_bw() +
+  theme_ridges() +
   theme(legend.position = 'none') + 
   coord_flip() +
   labs(title = "Formal types of Postpartum Care Accessed", 
@@ -391,6 +392,7 @@ Postpartum |>
     )
     ) +
   theme_bw() +
+  theme_ridges() +
   theme(legend.position = 'none') + 
   coord_flip() +
   labs(title = "Formal types of Postpartum Care Accessed", 
@@ -425,6 +427,7 @@ Postpartum |>
 ggplot(mapping = aes(x = fct_rev(fct_infreq(support_type)), y = percentage, fill = support_type)) +
   geom_col() +
   theme_bw() +
+  theme_ridges() +
   theme(legend.position = 'none') + 
   coord_flip() +
   labs(title = "Informal types of Postpartum Care Accessed", 
