@@ -528,7 +528,7 @@ Postpartum <- Postpartum |>
   mutate(quality_critical = case_when(
     critical %in% c("Lactation support", "Pelvic floor PT", "Emotional support", 
                     "Hospital/office follow up appointments", "Unpaid parental leave") ~                      "baseline support",
-    critical %in% c("Paid parental leave", "In-home follow up appointments", 
+    critical %in% c("In-home follow up appointments", 
                     "In-home help with care tasks", "Massage or chiropractic", 
                     "Acupuncture", "Overnight help") ~ "physical support",
     critical %in% c("Help with meals", "New parent groups", "Paid parental leave", 
@@ -548,7 +548,7 @@ Postpartum <- Postpartum |>
   mutate(quality_access = case_when(
     support_type %in% c("Lactation support", "Pelvic floor PT", "Emotional support", 
                     "Hospital/office follow up appointments", "Unpaid parental leave") ~                      "baseline support",
-    support_type %in% c("Paid parental leave", "In-home follow up appointments", 
+    support_type %in% c("In-home follow up appointments", 
                     "In-home help with care tasks", "Massage or chiropractic", 
                     "Acupuncture", "Overnight help") ~ "physical support",
     support_type %in% c("Help with meals", "New parent groups", "Paid parental leave", 
