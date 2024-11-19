@@ -533,36 +533,36 @@ Postpartum <- relocate(Postpartum, regions, .after = first_state)
 
 ```{r leaflet}
 
-library(leaflet) ## For leaflet interactive maps
-library(sf) ## For spatial data
-library(RColorBrewer) ## For colour palettes
-library(htmltools) ## For html
-library(leafsync) ## For placing plots side by side
-library(kableExtra) ## Table  output (in slides)
-library(maps)
-library(mapdata)
-library(tigris)
+#library(leaflet) ## For leaflet interactive maps
+#library(sf) ## For spatial data
+#library(RColorBrewer) ## For colour palettes
+#library(htmltools) ## For html
+#library(leafsync) ## For placing plots side by side
+#library(kableExtra) ## Table  output (in slides)
+#library(maps)
+#library(mapdata)
+#library(tigris)
 #library(ggiraph) 
 #install.packages('ggiraph')
 
 
 
-states <- states(cb = TRUE)
+# states <- states(cb = TRUE)
 
 
-leaflet(states) %>%
-  addProviderTiles(providers$OpenStreetMap) |>
+# leaflet(states) %>%
+ # addProviderTiles(providers$OpenStreetMap) |>
   #addProviderTiles(providers$georegion) |>
-  addPolygons()
+ # addPolygons()
   
 
 #lines above make base map
   
-  addProviderTiles(provider = providers$OpenStreetMap) |>
-  setView(lng = -80,
-          lat = 34.5,
-          zoom = 5) |>
-  addPolygons(
+ # addProviderTiles(provider = providers$OpenStreetMap) |>
+ # setView(lng = -80,
+ #         lat = 34.5,
+  #        zoom = 5) |>
+ # addPolygons(
     
 
 
@@ -584,7 +584,7 @@ leaflet(states) %>%
 ```
 
 ```{r states-map}
-map('state', fill = TRUE, col = palette())
+#map('state', fill = TRUE, col = palette())
 ```
 
 ### Plot 3: Ridge plot
