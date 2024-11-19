@@ -620,7 +620,7 @@ ggplot(Postpartum,
        axis.ticks.x = element_blank()) +
   theme(axis.title.y = element_blank()) +
   # need to re-order care types and potentially break it up by quality or formal/informal
-  labs (title = "Top 3 Most Critical Postpartum Care Types", subtitle = "by Survey Responents Across the US")
+  labs (title = "Top 3 Most Critical Postpartum Care Types", subtitle = "by Survey Respondents Across the US")
 
 ggsave("postpartum-ridges-wide.png", width = 10, height = 5)
 
