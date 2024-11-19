@@ -454,46 +454,9 @@ Postpartum |>
 
 ```
 
+### Plot 2: Leaflet map
 
-### Plot 2: Ridge plot
-
-```{r critical-count}
-Postpartum |>
-  count(critical) |>
-  arrange(desc(n))
-```
-
-
-```{r critical-ridge-plot}
-
-Postpartum <- Postpartum |>
-  filter(critical != "NA") |>
-  filter(critical != "Duplicate entry") |>
-  filter(!critical %in% c("Family support", "Help with meals",	"Pelvic floor PT", "New parent groups", "In-home follow up appointments", "Other", "Overnight help", "Paid parental leave", "Massage or chiropractic", "Hospital/office follow up appointments", "Acupuncture",	"Unpaid parental leave"))
-
-ggplot(Postpartum, 
-       aes(x = first_age, 
-           y = critical,
-           color = critical, 
-           fill = critical)) +
-  facet_wrap(~ regions) +
-  geom_density_ridges(alpha = .6) +
-  scale_color_viridis_d(alpha = .6) +
-  scale_fill_viridis_d() +
- # scale_x_continuous(breaks = seq(from = 18, to = 44, by = 2)) +
-  theme_ridges() +
-  theme(legend.position = "none") +
-  theme(axis.title.x = element_blank(),
-       axis.text.x = element_blank(),
-       axis.ticks.x = element_blank()) +
-  theme(axis.title.y = element_blank()) +
-  # need to re-order care types and potentially break it up by quality or formal/informal
-  labs (title = "Most Critical Postpartum Care Types by US Region", subtitle = "what is the takeaway?")
-
-```
-### Plot 3: Leaflet map
-
-#### Data cleanup steps specific to plot 3
+#### Data cleanup steps specific to plot 2
 
 ```{r create-quality_critical-variable}
 # try mutating the group of care types into baseline/good, better, best with | between each care type
@@ -622,6 +585,45 @@ leaflet(states) %>%
 
 ```{r states-map}
 map('state', fill = TRUE, col = palette())
+```
+
+### Plot 3: Ridge plot
+
+```{r critical-count}
+Postpartum |>
+  count(critical) |>
+  arrange(desc(n))
+```
+
+```{r critical-ridge-plot}
+
+Postpartum <- Postpartum |>
+  filter(critical != "NA") |>
+  filter(critical != "Duplicate entry") |>
+  filter(!critical %in% c("Family support", "Help with meals",	"Pelvic floor PT", "New parent groups", "In-home follow up appointments", "Other", "Overnight help", "Paid parental leave", "Massage or chiropractic", "Hospital/office follow up appointments", "Acupuncture",	"Unpaid parental leave")) |>
+  filter(regions != "NA")
+
+ggplot(Postpartum, 
+       aes(x = first_age, 
+           y = critical,
+           color = critical, 
+           fill = critical)) +
+  facet_wrap(~ regions) +
+  geom_density_ridges(alpha = .6) +
+  scale_color_viridis_d(alpha = .6) +
+  scale_fill_viridis_d(alpha = .6) +
+ # scale_x_continuous(breaks = seq(from = 18, to = 44, by = 2)) +
+  theme_ridges() +
+  theme(legend.position = "none") +
+  theme(axis.title.x = element_blank(),
+       axis.text.x = element_blank(),
+       axis.ticks.x = element_blank()) +
+  theme(axis.title.y = element_blank()) +
+  # need to re-order care types and potentially break it up by quality or formal/informal
+  labs (title = "Top 3 Most Critical Postpartum Care Types", subtitle = "By Age and US Region")
+
+ggsave("postpartum-ridges-wide.png", width = 10, height = 5)
+
 ```
 
 ### Plot 4: Heat map
