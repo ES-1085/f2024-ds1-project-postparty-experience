@@ -5,15 +5,32 @@ by Emmy Wahlström, Tikyra Downs, and Willow Gibson
 ## Summary
 
 Overview of the data and what we hoped to explore / what we did explore.
+In this project we were focused on identifying the quality of care that survey respondents had access to. Were also curious about 
 
+For this project, our research question concerns the state of postpartum care in the US. We want to look more deeply at several of the relationships between variables in this dataset to evaluate some key aspects of the postpartum experience. Some of the questions we hope to explore are:
 
-## Analysis
+1. If we categorize postpartum care into "good", "better", and "best" categories, what quality of postpartum care is the average birther receiving?
 
-What plots we used and what we learned from them
+2. Does quality of postpartum care vary from state to state?
+
+3. Is there a correlation between age and quality of postpartum care received/offered?
+
+4. What states require postpartum care to be covered by insurance? Does that requirement for coverage extend to Medicare recipients only, or does it extend to private insurance companies?
+
+5. What types of postpartum support did respondents say were most critical to their household within the first year following birth? Are these types of care typically covered by insurance or are families paying for these services out of pocket?
+
+6. Critical care vs ideal care - what are the differences?
+
 
 ## Methods
 
-Notes here about the way the data was collected and that it can only be considered "preliminary data".
+The Postpartum Experience Survey was created by Willow Gibson for a research project assigned in a course titled "History of Midwifery and Women's Healthcare in the US" at College of the Atlantic in 2022. The data was collected through a Google form survey that was circulated via email and briefly on social media. The survey accepted responses for 1 week in February 2022 and received 788 responses. The purpose of collecting this information was to observe the state of postpartum care in the US across the ten year period of 2013 - 2023 with the goal of learning what gaps in care exist. The dataset is unpublished and is considered preliminary data only. The survey questions can be viewed [here] (add link).
+
+## Analysis
+
+We experimented with many
+
+What plots we used and what we learned from them
 
 ## Conclusions
 
