@@ -805,13 +805,12 @@ cost_not_applicable <- c("Did not know post partum services other than the follo
 ``` r
 Postpartum <- Postpartum %>%
   select(respondent, state, age, birth_location, informed_by, other_info_sources, support_type, provider, ins_covered_services, cost_factor, if_insurance, critical_support, ideal_support, comments, emails)
-```
 
-``` r
+
 vis_miss(Postpartum)
 ```
 
-![](memo_files/figure-gfm/unnamed-chunk-1-1.png)<!-- -->
+![](memo_files/figure-gfm/missing-data-1.png)<!-- -->
 
 ``` r
 ggsave(filename = "Missingdataplot.png", width = 8, height = 4)
@@ -859,18 +858,12 @@ ggplot(mapping = aes(x = fct_reorder(support_type, percentage), y = percentage, 
 ![](memo_files/figure-gfm/formal-bar-chart-1.png)<!-- -->
 
 ``` r
-    #    x = "Support Type", 
-    #   y = "Percentage of Survey Respondents",
-    #   caption = "The highlighted care types have been defined as care that increases the birthing parent and baby’s physical and emotional wellbeing beyond baseline services."
-
 #baseline #d95f02
 #physical #66c2a5
 #community #d8b365
 #emotional #af8dc3
       
-
-
-#ggsave("example-postpartum-wide-2.png", width = 10, height = 4)
+ggsave("final-formal-bar-chart.png", width = 10, height = 4)
 ```
 
 ``` r
@@ -909,16 +902,25 @@ ggplot(mapping = aes(x = fct_reorder(support_type, percentage), y = percentage, 
 ![](memo_files/figure-gfm/informal-bar-chart-1.png)<!-- -->
 
 ``` r
-       #  x = "Support Type"
-    #   y = "Percentage of Survey Respondents",
-     #  caption = "The highlighted care types have been defined as care that increases the birthing parent and baby’s  physical and emotional wellbeing beyond baseline services."
+ggsave("final-informal-bar-chart.png", width = 10, height = 4)
 
 # Knowing the number of total respondents (in the US) made it easier to calculate percentage based on this set number 
 ```
 
-### Plot 2: \_\_\_\_\_\_\_\_\_
+### Plot 2: Ridge plot
 
-### Plot 3: \_\_\_\_\_\_\_\_\_\_\_
+### Plot 3: Missing Data
 
-Add more plot sections as needed. Each project should have at least 3
-plots, but talk to me if you have fewer than 3.
+``` r
+Postpartum <- Postpartum %>%
+  select(respondent, state, age, birth_location, informed_by, other_info_sources, support_type, provider, ins_covered_services, cost_factor, if_insurance, critical_support, ideal_support, comments, emails)
+
+
+vis_miss(Postpartum)
+```
+
+![](memo_files/figure-gfm/missing-data-plot-1.png)<!-- -->
+
+``` r
+ggsave(filename = "Missingdataplot.png", width = 8, height = 4)
+```
