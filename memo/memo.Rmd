@@ -635,6 +635,62 @@ ggsave("postpartum-ridges-wide.png", width = 10, height = 5)
 
 ```
 
+```{r count-first-age}
+Postpartum |>
+  count(first_age) |>
+  arrange(desc(n))
+```
+
+
+```{r alternative-violin-plot}
+Postpartum <- Postpartum |>
+  filter(critical != "NA") |>
+  filter(critical != "Duplicate entry") |>
+  filter(!critical %in% c("Family support", "Help with meals",	"Pelvic floor PT", "New parent groups", "In-home follow up appointments", "Other", "Overnight help", "Paid parental leave", "Massage or chiropractic", "Hospital/office follow up appointments", "Acupuncture",	"Unpaid parental leave")) |>
+  filter(regions != "NA")
+
+ggplot(Postpartum, 
+       aes(x = first_age, 
+           y = critical,
+           color = critical, 
+           fill = critical)) +
+ # facet_wrap(~ regions) +
+  geom_violin() +
+  #geom_density_ridges(alpha = .6) +
+  scale_color_viridis_d() +
+  scale_fill_viridis_d() +
+ # scale_x_continuous(breaks = seq(from = 18, to = 44, by = 2)) +
+  theme_ridges() +
+  theme(legend.position = "none") +
+  theme(axis.title.x = element_blank()) +
+  #     axis.text.x = element_blank(),
+   #    axis.ticks.x = element_blank()) +
+  theme(axis.title.y = element_blank()) +
+  # need to re-order care types and potentially break it up by quality or formal/informal
+  labs (title = "Top 3 Most Critical Postpartum Care Types", subtitle = "by Survey Respondents Across the US", caption = "Age During First Birth")
+
+ggsave("postpartum-violin.png", width = 10, height = 5)
+
+```
+```{r dot-plot}
+Postpartum <- Postpartum |>
+  filter(critical != "NA") |>
+  filter(critical != "Duplicate entry") |>
+  filter(!critical %in% c("Family support", "Help with meals",	"Pelvic floor PT", "New parent groups", "In-home follow up appointments", "Other", "Overnight help", "Paid parental leave", "Massage or chiropractic", "Hospital/office follow up appointments", "Acupuncture",	"Unpaid parental leave")) |>
+  filter(regions != "NA")
+
+
+ggplot(Postpartum, 
+  aes(x = first_age, y = critical, color = critical)) +
+  geom_point(alpha = 0.2) +
+  scale_color_viridis_d() +
+  theme_ridges() +
+  theme(legend.position = "none") +
+  labs(x = "Review Scores Ratings", y = "Neighbourhoods")
+
+```
+
+
 ### Plot 4: Heat map
 
 ```{r heatmap-like-for-plot-critique}

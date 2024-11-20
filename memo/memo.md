@@ -753,6 +753,92 @@ ggsave("postpartum-ridges-wide.png", width = 10, height = 5)
 
     ## Picking joint bandwidth of 0.784
 
+``` r
+Postpartum |>
+  count(first_age) |>
+  arrange(desc(n))
+```
+
+    ##    first_age   n
+    ## 1         32 295
+    ## 2         33 295
+    ## 3         31 228
+    ## 4         30 216
+    ## 5         34 210
+    ## 6         29 206
+    ## 7         35 190
+    ## 8         28 126
+    ## 9         27  97
+    ## 10        36  93
+    ## 11        26  87
+    ## 12        37  67
+    ## 13        38  58
+    ## 14        40  52
+    ## 15        39  34
+    ## 16        25  31
+    ## 17        42  20
+    ## 18        24  17
+    ## 19        41  13
+    ## 20        20  12
+    ## 21        21  10
+    ## 22        22   7
+    ## 23        18   6
+    ## 24        23   6
+    ## 25        44   6
+
+``` r
+Postpartum <- Postpartum |>
+  filter(critical != "NA") |>
+  filter(critical != "Duplicate entry") |>
+  filter(!critical %in% c("Family support", "Help with meals",  "Pelvic floor PT", "New parent groups", "In-home follow up appointments", "Other", "Overnight help", "Paid parental leave", "Massage or chiropractic", "Hospital/office follow up appointments", "Acupuncture", "Unpaid parental leave")) |>
+  filter(regions != "NA")
+
+ggplot(Postpartum, 
+       aes(x = first_age, 
+           y = critical,
+           color = critical, 
+           fill = critical)) +
+ # facet_wrap(~ regions) +
+  geom_violin() +
+  #geom_density_ridges(alpha = .6) +
+  scale_color_viridis_d() +
+  scale_fill_viridis_d() +
+ # scale_x_continuous(breaks = seq(from = 18, to = 44, by = 2)) +
+  theme_ridges() +
+  theme(legend.position = "none") +
+  theme(axis.title.x = element_blank()) +
+  #     axis.text.x = element_blank(),
+   #    axis.ticks.x = element_blank()) +
+  theme(axis.title.y = element_blank()) +
+  # need to re-order care types and potentially break it up by quality or formal/informal
+  labs (title = "Top 3 Most Critical Postpartum Care Types", subtitle = "by Survey Respondents Across the US", caption = "Age During First Birth")
+```
+
+![](memo_files/figure-gfm/alternative-violin-plot-1.png)<!-- -->
+
+``` r
+ggsave("postpartum-violin.png", width = 10, height = 5)
+```
+
+``` r
+Postpartum <- Postpartum |>
+  filter(critical != "NA") |>
+  filter(critical != "Duplicate entry") |>
+  filter(!critical %in% c("Family support", "Help with meals",  "Pelvic floor PT", "New parent groups", "In-home follow up appointments", "Other", "Overnight help", "Paid parental leave", "Massage or chiropractic", "Hospital/office follow up appointments", "Acupuncture", "Unpaid parental leave")) |>
+  filter(regions != "NA")
+
+
+ggplot(Postpartum, 
+  aes(x = first_age, y = critical, color = critical)) +
+  geom_point(alpha = 0.2) +
+  scale_color_viridis_d() +
+  theme_ridges() +
+  theme(legend.position = "none") +
+  labs(x = "Review Scores Ratings", y = "Neighbourhoods")
+```
+
+![](memo_files/figure-gfm/dot-plot-1.png)<!-- -->
+
 ### Plot 4: Heat map
 
 ``` r
