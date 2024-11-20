@@ -717,14 +717,13 @@ ggsave("example-tile-heatmap-wide.png", width = 10, height = 5)
 ``` 
 
 
-```
-
 
 ### Plot 6: TBD
 
 #### Data cleanup steps specific to plot 6
 
 ```{r cost-factor-cleanup}
+
 
 yes_cost_a_factor <- c("I received care from friends and family, had I not had that I wouldn’t have been able to afford to pay for postpartum care services","To some extent, but luckily I could afford almost whatever I wanted/needed.","We strongly considered going to a birth center for my first birth, but they did not accept insurance and it was cost prohibitive. I feel we would have had more postpartum support with my first if we had gone that route.","Had already paid max out of pocket w labor","No referral","lactation specialist not covered, couldn’t afford otherwise","I definitely knew to look for support covered by insurance.","Did on seek in home help due to cost", "Did on seek in home help due to cost","Partially. Had i known there was support, I probably couldnt afford it.", "Yes but we had a generous budget and family to help financially","Unsure of question.... did it cost,  some of it did", "It was definitely a luxury to afford therapist and lactation help but anything other than that I viewed as “extra.”", "No doula $", "Yes but not as much as just not knowing it was available", "If I could afford food delivery, laundry service, etc, I would have hired the help!", "Do not have insurance","Cost to an extent but also Covid played a role- birth in December 2019, brought son home from NICU in 2020 and recovery was long into 2020)", "Copays sometimes.", "Yes in terms of acupuncture etc I didn’t budget for it and wish I did", "My husband and I prioritized Postpartum care highly so yes and no")
 
@@ -744,12 +743,11 @@ cost_not_applicable <- c("Did not know post partum services other than the follo
 
 ### Plot 7: Missing Data
 
-```{r missing data plot}
+```{r missing-data}
 Postpartum <- Postpartum %>%
   select(respondent, state, age, birth_location, informed_by, other_info_sources, support_type, provider, ins_covered_services, cost_factor, if_insurance, critical_support, ideal_support, comments, emails)
-```
 
-```{r}
+
 vis_miss(Postpartum)
 
 ggsave(filename = "Missingdataplot.png", width = 8, height = 4)
@@ -758,7 +756,8 @@ ggsave(filename = "Missingdataplot.png", width = 8, height = 4)
 
 #### Final Plot 1
 
-```{r formal-plot}
+```{r formal-bar-chart}
+
 Postpartum |>
   filter(!is.na(support_type)) |>
   filter(support_type != "New parent groups - in person",
@@ -768,40 +767,44 @@ Postpartum |>
          support_type != "New parent groups",
          support_type != "In-home help with care tasks",
          support_type != "Other",
+         support_type != "None of the above",
          support_type != "Help with meals") |>
-  ggplot(mapping = aes(x = fct_rev(fct_infreq(support_type)), fill = support_type)) +
-  geom_bar() +
+  select(respondent, support_type) |>
+  count(support_type) |>
+  mutate(percentage = n / 784 *100) |>
+ggplot(mapping = aes(x = fct_reorder(support_type, percentage), y = percentage, fill = support_type)) +
+  geom_col() +
   scale_fill_manual(
     values = c(
-      "In-home follow up appointments" = "#d95f02",
-      "Massage or chiropractic" = "#d95f02",
-      "Acupuncture" = "#d95f02",
-      "default" = "#66c2a5")) +
-  #scale_fill_manual(
-   # values = c(
-    #  "Lactation support" = "#66c2a5",
-     # "Emotional support" = "#66c2a5",
-      #"Pelvic floor PT" = "#66c2a5",
-    #  "Hospital/office follow up appointments" = "#66c2a5"))
-     #  "default" = "darkblue")) +
+      "Lactation support" = "#d95f02",
+      "Massage or chiropractic" = "#66c2a5",
+      "Acupuncture" = "#66c2a5",
+      "Emotional support" = "#af8dc3",
+      "Hospital/office follow up appointments" = "#d95f02",
+      "In-home follow up appointments" = "#66c2a5",
+      "Pelvic floor PT" = "#d95f02")
+    ) +
   theme_bw() +
   theme_ridges() +
   theme(legend.position = 'none') + 
   coord_flip() +
   labs(title = "Formal types of Postpartum Care Accessed", 
        subtitle = "In the US Between 2013-2023 by Survey Respondents", 
-       x = "Support Type", 
-       y = "Number of Survey Respondents",
-       caption = "The highlighted care types have been defined as care that increases the birthing parent and baby’s 
-       physical and emotional wellbeing beyond baseline services."
-       ) 
+        x = "", 
+       y = "")
 
-#ggsave("example-postpartum-wide-2.png", width = 10, height = 4)
+#baseline #d95f02
+#physical #66c2a5
+#community #d8b365
+#emotional #af8dc3
+      
+ggsave("final-formal-bar-chart.png", width = 10, height = 4)
 
 ```
 
 
 ```{r informal-bar-chart}
+
 Postpartum |>
   drop_na(support_type) |>
   filter(support_type != "Lactation support",
@@ -811,31 +814,51 @@ Postpartum |>
          support_type != "Massage or chiropractic",
          support_type != "In-home follow up appointments",
          support_type != "Acupuncture",
+         support_type != "Other",
          support_type != "None of the above") |>
   select(respondent, support_type) |>
   count(support_type) |>
   mutate(percentage = n / 784 *100) |>
-ggplot(mapping = aes(x = fct_rev(fct_infreq(support_type)), y = percentage, fill = support_type)) +
+ggplot(mapping = aes(x = fct_reorder(support_type, percentage), y = percentage, fill = support_type))  +
   geom_col() +
+  scale_fill_manual(
+    values = c(
+      "Help with meals" = "#d8b365",
+      "In-home help with care tasks" = "#66c2a5",
+      "New parent groups" = "#d8b365"
+    )) +
   theme_bw() +
   theme_ridges() +
   theme(legend.position = 'none') + 
   coord_flip() +
   labs(title = "Informal types of Postpartum Care Accessed", 
-       subtitle = "In the US Between 2013-2023 by Survey Respondents", 
-       x = "Support Type", 
-       y = "Percentage of Survey Respondents",
-     #  caption = "The highlighted care types have been defined as care that increases the birthing parent and baby’s  physical and emotional wellbeing beyond baseline services."
-       ) 
+       subtitle = "In the US Between 2013-2023 by Survey Respondents",
+       x = "",
+       y = "")
+
+ggsave("final-informal-bar-chart.png", width = 10, height = 4)
 
 # Knowing the number of total respondents (in the US) made it easier to calculate percentage based on this set number 
 
 ```
 
 
-### Plot 2: _________
+### Plot 2: Ridge plot
 
-### Plot 3: ___________
+```{r}
 
-Add more plot sections as needed. Each project should have at least 3 plots, but talk to me if you have fewer than 3.
+```
+
+
+### Plot 3: Missing Data
+
+```{r missing-data-plot}
+Postpartum <- Postpartum %>%
+  select(respondent, state, age, birth_location, informed_by, other_info_sources, support_type, provider, ins_covered_services, cost_factor, if_insurance, critical_support, ideal_support, comments, emails)
+
+
+vis_miss(Postpartum)
+
+ggsave(filename = "Missingdataplot.png", width = 8, height = 4)
+```
 
