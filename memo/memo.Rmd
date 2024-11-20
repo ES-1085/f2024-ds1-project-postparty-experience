@@ -533,7 +533,7 @@ Postpartum <- relocate(Postpartum, regions, .after = first_state)
 
 ```{r rename-critical-clean}
 
-# Postpartum <- rename(Postpartum, "critical" = "critial_clean")
+# Postpartum <- rename(Postpartum, "critical" = "critical_clean")
 
 ```
 
@@ -672,6 +672,7 @@ ggplot(Postpartum,
 ggsave("postpartum-violin.png", width = 10, height = 5)
 
 ```
+
 ```{r dot-plot}
 Postpartum <- Postpartum |>
   filter(critical != "NA") |>
@@ -845,8 +846,11 @@ ggsave("final-informal-bar-chart.png", width = 10, height = 4)
 
 ### Plot 2: Ridge plot
 
-```{r}
+```{r checking-existance-critical}
 
+unique(Postpartum$critical)
+
+```
 ```
 
 
