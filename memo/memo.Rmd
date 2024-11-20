@@ -40,7 +40,7 @@ Postpartum <- read.csv("Postpartum.csv")
 
 # This step occurred in the proposal, but we wanted to ensure all clean up steps were included in the memo.
 
-# Postpartum_Experience_renamed_variables <- as_tibble(Postpartum_Experience_Survey_Responses_raw_data) %>% 
+# Postpartum_Experience_renamed_variables <- as_tibble(Postpartum_Experience_Survey_Responses_raw_data) |> 
  # rename( 
     #  `respondent` = `Timestamp`,
      # `state` = `Which US state or country did you give birth in?`,
@@ -486,7 +486,7 @@ Postpartum <- relocate(Postpartum, regions, .after = first_state)
 # states <- states(cb = TRUE)
 
 
-# leaflet(states) %>%
+# leaflet(states) |>
  # addProviderTiles(providers$OpenStreetMap) |>
   #addProviderTiles(providers$georegion) |>
  # addPolygons()
@@ -513,7 +513,7 @@ Postpartum <- relocate(Postpartum, regions, .after = first_state)
 
 #ADD thingie to show stats
 #labels <- sprintf("<strong>%s</strong><br/>%g births", 
-               #   nc$county, nc$births1974) %>% lapply(htmltools::HTML)
+               #   nc$county, nc$births1974) |> lapply(htmltools::HTML)
 #head(labels, 1)
 
 
@@ -664,8 +664,6 @@ Postpartum |>
   # need to re-order care types and potentially break it up by quality or formal/informal
   labs (title = "Top 3 Most Critical Postpartum Care Types", subtitle = "by Survey Respondents Across the US", caption = "Age During First Birth")
 
-ggsave("postpartum-violin.png", width = 10, height = 5)
-
 ```
 
 ```{r dot-plot}
@@ -724,7 +722,7 @@ cost_not_a_factor <- c("It was more not knowing what services I should have had 
 cost_not_applicable <- c("Did not know post partum services other than the follow up appointment were covered services", "Didn’t even know what type of support was available because no one told me!","The pandemic significantly impacted my lack of access to postpartum support, especially in-person support", "I don't know, I wasn't aware of many services")
 
 
-#Postpartum_Experience_renamed_variables_US %>% 
+#Postpartum_Experience_renamed_variables_US |> 
  # mutate(cost_factor = case_when(cost_factor %in% yes_cost_a_factor ~ "Yes",
                                      # cost_factor %in% cost_not_a_factor ~ "No",
                                      # cost_factor %in% cost_not_applicable ~ "N/A",
@@ -837,11 +835,30 @@ ggsave("final-informal-bar-chart.png", width = 10, height = 4)
 ```
 
 
-### Plot 2: Ridge plot
+### Plot 2: Violin plot
 
-```{r checking-existance-critical}
+```{r final-violin-plot}
 
-unique(Postpartum$critical)
+Postpartum |>
+  filter(critical != "NA") |>
+  filter(critical != "Duplicate entry") |>
+  filter(!critical %in% c("Family support", "Help with meals",	"Pelvic floor PT", "New parent groups", "In-home follow up appointments", "Other", "Overnight help", "Paid parental leave", "Massage or chiropractic", "Hospital/office follow up appointments", "Acupuncture",	"Unpaid parental leave")) |>
+  filter(regions != "NA") |>
+  ggplot(aes(x = first_age, 
+           y = critical,
+           color = critical, 
+           fill = critical)) +
+  geom_violin() +
+  scale_color_viridis_d() +
+  scale_fill_viridis_d() +
+  theme_ridges() +
+  theme(legend.position = "none") +
+  theme(axis.title.x = element_blank()) +
+  theme(axis.title.y = element_blank()) +
+  labs (title = "Top 3 Most Critical Postpartum Care Types", subtitle = "by Survey Respondents Across the US", caption = "Age During First Birth")
+
+ggsave("postpartum-violin.png", width = 10, height = 5)
+
 
 ```
 
