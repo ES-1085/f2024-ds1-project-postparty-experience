@@ -274,7 +274,6 @@ Postpartum <- Postpartum |>
   
 ```
 
-
 ## Plots
 
 ### Plot 1: Bar chart
@@ -434,7 +433,6 @@ Postpartum <- Postpartum |>
 unique(Postpartum$quality_access)
 ```
 
-
 ```{r relocate-quality_access-variable}
 Postpartum <- relocate(Postpartum, quality_access, .after = support_type)
 ```
@@ -530,6 +528,7 @@ Postpartum <- relocate(Postpartum, regions, .after = first_state)
 
 ## Cleaning `critical`
 
+
 ```{r rename-critical-clean}
 
 # Postpartum <- rename(Postpartum, "critical" = "critical_clean")
@@ -605,14 +604,12 @@ Postpartum |>
 
 ```{r critical-ridge-plot}
 
-Postpartum <- Postpartum |>
+Postpartum |>
   filter(critical != "NA") |>
   filter(critical != "Duplicate entry") |>
   filter(!critical %in% c("Family support", "Help with meals",	"Pelvic floor PT", "New parent groups", "In-home follow up appointments", "Other", "Overnight help", "Paid parental leave", "Massage or chiropractic", "Hospital/office follow up appointments", "Acupuncture",	"Unpaid parental leave")) |>
-  filter(regions != "NA")
-
-ggplot(Postpartum, 
-       aes(x = first_age, 
+  filter(regions != "NA") |>
+  ggplot(aes(x = first_age, 
            y = critical,
            color = critical, 
            fill = critical)) +
@@ -634,6 +631,7 @@ ggsave("postpartum-ridges-wide.png", width = 10, height = 5)
 
 ```
 
+
 ```{r count-first-age}
 Postpartum |>
   count(first_age) |>
@@ -642,14 +640,12 @@ Postpartum |>
 
 
 ```{r alternative-violin-plot}
-Postpartum <- Postpartum |>
+Postpartum |>
   filter(critical != "NA") |>
   filter(critical != "Duplicate entry") |>
   filter(!critical %in% c("Family support", "Help with meals",	"Pelvic floor PT", "New parent groups", "In-home follow up appointments", "Other", "Overnight help", "Paid parental leave", "Massage or chiropractic", "Hospital/office follow up appointments", "Acupuncture",	"Unpaid parental leave")) |>
-  filter(regions != "NA")
-
-ggplot(Postpartum, 
-       aes(x = first_age, 
+  filter(regions != "NA") |>
+  ggplot(aes(x = first_age, 
            y = critical,
            color = critical, 
            fill = critical)) +
@@ -673,15 +669,12 @@ ggsave("postpartum-violin.png", width = 10, height = 5)
 ```
 
 ```{r dot-plot}
-Postpartum <- Postpartum |>
+Postpartum |>
   filter(critical != "NA") |>
   filter(critical != "Duplicate entry") |>
   filter(!critical %in% c("Family support", "Help with meals",	"Pelvic floor PT", "New parent groups", "In-home follow up appointments", "Other", "Overnight help", "Paid parental leave", "Massage or chiropractic", "Hospital/office follow up appointments", "Acupuncture",	"Unpaid parental leave")) |>
-  filter(regions != "NA")
-
-
-ggplot(Postpartum, 
-  aes(x = first_age, y = critical, color = critical)) +
+  filter(regions != "NA") |>
+  ggplot(aes(x = first_age, y = critical, color = critical)) +
   geom_point(alpha = 0.2) +
   scale_color_viridis_d() +
   theme_ridges() +
@@ -696,12 +689,11 @@ ggplot(Postpartum,
 ```{r heatmap-like-for-plot-critique}
 # comparing states and support_type
 
-p2 <- Postpartum <- Postpartum |>
+Postpartum |>
   filter(support_type != "NA") |>
   filter(regions != "NA") |>
-  filter(support_type != "Family support")
-  
-ggplot(Postpartum, aes(x = regions, y = support_type, fill = regions)) +
+  filter(support_type != "Family support") |>
+  ggplot(aes(x = regions, y = support_type, fill = regions)) +
    geom_tile(alpha = .3) +
  scale_fill_viridis_d() +
   theme_minimal() +
@@ -744,11 +736,11 @@ cost_not_applicable <- c("Did not know post partum services other than the follo
 ### Plot 7: Missing Data
 
 ```{r missing-data}
-Postpartum <- Postpartum %>%
+Postpartum_missing_data <- Postpartum |>
   select(respondent, state, age, birth_location, informed_by, other_info_sources, support_type, provider, ins_covered_services, cost_factor, if_insurance, critical_support, ideal_support, comments, emails)
 
 
-vis_miss(Postpartum)
+vis_miss(Postpartum_missing_data)
 
 ggsave(filename = "Missingdataplot.png", width = 8, height = 4)
 ```
@@ -815,6 +807,8 @@ Postpartum |>
          support_type != "In-home follow up appointments",
          support_type != "Acupuncture",
          support_type != "Other",
+         support_type != "Overnight help",
+         support_type != "Family support",
          support_type != "None of the above") |>
   select(respondent, support_type) |>
   count(support_type) |>
@@ -850,17 +844,16 @@ ggsave("final-informal-bar-chart.png", width = 10, height = 4)
 unique(Postpartum$critical)
 
 ```
-```
 
 
 ### Plot 3: Missing Data
 
 ```{r missing-data-plot}
-Postpartum <- Postpartum %>%
+Postpartum_missing_data <- Postpartum |>
   select(respondent, state, age, birth_location, informed_by, other_info_sources, support_type, provider, ins_covered_services, cost_factor, if_insurance, critical_support, ideal_support, comments, emails)
 
 
-vis_miss(Postpartum)
+vis_miss(Postpartum_missing_data)
 
 ggsave(filename = "Missingdataplot.png", width = 8, height = 4)
 ```
