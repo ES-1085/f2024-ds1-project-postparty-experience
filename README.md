@@ -46,7 +46,15 @@ The Postpartum Experience Survey was created by Willow Gibson for a research pro
 
 In the process of cleaning our data we came to understand how important survey design is. It is a balancing act to elicit authentic responses from survey respondents while simultaneously ensuring the data collected is tidy enough to use for creating plots. We found that this survey may have offered too many opportunities for open ended responses. It was necessary to standardize answers in order to create meaningful and readable plots. We found that a bar chart was effective for displaying the percent of respondents that had access to different types of care, while a ridge plot 
 
-What plots we used and what we learned from them
+We used bar charts, a violin chart, and some word clouds to represent the data from the survey. These were clear and concise ways to visualize hundreds of entries and make sure every respondents experience was accounted for. The Bar graphs and violin graphs were an efficient way to communicate quantitative data. 
+The bar chart for formal types of postpartum care access shows that over 60% of respondents had accessed lactation support, while only 42% of respondents had access to emotional support. The least accessed support types following emotional support in descending order were Pelvic floor (pt), chiropractic care, in home follow up appointments, and acupuncture.
+
+In the informal types of of postpartum care bar graph, 37.5% of respondents reported help with in home care tasks, 33.4% had access to new parent support groups (both online and in person), and only 23% of respondents had help with meals from others. It was disheartening to learn that less than half of respondents had assistance with help with in home tasks, implying that somebody that had recently given birth is not only doing a lot of child rearing, but is alone in maintaining the home. 
+
+In the violin plot for the top three most critical postpartum types, we observe that the majority of survey participants fall between ages 29 and 35. Within this age group, we can see a fairly consistent pattern in the frequency that these care types were mentioned as most critical to their postpartum experience. The three most critical postpartum types accessed were Lactation support, in home help with care tasks, and emotional support.
+
+The Word clouds were helpful in visualizing qualitative data. We took the comments from the open ended responses within the survey about support respondents felt were most critical to them, as well as comments about care that would have been ideal to have receive. The results show words that were associated with the other graphs, words such as "cleaning, family, house, task, groups" correlating with the multiple choice option "in home help with care tasks".
+
 
 ## Conclusions
 
