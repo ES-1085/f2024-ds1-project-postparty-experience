@@ -4,9 +4,7 @@ by Emmy Wahlström, Tikyra Downs, and Willow Gibson
 
 ## Summary
 
-Overview of the data and what we hoped to explore / what we did explore.
-
-In this project we were focused on identifying the quality of care that survey respondents had access to. Were also curious about how what care was accessible vs what care were cited as most critical. We initially thought about assigning numerical values to the quality categories and looking at them through a lens of "good/better/best" types of care. Each category would have been additive moving through the scale. We planned to look at that data on on a leaflet map in order to display quality of care across the US.
+In this project we were focused on identifying the quality of care that survey respondents had access to. We’re also curious about what care was accessible vs. what care was cited as most critical. We initially thought about assigning numerical values to the quality categories and looking at them through a lens of "good/better/best" types of care. Each category would have been additive moving through the scale. We planned to look at that data on a leaflet map in order to display quality of care across the US.
 
 BASELINE SUPPORT: Care needed to prevent the worst long term health outcomes (i.e. organ prolapse, long term depression, etc.)
 Lactation support, pelvic floor PT, emotional support, hospital/office follow up appointments, unpaid parental leave
@@ -17,17 +15,17 @@ In-home help with care tasks, in-home follow up appointments, bodywork like mass
 COMMUNITY SUPPORT: Care that builds and maintains community around the birthing parent/family for long term support
 Help with meals (meal train or meal service), new parent groups (online and in-person), family & friend support, paid parental leave
 
-CARE TASKS: As defined by the author KC Davis, LPC: 
-                     “Care tasks describes any task, chore, or errand that is required to care for self and keep life going. Typically, these tasks are recurring, never-ending, and are required to be completed in order to "get on with living."
+CARE TASKS: As defined by the author KC Davis, LPC: “Care tasks describes any task, chore, or errand that is required to care for self and keep life going. Typically, these tasks are recurring, never-ending, and are required to be completed in order to "get on with living." 
+
 In the context of the postpartum experience, this might include childcare of other children, help with cleaning, cooking, or laundry, holding the baby while the parent sleeps or bathes, picking up groceries, or other helpful tasks around the home.
 
 EMOTIONAL SUPPORT: Formal and informal mental health treatment - therapy, PPD/PPA medications, advice from loved ones or doulas, etc.
 
-For this project, our research question concerns the state of postpartum care in the US. We want to look more deeply at several of the relationships between variables in this dataset to evaluate some key aspects of the postpartum experience. Some of the questions we hope to explore are:
+For this project, our research question concerns the state of postpartum care in the US. We want to look more deeply at several of the relationships between variables in this data set to evaluate some key aspects of the postpartum experience. Some of the questions we hope to explore are:
 
-1. If we categorize postpartum care into "good", "better", and "best" categories, what quality of postpartum care is the average birther receiving?
+1. If we categorize postpartum care into "good", "better", and "best" categories, what quality of postpartum care is the average birth giver receiving?
 
-2. Does quality of postpartum care vary from state to state?
+2. Does the quality of postpartum care vary from state to state?
 
 3. Is there a correlation between age and quality of postpartum care received/offered?
 
@@ -40,27 +38,27 @@ For this project, our research question concerns the state of postpartum care in
 
 ## Methods
 
-The Postpartum Experience Survey was created by Willow Gibson for a research project assigned in a course titled "History of Midwifery and Women's Healthcare in the US" at College of the Atlantic in 2022. The data was collected through a Google form survey that was circulated via email and briefly on social media. The survey accepted responses for 1 week in February 2022 and received 788 responses. The purpose of collecting this information was to observe the state of postpartum care in the US across the ten year period of 2013 - 2023 with the goal of learning what gaps in care exist. The dataset is unpublished and is considered preliminary data only. The survey questions can be viewed [here] (add link).
+The Postpartum Experience Survey was created by Willow Gibson for a research project assigned in a course titled "History of Midwifery and Women's Healthcare in the US" at College of the Atlantic in 2022. The data was collected through a Google form survey that was circulated via email and briefly on social media. The survey accepted responses for 1 week in February 2022 and received 788 responses. The purpose of collecting this information was to observe the state of postpartum care in the US across the ten year period of 2013 - 2023 with the goal of learning what gaps in care exist. The data set is unpublished and is considered preliminary data only. The survey questions can be viewed [here] (add link).
 
 ## Analysis
 
-In the process of cleaning our data we came to understand how important survey design is. It is a balancing act to elicit authentic responses from survey respondents while simultaneously ensuring the data collected is tidy enough to use for creating plots. We found that this survey may have offered too many opportunities for open ended responses. It was necessary to standardize answers in order to create meaningful and readable plots. We found that a bar chart was effective for displaying the percent of respondents that had access to different types of care, while a ridge plot 
+In the process of cleaning our data we came to understand how important survey design is. It is a balancing act to elicit authentic responses from survey respondents while simultaneously ensuring the data collected is tidy enough to use for creating plots. We found that this survey may have offered too many opportunities for open ended responses. It was necessary to standardize answers in order to create meaningful and readable plots. 
 
-We used bar charts, a violin chart, and some word clouds to represent the data from the survey. These were clear and concise ways to visualize hundreds of entries and make sure every respondents experience was accounted for. The Bar graphs and violin graphs were an efficient way to communicate quantitative data. 
-The bar chart for formal types of postpartum care access shows that over 60% of respondents had accessed lactation support, while only 42% of respondents had access to emotional support. The least accessed support types following emotional support in descending order were Pelvic floor (pt), chiropractic care, in home follow up appointments, and acupuncture.
+We used one violin chart, two bar charts, and two word clouds to represent the data from the survey. These were clear and concise ways to visualize hundreds of entries and make sure every respondents experience was accounted for. The Bar graphs and violin graphs were an efficient way to communicate quantitative data. 
+The bar chart for formal types of postpartum care access shows that over 60% of respondents had accessed lactation support, while only 42% of respondents had access to emotional support. The least accessed support types following emotional support in descending order were Pelvic floor pt, chiropractic care, in home follow up appointments, and acupuncture.
 
-In the informal types of of postpartum care bar graph, 37.5% of respondents reported help with in home care tasks, 33.4% had access to new parent support groups (both online and in person), and only 23% of respondents had help with meals from others. It was disheartening to learn that less than half of respondents had assistance with help with in home tasks, implying that somebody that had recently given birth is not only doing a lot of child rearing, but is alone in maintaining the home. 
+In the informal types of postpartum care bar graph, 37.5% of respondents reported help with in-home care tasks, 33.4% had access to new parent support groups (both online and in person), and only 23% of respondents had help with meals from others. It was disheartening to learn that less than half of respondents had assistance with in-home tasks, implying that somebody that had recently given birth is not only doing a lot of the child rearing, but is alone in maintaining the home. 
 
-In the violin plot for the top three most critical postpartum types, we observe that the majority of survey participants fall between ages 29 and 35. Within this age group, we can see a fairly consistent pattern in the frequency that these care types were mentioned as most critical to their postpartum experience. The three most critical postpartum types accessed were Lactation support, in home help with care tasks, and emotional support.
+In the violin plot for the top three most critical postpartum types, we observe that the majority of survey participants fall between ages 29 and 35. Within this age group, we can see a fairly consistent pattern in the frequency that these care types were mentioned as most critical to their postpartum experience. The three most critical postpartum types accessed were lactation support, in home help with care tasks, and emotional support.
 
-The Word clouds were helpful in visualizing qualitative data. We took the comments from the open ended responses within the survey about support respondents felt were most critical to them, as well as comments about care that would have been ideal to have receive. The results show words that were associated with the other graphs, words such as "cleaning, family, house, task, groups" correlating with the multiple choice option "in home help with care tasks".
-
+The Word clouds were helpful in visualizing qualitative data. We took the comments from the open-ended responses within the survey about support respondents felt were most critical to them, as well as comments about care that would have been ideal to have received. The results show words that were associated with the other graphs. Words such as "cleaning, family, house, task, groups" correlated with the multiple choice option "in home help with care tasks" for types of postpartum care access.
 
 ## Conclusions
 
-Many people noted that their partner's help was most critical to them. While we recognize how vital a supportive partnership is in the journey of parenting, particularly in the early postpartum period, this survey was focused on postpartum support beyond the parents of the child.
+Many people noted that their partner's help was most critical to them. While we recognize how vital a supportive partnership is in the journey of parenting particularly in the early postpartum period, this survey was focused on postpartum support beyond the parents of the child.
 
 There were also a number of responses that mentioned what "would" have been most critical to them. We excluded these answers from our analysis of critical care, but think it's important to mention that there are families who endure the postpartum experience with zero outside support.
+
 
 ## Notes from Laurie about summary
 Write-up of your project and findings go here. Think of this as the text
