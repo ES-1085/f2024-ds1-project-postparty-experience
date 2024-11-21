@@ -40,7 +40,7 @@ Postpartum <- read.csv("Postpartum.csv")
 
 # This step occurred in the proposal, but we wanted to ensure all clean up steps were included in the memo.
 
-# Postpartum_Experience_renamed_variables <- as_tibble(Postpartum_Experience_Survey_Responses_raw_data) %>% 
+# Postpartum_Experience_renamed_variables <- as_tibble(Postpartum_Experience_Survey_Responses_raw_data) |> 
  # rename( 
     #  `respondent` = `Timestamp`,
      # `state` = `Which US state or country did you give birth in?`,
@@ -109,7 +109,6 @@ Postpartum <- Postpartum |>
          state != "US",
          state != "USA")
 ```
-
 
 
 ```{r state-clean-up-first-entry}
@@ -275,7 +274,6 @@ Postpartum <- Postpartum |>
   
 ```
 
-
 ## Plots
 
 ### Plot 1: Bar chart
@@ -435,7 +433,6 @@ Postpartum <- Postpartum |>
 unique(Postpartum$quality_access)
 ```
 
-
 ```{r relocate-quality_access-variable}
 Postpartum <- relocate(Postpartum, quality_access, .after = support_type)
 ```
@@ -489,7 +486,7 @@ Postpartum <- relocate(Postpartum, regions, .after = first_state)
 # states <- states(cb = TRUE)
 
 
-# leaflet(states) %>%
+# leaflet(states) |>
  # addProviderTiles(providers$OpenStreetMap) |>
   #addProviderTiles(providers$georegion) |>
  # addPolygons()
@@ -516,7 +513,7 @@ Postpartum <- relocate(Postpartum, regions, .after = first_state)
 
 #ADD thingie to show stats
 #labels <- sprintf("<strong>%s</strong><br/>%g births", 
-               #   nc$county, nc$births1974) %>% lapply(htmltools::HTML)
+               #   nc$county, nc$births1974) |> lapply(htmltools::HTML)
 #head(labels, 1)
 
 
@@ -530,6 +527,7 @@ Postpartum <- relocate(Postpartum, regions, .after = first_state)
 ### Plot 3 Clean up 
 
 ## Cleaning `critical`
+
 
 ```{r rename-critical-clean}
 
@@ -606,14 +604,12 @@ Postpartum |>
 
 ```{r critical-ridge-plot}
 
-Postpartum <- Postpartum |>
+Postpartum |>
   filter(critical != "NA") |>
   filter(critical != "Duplicate entry") |>
   filter(!critical %in% c("Family support", "Help with meals",	"Pelvic floor PT", "New parent groups", "In-home follow up appointments", "Other", "Overnight help", "Paid parental leave", "Massage or chiropractic", "Hospital/office follow up appointments", "Acupuncture",	"Unpaid parental leave")) |>
-  filter(regions != "NA")
-
-ggplot(Postpartum, 
-       aes(x = first_age, 
+  filter(regions != "NA") |>
+  ggplot(aes(x = first_age, 
            y = critical,
            color = critical, 
            fill = critical)) +
@@ -635,6 +631,7 @@ ggsave("postpartum-ridges-wide.png", width = 10, height = 5)
 
 ```
 
+
 ```{r count-first-age}
 Postpartum |>
   count(first_age) |>
@@ -643,14 +640,12 @@ Postpartum |>
 
 
 ```{r alternative-violin-plot}
-Postpartum <- Postpartum |>
+Postpartum |>
   filter(critical != "NA") |>
   filter(critical != "Duplicate entry") |>
   filter(!critical %in% c("Family support", "Help with meals",	"Pelvic floor PT", "New parent groups", "In-home follow up appointments", "Other", "Overnight help", "Paid parental leave", "Massage or chiropractic", "Hospital/office follow up appointments", "Acupuncture",	"Unpaid parental leave")) |>
-  filter(regions != "NA")
-
-ggplot(Postpartum, 
-       aes(x = first_age, 
+  filter(regions != "NA") |>
+  ggplot(aes(x = first_age, 
            y = critical,
            color = critical, 
            fill = critical)) +
@@ -669,20 +664,15 @@ ggplot(Postpartum,
   # need to re-order care types and potentially break it up by quality or formal/informal
   labs (title = "Top 3 Most Critical Postpartum Care Types", subtitle = "by Survey Respondents Across the US", caption = "Age During First Birth")
 
-ggsave("postpartum-violin.png", width = 10, height = 5)
-
 ```
 
 ```{r dot-plot}
-Postpartum <- Postpartum |>
+Postpartum |>
   filter(critical != "NA") |>
   filter(critical != "Duplicate entry") |>
   filter(!critical %in% c("Family support", "Help with meals",	"Pelvic floor PT", "New parent groups", "In-home follow up appointments", "Other", "Overnight help", "Paid parental leave", "Massage or chiropractic", "Hospital/office follow up appointments", "Acupuncture",	"Unpaid parental leave")) |>
-  filter(regions != "NA")
-
-
-ggplot(Postpartum, 
-  aes(x = first_age, y = critical, color = critical)) +
+  filter(regions != "NA") |>
+  ggplot(aes(x = first_age, y = critical, color = critical)) +
   geom_point(alpha = 0.2) +
   scale_color_viridis_d() +
   theme_ridges() +
@@ -697,12 +687,11 @@ ggplot(Postpartum,
 ```{r heatmap-like-for-plot-critique}
 # comparing states and support_type
 
-p2 <- Postpartum <- Postpartum |>
+Postpartum |>
   filter(support_type != "NA") |>
   filter(regions != "NA") |>
-  filter(support_type != "Family support")
-  
-ggplot(Postpartum, aes(x = regions, y = support_type, fill = regions)) +
+  filter(support_type != "Family support") |>
+  ggplot(aes(x = regions, y = support_type, fill = regions)) +
    geom_tile(alpha = .3) +
  scale_fill_viridis_d() +
   theme_minimal() +
@@ -733,7 +722,7 @@ cost_not_a_factor <- c("It was more not knowing what services I should have had 
 cost_not_applicable <- c("Did not know post partum services other than the follow up appointment were covered services", "Didn’t even know what type of support was available because no one told me!","The pandemic significantly impacted my lack of access to postpartum support, especially in-person support", "I don't know, I wasn't aware of many services")
 
 
-#Postpartum_Experience_renamed_variables_US %>% 
+#Postpartum_Experience_renamed_variables_US |> 
  # mutate(cost_factor = case_when(cost_factor %in% yes_cost_a_factor ~ "Yes",
                                      # cost_factor %in% cost_not_a_factor ~ "No",
                                      # cost_factor %in% cost_not_applicable ~ "N/A",
@@ -745,11 +734,11 @@ cost_not_applicable <- c("Did not know post partum services other than the follo
 ### Plot 7: Missing Data
 
 ```{r missing-data}
-Postpartum <- Postpartum %>%
+Postpartum_missing_data <- Postpartum |>
   select(respondent, state, age, birth_location, informed_by, other_info_sources, support_type, provider, ins_covered_services, cost_factor, if_insurance, critical_support, ideal_support, comments, emails)
 
 
-vis_miss(Postpartum)
+vis_miss(Postpartum_missing_data)
 
 ggsave(filename = "Missingdataplot.png", width = 8, height = 4)
 ```
@@ -816,6 +805,8 @@ Postpartum |>
          support_type != "In-home follow up appointments",
          support_type != "Acupuncture",
          support_type != "Other",
+         support_type != "Overnight help",
+         support_type != "Family support",
          support_type != "None of the above") |>
   select(respondent, support_type) |>
   count(support_type) |>
@@ -844,24 +835,43 @@ ggsave("final-informal-bar-chart.png", width = 10, height = 4)
 ```
 
 
-### Plot 2: Ridge plot
+### Plot 2: Violin plot
 
-```{r checking-existance-critical}
+```{r final-violin-plot}
 
-unique(Postpartum$critical)
+# alternative text for accessibility: {r final-violin-plot, fig.alt= "Violin plot of the frequency of support types mentioned by survey respondents by age of first birth and answers to "What support was most critical to you/your household in the year following birth?" where the top 3 answers were lactation support, in-home help with care tasks, and emotional support. The color scale is viridis. The majority of survey participants fall between ages 29 and 35. Within this age group, there is fairly consistent pattern in the frequency that these care types were mentioned as most critical to their postpartum experience. When these "most critical" care types are compared with what care types survey respondents had access to, almost double as many respondents had access to lactation support compared to the other two most critical care types."}
 
-```
+Postpartum |>
+  filter(critical != "NA") |>
+  filter(critical != "Duplicate entry") |>
+  filter(!critical %in% c("Family support", "Help with meals",	"Pelvic floor PT", "New parent groups", "In-home follow up appointments", "Other", "Overnight help", "Paid parental leave", "Massage or chiropractic", "Hospital/office follow up appointments", "Acupuncture",	"Unpaid parental leave")) |>
+  ggplot(aes(x = first_age, 
+           y = critical,
+           color = critical, 
+           fill = critical)) +
+  geom_violin() +
+  scale_color_viridis_d() +
+  scale_fill_viridis_d() +
+  theme_ridges() +
+  theme(legend.position = "none") +
+  theme(axis.title.x = element_blank()) +
+  theme(axis.title.y = element_blank()) +
+  labs (title = "Top 3 Most Critical Postpartum Care Types", subtitle = "by Survey Respondents Across the US", caption = "Age During First Birth")
+
+ggsave("postpartum-violin.png", width = 10, height = 5)
+
+
 ```
 
 
 ### Plot 3: Missing Data
 
 ```{r missing-data-plot}
-Postpartum <- Postpartum %>%
+Postpartum_missing_data <- Postpartum |>
   select(respondent, state, age, birth_location, informed_by, other_info_sources, support_type, provider, ins_covered_services, cost_factor, if_insurance, critical_support, ideal_support, comments, emails)
 
 
-vis_miss(Postpartum)
+vis_miss(Postpartum_missing_data)
 
 ggsave(filename = "Missingdataplot.png", width = 8, height = 4)
 ```
