@@ -4,7 +4,6 @@ by Emmy Wahlström, Tikyra Downs, and Willow Gibson
 
 ## Summary
 
-
 In this project we were focused on identifying the quality of care that survey respondents had access to. We’re also curious about what care was accessible vs. what care was cited as most critical. We initially thought about assigning numerical values to the quality categories and looking at them through a lens of "good/better/best" types of care. Each category would have been additive moving through the scale. We planned to look at that data on a leaflet map in order to display quality of care across the US.
 
 BASELINE SUPPORT: Care needed to prevent the worst long term health outcomes (i.e. organ prolapse, long term depression, etc.)
@@ -58,7 +57,7 @@ The Postpartum Experience Survey was created by Willow Gibson for a research pro
 The bar chart for formal types of postpartum care access shows that over 60% of respondents had accessed lactation support, while only 42% of respondents had access to emotional support. The least accessed support types following emotional support in descending order were Pelvic floor PT, massage or chiropractic, in-home follow up appointments, and acupuncture.
 
 
-In the informal types of of postpartum care bar graph, 37.5% of respondents reported help with in home care tasks, 33.4% had access to new parent support groups (both online and in person), and only 23% of respondents had help with meals from others. It was disheartening to learn that less than half of respondents had assistance with in-home care tasks, implying that somebody that had recently given birth is not only doing a lot of child rearing, but is alone in maintaining the home. 
+In the informal types of postpartum care bar graph, 37.5% of respondents reported help with in-home care tasks, 33.4% had access to new parent support groups (both online and in person), and only 23% of respondents had help with meals from others. It was disheartening to learn that less than half of respondents had assistance with in-home care tasks, implying that somebody that had recently given birth is not only doing a lot of child rearing, but is alone in maintaining the home. 
 
 
 In the process of cleaning our data we came to understand how important survey design is. It is a balancing act to elicit authentic responses from survey respondents while simultaneously ensuring the data collected is tidy enough to use for creating plots. We found that this survey may have offered too many opportunities for open ended responses. It was necessary to standardize answers in order to create meaningful and readable plots. 
@@ -80,7 +79,7 @@ In the context of the postpartum experience, this might include childcare of oth
 
 `Emotional support`: This care type includes formal and informal mental health treatment like therapy, PPD/PPA medications, advice from loved ones or doulas, etc.
 
-The Word clouds were helpful in visualizing qualitative data. We took the comments from the open ended responses within the survey about support respondents felt were most critical to them, as well as comments about care that would have been ideal to have receive. The results show words that were associated with the other graphs, words such as "cleaning, family, house, task, groups" correlating with the multiple choice option "in home help with care tasks".
+The Word clouds were helpful in visualizing qualitative data. We took the comments from the open-ended responses within the survey about support respondents felt were most critical to them, as well as comments about care that would have been ideal to have received. The results show words that were associated with the other graphs, words such as "cleaning, family, house, task, groups" correlating with the multiple choice option "in home help with care tasks".
 
 The Word clouds were helpful in visualizing qualitative data. We took the comments from the open-ended responses within the survey about support respondents felt were most critical to them, as well as comments about care that would have been ideal to have received. The results show words that were associated with the other graphs. Words such as "cleaning, family, house, task, groups" correlated with the multiple choice option "in home help with care tasks" for types of postpartum care access.
 
@@ -133,4 +132,3 @@ Postpartum Experience Survey. “Postpartum Experience Survey.” Google Docs, 2
 World Health Organization. “More than a Third of Women Experience Lasting Health Problems
     after Childbirth, New Research Shows.” Www.who.int, 7 Dec. 2023,
     www.who.int/news/item/07-12-2023-more-than-a-third-of-women-experience-lasting-health-problems-after-childbirth.
-
