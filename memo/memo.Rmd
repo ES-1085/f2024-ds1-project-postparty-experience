@@ -843,7 +843,6 @@ Postpartum |>
   filter(critical != "NA") |>
   filter(critical != "Duplicate entry") |>
   filter(!critical %in% c("Family support", "Help with meals",	"Pelvic floor PT", "New parent groups", "In-home follow up appointments", "Other", "Overnight help", "Paid parental leave", "Massage or chiropractic", "Hospital/office follow up appointments", "Acupuncture",	"Unpaid parental leave")) |>
-  filter(regions != "NA") |>
   ggplot(aes(x = first_age, 
            y = critical,
            color = critical, 
