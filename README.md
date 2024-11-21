@@ -53,7 +53,7 @@ There were also a number of responses that mentioned what "would" have been most
 
 ## Handout
 
-Our presentation can be found [here](handout/postpartum-experience-poster.pdf). You can update the filename and extension of your handout.
+Our presentation can be found [here](memo/postpartum-experience-poster.pdf).
 
 ## Memo
 
