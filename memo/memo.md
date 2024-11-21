@@ -986,11 +986,12 @@ ggsave("final-informal-bar-chart.png", width = 10, height = 4)
 ### Plot 2: Violin plot
 
 ``` r
+# alternative text for accessibility: {r final-violin-plot, fig.alt= "Violin plot of the frequency of support types mentioned by survey respondents by age of first birth and answers to "What support was most critical to you/your household in the year following birth?" where the top 3 answers were lactation support, in-home help with care tasks, and emotional support. The color scale is viridis. The majority of survey participants fall between ages 29 and 35. Within this age group, there is fairly consistent pattern in the frequency that these care types were mentioned as most critical to their postpartum experience. When these "most critical" care types are compared with what care types survey respondents had access to, almost double as many respondents had access to lactation support compared to the other two most critical care types."}
+
 Postpartum |>
   filter(critical != "NA") |>
   filter(critical != "Duplicate entry") |>
   filter(!critical %in% c("Family support", "Help with meals",  "Pelvic floor PT", "New parent groups", "In-home follow up appointments", "Other", "Overnight help", "Paid parental leave", "Massage or chiropractic", "Hospital/office follow up appointments", "Acupuncture", "Unpaid parental leave")) |>
-  filter(regions != "NA") |>
   ggplot(aes(x = first_age, 
            y = critical,
            color = critical, 
