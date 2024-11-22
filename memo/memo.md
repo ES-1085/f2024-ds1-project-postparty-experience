@@ -925,7 +925,7 @@ ggplot(mapping = aes(x = fct_reorder(support_type, percentage), y = percentage, 
        y = "")
 ```
 
-![](memo_files/figure-gfm/final-formal-bar-chart-1.png)<!-- -->
+<img src="memo_files/figure-gfm/final-formal-bar-chart-1.png" alt="Bar Chart displaying percentage of survey respondents of a postpartum care experience survey who had access to seven main types of formal care. After giving birth, most people had access to Baseline support types, meaning 73.0% accessed Lactation support, 48.5% accessed Hospital/office follow up appointments, and 17.6% accessed Pelvic floor PT. For the category of Emotional support, 42% accessed this type of care. Lastly, for Physical support, 14.2% accessed Massage or chiropractic and under 15% had access to In-home follow up appointments and Acupuncture."  />
 
 ``` r
 ggsave("final-formal-bar-chart.png", width = 10, height = 4)
@@ -947,7 +947,7 @@ Postpartum |>
          support_type != "None of the above") |>
   select(respondent, support_type) |>
   count(support_type) |>
-  mutate(percentage = n / 784 *100) |>
+  mutate(percentage = n / 784 *100)|>
 ggplot(mapping = aes(x = fct_reorder(support_type, percentage), y = percentage, fill = support_type))  +
   geom_col() +
   scale_fill_manual(
@@ -966,7 +966,7 @@ ggplot(mapping = aes(x = fct_reorder(support_type, percentage), y = percentage, 
        y = "")
 ```
 
-![](memo_files/figure-gfm/final-informal-bar-chart-1.png)<!-- -->
+<img src="memo_files/figure-gfm/final-informal-bar-chart-1.png" alt="Bar Chart displaying percentage of survey respondents of a postpartum care experience survey who had access to three main types of informal care. After giving birth, 62.2% had access to In-home help with care tasks, which is categorized as Physical support. 61.0% had access to New parents groups, and 42.2% of respondents had access to Help with meals, which are both categorized as Community support."  />
 
 ``` r
 ggsave("final-informal-bar-chart.png", width = 10, height = 4)
@@ -975,7 +975,7 @@ ggsave("final-informal-bar-chart.png", width = 10, height = 4)
 ### Plot 2: Violin plot
 
 ``` r
-# alternative text for accessibility: {r final-violin-plot, fig.alt= "Violin plot of the frequency of support types mentioned by survey respondents by age of first birth and answers to "What support was most critical to you/your household in the year following birth?" where the top 3 answers were lactation support, in-home help with care tasks, and emotional support. The color scale is viridis. The majority of survey participants fall between ages 29 and 35. Within this age group, there is fairly consistent pattern in the frequency that these care types were mentioned as most critical to their postpartum experience. When these "most critical" care types are compared with what care types survey respondents had access to, almost double as many respondents had access to lactation support compared to the other two most critical care types."}
+fig.alt="Violin plot of the frequency of support types mentioned by survey respondents by age of first birth and answers to 'What support was most critical to you/your household in the year following birth?' where the top 3 answers were lactation support, in-home help with care tasks, and emotional support. The color scale is viridis. The majority of survey participants fall between ages 29 and 35. Within this age group, there is fairly consistent pattern in the frequency that these care types were mentioned as most critical to their postpartum experience. When these 'most critical' care types are compared with what care types survey respondents had access to, almost double as many respondents had access to lactation support compared to the other two most critical care types."
 
 Postpartum |>
   filter(critical != "NA") |>
