@@ -2,13 +2,6 @@ Project memo
 ================
 Postparty Experience - Tikyra, Emmy, and Willow
 
-This document should contain a detailed account of the data clean up for
-your data and the design choices you are making for your plots. For
-instance you will want to document choices you’ve made that were
-intentional for your graphic, e.g. color you’ve chosen for the plot.
-Think of this document as a code script someone can follow to reproduce
-the data cleaning steps and graphics in your handout.
-
 ``` r
 library(tidyverse)
 library(broom)
@@ -24,7 +17,6 @@ library(ggplot2)
 library(RColorBrewer)
 library(ggridges)
 library(visdat)
-#library(corpustools)
 ```
 
 ``` r
@@ -77,17 +69,28 @@ meaningful visualizations.
 
 ### Step 3: Clean `age`
 
+There were a lot of variations in the data, like varying number of
+births and birth locations. We decided to only use the first birth for
+each respondent by creating a new variable only containing the first
+birth age.
+
 ``` r
 Postpartum <- Postpartum |> 
   mutate(first_age = substr(age, start = 1, stop = 2)) |> 
   mutate(first_age = if_else(first_age == "On", "35", first_age)) |> 
   mutate(first_age = as.numeric(first_age)) |> 
-arrange(first_age) |> 
+  arrange(first_age) |> 
 
 relocate(first_age, .after = age)
 ```
 
 ### Step 4: Clean `state`
+
+We prepared the `state` variable to use in visualizing geographical
+differences in care quality, for instance with a leaflet map. We
+excluded international entries in the proposal and responses not
+indicating state (e.g. USA). We also used the `stringr` package to
+ensure all states be written fully and with correct spelling.
 
 ``` r
 Postpartum <- Postpartum |>
@@ -102,19 +105,19 @@ Postpartum <- Postpartum |>
   mutate(state = str_replace(state, "NY", "New York")) |>
   mutate(state = str_replace(state, "Tennesee", "Tennessee")) |>
 
-  #In order to correct specific mistakes/misspellings etc across the data frame.
-#using stringr package  
-
   filter(state != "United States",
          state != "United states",
          state != "US",
          state != "USA")
 ```
 
+As we decided to only use the first birth for analysis, we excluded
+state entries for the second, third birth etc.
+
 ``` r
 Postpartum <- Postpartum |> 
   mutate(first_state = sub("(,|and|1|/|-|\\(|&).*", "", state)) |>
-arrange(first_state) |> 
+  arrange(first_state) |> 
 
 relocate(first_state, .after = state)
 
@@ -172,6 +175,9 @@ Postpartum <- Postpartum |>
     ## [46] "Washington"           "West Virginia"        "Wisconsin"
 
 ### Step 5: Clean `support_type`
+
+Below is an account of creating and standardizing the `support type`
+variable entries.
 
 ``` r
 Postpartum <- Postpartum |>
@@ -318,9 +324,31 @@ Postpartum <- Postpartum |>
   mutate(birth_location = ifelse(birth_location ==  "Hospital, Car", "NA", birth_location))
 ```
 
+### Step 7: Start cleaning `cost_factor`
+
+``` r
+yes_cost_a_factor <- c("I received care from friends and family, had I not had that I wouldn’t have been able to afford to pay for postpartum care services","To some extent, but luckily I could afford almost whatever I wanted/needed.","We strongly considered going to a birth center for my first birth, but they did not accept insurance and it was cost prohibitive. I feel we would have had more postpartum support with my first if we had gone that route.","Had already paid max out of pocket w labor","No referral","lactation specialist not covered, couldn’t afford otherwise","I definitely knew to look for support covered by insurance.","Did on seek in home help due to cost", "Did on seek in home help due to cost","Partially. Had i known there was support, I probably couldnt afford it.", "Yes but we had a generous budget and family to help financially","Unsure of question.... did it cost,  some of it did", "It was definitely a luxury to afford therapist and lactation help but anything other than that I viewed as “extra.”", "No doula $", "Yes but not as much as just not knowing it was available", "If I could afford food delivery, laundry service, etc, I would have hired the help!", "Do not have insurance","Cost to an extent but also Covid played a role- birth in December 2019, brought son home from NICU in 2020 and recovery was long into 2020)", "Copays sometimes.", "Yes in terms of acupuncture etc I didn’t budget for it and wish I did", "My husband and I prioritized Postpartum care highly so yes and no")
+
+cost_not_a_factor <- c("It was more not knowing what services I should have had access to. I know more know with Instagram follows.", "No. I just was unaware of the services that might be helpful. If I had another kid I’d invest in more.", "Covid was, not cost", "Not since we hit our deductible", "Main factor was pandemic. 6 week was nearly canceled, counseling went virtual but took months to initiate")
+
+cost_not_applicable <- c("Did not know post partum services other than the follow up appointment were covered services", "Didn’t even know what type of support was available because no one told me!","The pandemic significantly impacted my lack of access to postpartum support, especially in-person support", "I don't know, I wasn't aware of many services")
+
+
+#Postpartum_Experience_renamed_variables_US |> 
+ # mutate(cost_factor = case_when(cost_factor %in% yes_cost_a_factor ~ "Yes",
+                                     # cost_factor %in% cost_not_a_factor ~ "No",
+                                     # cost_factor %in% cost_not_applicable ~ "N/A",
+       #   TRUE ~ cost_factor))
+```
+
 ## Plots
 
 ### Plot 1: Bar chart
+
+Incorporating feedback from the plot critique, we made several versions
+of the bar chart displaying different selections of support types to
+make the charts more readable. We used colour to highlight certain
+support type categories.
 
 ``` r
 Postpartum |>
@@ -339,15 +367,8 @@ Postpartum |>
     values = c(
       "In-home follow up appointments" = "#d95f02",
       "Massage or chiropractic" = "#d95f02",
-      "Acupuncture" = "#d95f02",
-      "default" = "#66c2a5")) +
-  #scale_fill_manual(
-   # values = c(
-    #  "Lactation support" = "#66c2a5",
-     # "Emotional support" = "#66c2a5",
-      #"Pelvic floor PT" = "#66c2a5",
-    #  "Hospital/office follow up appointments" = "#66c2a5"))
-     #  "default" = "darkblue")) +
+      "Acupuncture" = "#d95f02")
+    ) +
   theme_bw() +
   theme_ridges() +
   theme(legend.position = 'none') + 
@@ -356,16 +377,13 @@ Postpartum |>
        subtitle = "In the US Between 2013-2023 by Survey Respondents", 
        x = "Support Type", 
        y = "Number of Survey Respondents",
-       caption = "The highlighted care types have been defined as care that increases the birthing parent and baby’s 
-       physical and emotional wellbeing beyond baseline services."
+       caption = "The highlighted care types have been defined as care that increases the birthing parent and baby’s physical and emotional wellbeing beyond baseline services."
        ) 
 ```
 
-![](memo_files/figure-gfm/formal-care-type-bar-chart-1.png)<!-- -->
+![](memo_files/figure-gfm/draft-formal-care-type-bar-chart-1.png)<!-- -->
 
 ``` r
-#we could add text on graph with geom_text() to indicate pink = higher quality services
-
 #ggsave("example-postpartum-wide-2.png", width = 10, height = 4)
 ```
 
@@ -387,9 +405,7 @@ Postpartum |>
       "Lactation support" = "gold",
       "Emotional support" = "gold",
       "Pelvic floor PT" = "gold",
-      "Hospital/office follow up appointments" = "gold",
-      "default" = "darkblue"
-    )
+      "Hospital/office follow up appointments" = "gold")
     ) +
   theme_bw() +
   theme_ridges() +
@@ -404,11 +420,16 @@ Postpartum |>
        ) 
 ```
 
-![](memo_files/figure-gfm/formal-care-type-bar-chart-V2-1.png)<!-- -->
+![](memo_files/figure-gfm/draft-V2-formal-care-type-bar-chart-1.png)<!-- -->
 
 ``` r
 #ggsave("example-postpartum-wide-3.png", width = 10, height = 4)
 ```
+
+We based the bar chart on percentage of respondents instead of
+frequency. Knowing the number of total respondents (in the US) made it
+easier to calculate percentage based on this set number rather than
+having code do the full calculation.
 
 ``` r
 Postpartum |>
@@ -424,7 +445,7 @@ Postpartum |>
   select(respondent, support_type) |>
   count(support_type) |>
   mutate(percentage = n / 784 *100) |>
-ggplot(mapping = aes(x = fct_rev(fct_infreq(support_type)), y = percentage, fill = support_type)) +
+  ggplot(mapping = aes(x = fct_rev(fct_infreq(support_type)), y = percentage, fill = support_type)) +
   geom_col() +
   theme_bw() +
   theme_ridges() +
@@ -438,19 +459,13 @@ ggplot(mapping = aes(x = fct_rev(fct_infreq(support_type)), y = percentage, fill
        ) 
 ```
 
-![](memo_files/figure-gfm/informal-care-type-bar-chart-1.png)<!-- -->
-
-``` r
-# Knowing the number of total respondents (in the US) made it easier to calculate percentage based on this set number 
-```
+![](memo_files/figure-gfm/draft-informal-care-type-bar-chart-1.png)<!-- -->
 
 ### Plot 2: Leaflet map
 
 #### Data cleanup steps specific to plot 2
 
 ``` r
-# try mutating the group of care types into baseline/good, better, best with | between each care type
-
 Postpartum <- Postpartum |>
   mutate(quality_critical = case_when(
     critical %in% c("Lactation support", "Pelvic floor PT", "Emotional support", 
@@ -522,6 +537,9 @@ unique(Postpartum$regions)
     ## [1] "Southeast" "West"      "Southwest" "Northeast" NA          "Midwest"  
     ## [7] "Northwest"
 
+To make `regions` useful with a leaflet map, we would have assigned each
+region coordinates (multipolygon).
+
 ``` r
 Postpartum <- relocate(Postpartum, regions, .after = first_state)
 ```
@@ -539,26 +557,20 @@ Postpartum <- relocate(Postpartum, regions, .after = first_state)
 #library(ggiraph) 
 #install.packages('ggiraph')
 
-
-
 # states <- states(cb = TRUE)
-
 
 # leaflet(states) |>
  # addProviderTiles(providers$OpenStreetMap) |>
   #addProviderTiles(providers$georegion) |>
  # addPolygons()
   
-
 #lines above make base map
   
  # addProviderTiles(provider = providers$OpenStreetMap) |>
- # setView(lng = -80,
- #         lat = 34.5,
+ # setView(lng = ,
+ #         lat = ,
   #        zoom = 5) |>
  # addPolygons(
-    
-
 
 #Postpartum |>
 #ggplot(state_stats) +
@@ -568,11 +580,7 @@ Postpartum <- relocate(Postpartum, regions, .after = first_state)
     #   y = "Latitude",
      #  fill = "regions")
 
-
-#ADD thingie to show stats
-#labels <- sprintf("<strong>%s</strong><br/>%g births", 
-               #   nc$county, nc$births1974) |> lapply(htmltools::HTML)
-#head(labels, 1)
+#Above is an outline of our idea for the leaflet
 ```
 
 ``` r
@@ -734,7 +742,7 @@ Postpartum |>
 
     ## Picking joint bandwidth of 0.784
 
-![](memo_files/figure-gfm/critical-ridge-plot-1.png)<!-- -->
+![](memo_files/figure-gfm/draft-critical-ridge-plot-1.png)<!-- -->
 
 ``` r
 ggsave("postpartum-ridges-wide.png", width = 10, height = 5)
@@ -810,7 +818,7 @@ Postpartum |>
   labs (title = "Top 3 Most Critical Postpartum Care Types", subtitle = "by Survey Respondents Across the US", caption = "Age During First Birth")
 ```
 
-![](memo_files/figure-gfm/alternative-violin-plot-1.png)<!-- -->
+![](memo_files/figure-gfm/draft-alternative-violin-plot-1.png)<!-- -->
 
 ``` r
 Postpartum |>
@@ -826,13 +834,14 @@ Postpartum |>
   labs(x = "Review Scores Ratings", y = "Neighbourhoods")
 ```
 
-![](memo_files/figure-gfm/dot-plot-1.png)<!-- -->
+![](memo_files/figure-gfm/draft-dot-plot-1.png)<!-- -->
 
 ### Plot 4: Heat map
 
-``` r
-# comparing states and support_type
+We experimented with visualizing support types across geographical areas
+using a heat map.
 
+``` r
 Postpartum |>
   filter(support_type != "NA") |>
   filter(regions != "NA") |>
@@ -849,32 +858,13 @@ Postpartum |>
   labs(title = "Heatmap-Like Plot Example", y = "Care Type", fill = "US Region")
 ```
 
-![](memo_files/figure-gfm/heatmap-like-for-plot-critique-1.png)<!-- -->
+![](memo_files/figure-gfm/draft-heatmap-like-for-plot-critique-1.png)<!-- -->
 
 ``` r
 ggsave("example-tile-heatmap-wide.png", width = 10, height = 5)
 ```
 
-### Plot 6: TBD
-
-#### Data cleanup steps specific to plot 6
-
-``` r
-yes_cost_a_factor <- c("I received care from friends and family, had I not had that I wouldn’t have been able to afford to pay for postpartum care services","To some extent, but luckily I could afford almost whatever I wanted/needed.","We strongly considered going to a birth center for my first birth, but they did not accept insurance and it was cost prohibitive. I feel we would have had more postpartum support with my first if we had gone that route.","Had already paid max out of pocket w labor","No referral","lactation specialist not covered, couldn’t afford otherwise","I definitely knew to look for support covered by insurance.","Did on seek in home help due to cost", "Did on seek in home help due to cost","Partially. Had i known there was support, I probably couldnt afford it.", "Yes but we had a generous budget and family to help financially","Unsure of question.... did it cost,  some of it did", "It was definitely a luxury to afford therapist and lactation help but anything other than that I viewed as “extra.”", "No doula $", "Yes but not as much as just not knowing it was available", "If I could afford food delivery, laundry service, etc, I would have hired the help!", "Do not have insurance","Cost to an extent but also Covid played a role- birth in December 2019, brought son home from NICU in 2020 and recovery was long into 2020)", "Copays sometimes.", "Yes in terms of acupuncture etc I didn’t budget for it and wish I did", "My husband and I prioritized Postpartum care highly so yes and no")
-
-cost_not_a_factor <- c("It was more not knowing what services I should have had access to. I know more know with Instagram follows.", "No. I just was unaware of the services that might be helpful. If I had another kid I’d invest in more.", "Covid was, not cost", "Not since we hit our deductible", "Main factor was pandemic. 6 week was nearly canceled, counseling went virtual but took months to initiate")
-
-cost_not_applicable <- c("Did not know post partum services other than the follow up appointment were covered services", "Didn’t even know what type of support was available because no one told me!","The pandemic significantly impacted my lack of access to postpartum support, especially in-person support", "I don't know, I wasn't aware of many services")
-
-
-#Postpartum_Experience_renamed_variables_US |> 
- # mutate(cost_factor = case_when(cost_factor %in% yes_cost_a_factor ~ "Yes",
-                                     # cost_factor %in% cost_not_a_factor ~ "No",
-                                     # cost_factor %in% cost_not_applicable ~ "N/A",
-       #   TRUE ~ cost_factor))
-```
-
-### Plot 7: Missing Data
+### Plot 6: Missing Data
 
 ``` r
 Postpartum_missing_data <- Postpartum |>
@@ -884,7 +874,7 @@ Postpartum_missing_data <- Postpartum |>
 vis_miss(Postpartum_missing_data)
 ```
 
-![](memo_files/figure-gfm/missing-data-1.png)<!-- -->
+![](memo_files/figure-gfm/draft-missing-data-1.png)<!-- -->
 
 ``` r
 ggsave(filename = "Missingdataplot.png", width = 8, height = 4)
@@ -893,6 +883,12 @@ ggsave(filename = "Missingdataplot.png", width = 8, height = 4)
 #### Final Plot 1
 
 ``` r
+#Colourblind-friendly colour choices per support types:
+#Baseline: d95f02
+#Physical: 66c2a5
+#Community: d8b365
+#Emotional: af8dc3
+
 Postpartum |>
   filter(!is.na(support_type)) |>
   filter(support_type != "New parent groups - in person",
@@ -929,14 +925,9 @@ ggplot(mapping = aes(x = fct_reorder(support_type, percentage), y = percentage, 
        y = "")
 ```
 
-![](memo_files/figure-gfm/formal-bar-chart-1.png)<!-- -->
+![](memo_files/figure-gfm/final-formal-bar-chart-1.png)<!-- -->
 
 ``` r
-#baseline #d95f02
-#physical #66c2a5
-#community #d8b365
-#emotional #af8dc3
-      
 ggsave("final-formal-bar-chart.png", width = 10, height = 4)
 ```
 
@@ -975,12 +966,10 @@ ggplot(mapping = aes(x = fct_reorder(support_type, percentage), y = percentage, 
        y = "")
 ```
 
-![](memo_files/figure-gfm/informal-bar-chart-1.png)<!-- -->
+![](memo_files/figure-gfm/final-informal-bar-chart-1.png)<!-- -->
 
 ``` r
 ggsave("final-informal-bar-chart.png", width = 10, height = 4)
-
-# Knowing the number of total respondents (in the US) made it easier to calculate percentage based on this set number 
 ```
 
 ### Plot 2: Violin plot
@@ -1013,6 +1002,10 @@ ggsave("postpartum-violin.png", width = 10, height = 5)
 ```
 
 ### Plot 3: Missing Data
+
+This plot is not included in our hand-out yet is a useful indicator that
+we could make a fairly reliable analysis and conclusions, since we had
+very few missing values (about 95% complete data).
 
 ``` r
 Postpartum_missing_data <- Postpartum |>
